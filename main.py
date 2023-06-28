@@ -5,7 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
 app = Flask(__name__)
-port = int(os.environ.get('PORT', 5000))
+port = int(os.environ.get('PORT', 8000))
 def my_task():
     try:
         # coloque o código que você deseja executar continuamente aqui
