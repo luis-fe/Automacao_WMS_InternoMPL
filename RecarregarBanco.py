@@ -15,11 +15,11 @@ def obterHoraAtual():
 
 def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
-    database = "railway"
+    database = "Reposicao"
     user = "postgres"
-    password = "TMecLDjZX4xMBqKd3hHY"
-    host = "containers-us-west-152.railway.app"
-    port = "5848"
+    password = "Master100"
+    host = "127.0.0.1"
+    port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy
     engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{database}')
