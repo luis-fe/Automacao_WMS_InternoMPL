@@ -30,4 +30,3 @@ def InserirDados():
     Funcao_Inserir(tagsreposicao,tamanho,'tags_separacao','replace')
     print('Dados Inseridos com Suecesso!')
 
-InserirDados()
