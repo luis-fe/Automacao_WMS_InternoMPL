@@ -8,6 +8,8 @@ def obterHoraAtual():
     agora = datetime.datetime.now()
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
+def criar_agrupamentos(grupo):
+    return '/'.join(sorted(set(grupo)))
 def SeparacoPedidos():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql('SELECT codPedido, dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
