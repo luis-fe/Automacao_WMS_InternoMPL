@@ -127,4 +127,3 @@ def avaliacaoFila():
 
 
     return tagWms['codbarrastag'].size
-FilaTags()
