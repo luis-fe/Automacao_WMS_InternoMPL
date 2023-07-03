@@ -89,7 +89,6 @@ def LerEPC():
 
     print(consulta)
     return consulta
-
 def avaliacaoFila():
     conn = jaydebeapi.connect(
         'com.intersys.jdbc.CacheDriver',
