@@ -2,7 +2,7 @@ import datetime
 import numpy
 import pandas as pd
 import jaydebeapi
-
+from psycopg2 import sql
 
 import ConexaoPostgreMPL
 
@@ -89,4 +89,41 @@ def LerEPC():
 
     print(consulta)
     return consulta
-FilaTags()
+
+def avaliacaoFila():
+    conn = jaydebeapi.connect(
+        'com.intersys.jdbc.CacheDriver',
+        'jdbc:Cache://192.168.0.25:1972/SISTEMAS',
+        {'user': 'root', 'password': 'ccscache'},
+        'CacheDB.jar'
+    )
+    SugestoesAbertos = pd.read_sql(
+        "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
+        'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual = 5', conn)
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
+    tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
+    tagWms = tagWms[tagWms['estoque']!='estoque']
+    tagWms.to_csv('avaliacaoFila.csv')
+    tamanho =tagWms['codbarrastag'].size
+    print(tamanho)
+    # Obter os valores para a cláusula WHERE do DataFrame
+    lista = tagWms['codbarrastag'].tolist()
+    # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
+
+
+    if tamanho != 0:
+        query = sql.SQL('DELETE FROM "Reposicao"."filareposicaoportag" WHERE codbarrastag IN ({})').format(
+            sql.SQL(',').join(map(sql.Literal, lista))
+        )
+
+        # Executar a consulta DELETE
+        with conn2.cursor() as cursor:
+            cursor.execute(query)
+            conn2.commit()
+    else:
+        print('sem incremento')
+
+
+    return tagWms['codbarrastag'].size

@@ -2,6 +2,7 @@ import pandas as pd
 import ConexaoPostgreMPL
 import ConexaoCSW
 import datetime
+from psycopg2 import sql
 
 # Recarga de fila de Pedidos
 def obterHoraAtual():
@@ -64,4 +65,66 @@ def SeparacoPedidos():
       #  hora = obterHoraAtual()
        # conn.close()
         #return tamanho, hora
-SeparacoPedidos()
+def avaliacaoPedidos():
+    conn = ConexaoCSW.Conexao()
+    SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
+                                   " WHERE codEmpresa =1 and situacaoSugestao =2",conn)
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    tagWms = pd.read_sql('select * from "Reposicao".filaseparacaopedidos t ', conn2)
+    tagWms = pd.merge(tagWms,SugestoesAbertos, on='codigopedido', how='left')
+    tagWms = tagWms[tagWms['estoque']!='estoque']
+
+    tamanho = tagWms['codigopedido'].size
+
+    # Obter os valores para a cláusula WHERE do DataFrame
+    lista = tagWms['codigopedido'].tolist()
+    # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
+
+    query = sql.SQL('DELETE FROM "Reposicao"."filaseparacaopedidos" WHERE codigopedido IN ({})').format(
+        sql.SQL(',').join(map(sql.Literal, lista))
+    )
+
+    if tamanho != 0:
+        # Executar a consulta DELETE
+        with conn2.cursor() as cursor:
+            cursor.execute(query)
+            conn2.commit()
+    else:
+        print('sem incremento')
+
+    return tamanho
+
+def SugestaoSKU():
+    conn = ConexaoCSW.Conexao()
+    SugestoesAbertos = pd.read_sql(
+        'select s.codPedido as codpedido, s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
+        'from ped.SugestaoPedItem s  '
+        'left join ped.SugestaoPed p on p.codEmpresa = s.codEmpresa and p.codPedido = s.codPedido  '
+        'WHERE s.codEmpresa =1 and p.situacaoSugestao =2'
+        ' order by p.dataGeracao, p.codPedido ', conn)
+
+    valorUnitaroio = pd.read_sql('select st.codPedido as codpedido , st.produto , p.valorUnitarioLiquido as valorunitarioliq  FROM ped.SugestaoPedItem  st '
+                                 'join dw_ped.PedidoItem p on p.codEmpresa = st.codEmpresa  '
+                                 'and p.codPedido = st.codPedido '
+                                 'and p.seqItem = st.codItemPedido  '
+                                 'WHERE  st.codEmpresa = 1 ',conn)
+
+    SugestoesAbertos = pd.merge(SugestoesAbertos, valorUnitaroio, on=['codpedido','produto'], how='left')
+
+    SugestoesAbertos['necessidade'] = SugestoesAbertos['qtdesugerida'] - SugestoesAbertos['qtdepecasconf']
+    tamanho = SugestoesAbertos['codpedido'].size
+    dataHora = obterHoraAtual()
+    SugestoesAbertos['datahora'] = dataHora
+
+    if not SugestoesAbertos.empty:
+
+        SugestoesAbertos['endereco'] = 'Não Reposto'
+        print("inicar insercao de dados no ComunicaoCsw")
+        ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos, tamanho, 'comunicaoskucsw', 'replace')
+        print(f"{tamanho} linhas de dados inseridos com sucesso no Comunicao CsW")
+
+
+        return SugestoesAbertos
+    else:
+        return SugestoesAbertos
