@@ -24,6 +24,7 @@ def InserirDados():
     tagsreposicao['codbarrastag'] = tagsreposicao['codbarrastag'].astype(str)
     tagsreposicao['totalop'] = tagsreposicao['totalop'].astype(str)
     tagsreposicao['usuario'] = tagsreposicao['usuario'].astype(str)
+    tagsreposicao['usuario_rep'] = tagsreposicao['usuario_rep'].astype(str)
     tagsreposicao['codpedido'] = tagsreposicao['codpedido'].astype(str)
 
 
