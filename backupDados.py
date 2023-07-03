@@ -19,7 +19,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
 
 
 def InserirDados():
-    tagsreposicao = pd.read_csv('tagsreposicao_202307031812.csv')
+    tagsreposicao = pd.read_csv('tagsreposicao_inventario_202307032007.csv')
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     tagsreposicao['codbarrastag'] = tagsreposicao['codbarrastag'].astype(str)
     tagsreposicao['totalop'] = tagsreposicao['totalop'].astype(str)
@@ -28,7 +28,7 @@ def InserirDados():
 
     print('Iniciando Insercao')
     tamanho = tagsreposicao['codreduzido'].size
-    Funcao_Inserir(tagsreposicao,tamanho,'tagsreposicao','replace')
+    Funcao_Inserir(tagsreposicao,tamanho,'tagsreposicao_inventario','replace')
     print('Dados Inseridos com Suecesso!')
 
 
