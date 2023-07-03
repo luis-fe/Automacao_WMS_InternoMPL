@@ -147,7 +147,7 @@ def IncrementarSku():
     print('inserindo novos dados calculados no POSTGRE')
     ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
     print(sku.dtypes)
-
+    print(sku)
     if not sku.empty:
         print('iniciando o incremento no peido')
         tamanho = sku['codpedido'].size
@@ -175,3 +175,4 @@ def LimpezaPedidosSku():
     cursor.close()
     print('Limpeza dos Pedidos Sku Realizada !')
     return True
+IncrementarSku()
