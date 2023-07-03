@@ -30,3 +30,4 @@ def InserirDados():
     Funcao_Inserir(tagsreposicao,tamanho,'cadendereco','replace')
     print('Dados Inseridos com Suecesso!')
 
+InserirDados()
