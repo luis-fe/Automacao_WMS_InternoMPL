@@ -31,4 +31,5 @@ def InserirDados():
     Funcao_Inserir(tagsreposicao,tamanho,'tagsreposicao','replace')
     print('Dados Inseridos com Suecesso!')
 
+
 InserirDados()
