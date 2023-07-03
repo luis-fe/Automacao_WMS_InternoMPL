@@ -82,8 +82,8 @@ def AtualizarTabelaPedidosSKU(dataframe):
 
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    codpedido = row['codpedido']
-    print(' Inciando a Atualizacao de ')
+    tamnho = dataframe['codpedido'].size
+    print(f' Inciando a Atualizacao de {tamnho} linhas')
     for index, row in dataframe.iterrows():
         codpedido = row['codpedido']
         produto = row['produto']
