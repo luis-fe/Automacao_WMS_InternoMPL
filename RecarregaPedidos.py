@@ -152,7 +152,7 @@ def IncrementarSku():
     print(sku.dtypes)
     print(sku)
     if not sku.empty:
-        print('2 - iniciando o incremento no peido')
+        print('2 - iniciando o incremento no pedidos')
         tamanho = sku['codpedido'].size
         ConexaoPostgreMPL.Funcao_Inserir(sku, tamanho, 'pedidossku', 'append')
        # print(f'incremento realizado{sku["codpedido"][0]}')
@@ -160,7 +160,7 @@ def IncrementarSku():
         print('sem dados a incrementar')
 
     #Atualizar a tabela "Reposicao.pedidossku" com os novos valores em massa
-    #CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(novos_valores)
+    CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(novos_valores)
     conn2.close()
     return 'teste'
 
