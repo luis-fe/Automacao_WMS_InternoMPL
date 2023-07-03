@@ -79,9 +79,11 @@ def NecessidadesPedidos():
     return pedidos[['codpedido','produto', 'endereco', 'Necessidade Endereco']]
 
 def AtualizarTabelaPedidosSKU(dataframe):
+
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-
+    codpedido = row['codpedido']
+    print(' Inciando a Atualizacao de ')
     for index, row in dataframe.iterrows():
         codpedido = row['codpedido']
         produto = row['produto']

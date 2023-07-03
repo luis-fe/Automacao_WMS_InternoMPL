@@ -22,6 +22,7 @@ def InserirDados():
     tagsreposicao = pd.read_csv('tagsreposicao_202307030804.csv')
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     tagsreposicao['codbarrastag'] = tagsreposicao['codbarrastag'].astype(str)
+    tagsreposicao['totalop'] = tagsreposicao['codbarrastag'].astype(str)
     tagsreposicao['usuario'] = tagsreposicao['usuario'].astype(str)
 
 
