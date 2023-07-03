@@ -144,12 +144,15 @@ def IncrementarSku():
     # Chamar a função NecessidadesPedidos() para obter os novos valores calculados
     novos_valores = CalculoNecessidadesEndereco.NecessidadesPedidos()
     novos_valoresTamanho = novos_valores['codpedido'].size
-    print('inserindo novos dados calculados no POSTGRE')
-    ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
+    print(f'inserindo {novos_valoresTamanho} linhas novos dados calculados no POSTGRE')
+    try:
+        ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
+    except:
+        print('erro ao inserir dados no Postgre')
     print(sku.dtypes)
     print(sku)
     if not sku.empty:
-        print('iniciando o incremento no peido')
+        print('2 - iniciando o incremento no peido')
         tamanho = sku['codpedido'].size
         ConexaoPostgreMPL.Funcao_Inserir(sku, tamanho, 'pedidossku', 'append')
        # print(f'incremento realizado{sku["codpedido"][0]}')
