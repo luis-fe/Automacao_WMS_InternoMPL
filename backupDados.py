@@ -26,8 +26,8 @@ def InserirDados():
 
 
     print('Iniciando Insercao')
-    tamanho = tagsreposicao['rua'].size
-    Funcao_Inserir(tagsreposicao,tamanho,'cadendereco','replace')
+    tamanho = tagsreposicao['codreduzido'].size
+    Funcao_Inserir(tagsreposicao,tamanho,'tagsreposicao','replace')
     print('Dados Inseridos com Suecesso!')
 
 InserirDados()
