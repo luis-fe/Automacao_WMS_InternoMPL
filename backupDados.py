@@ -29,7 +29,7 @@ def InserirDados():
 
     print('Iniciando Insercao')
     tamanho = tagsreposicao['codreduzido'].size
-    Funcao_Inserir(tagsreposicao,tamanho,'tagsreposicao','replace')
+    Funcao_Inserir(tagsreposicao,tamanho,'tag_separacao','replace')
     print('Dados Inseridos com Suecesso!')
 
 InserirDados()
