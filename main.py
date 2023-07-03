@@ -26,7 +26,7 @@ def my_task():
         tamnho = RecarregaPedidos.avaliacaoPedidos()
         print(f'Sucesso - avaliacao Fila Pedidos  {tamnho} tags eliminadas')
     except:
-        print('falha na automacao - avaliacao Fila Reposicao')
+        print('falha na automacao - avaliacao Fila Pedidos')
 
     try:
         # coloque o código que você deseja executar continuamente aqui
@@ -34,6 +34,19 @@ def my_task():
         print('Sucesso - Fila Pedidos')
     except:
         print('falha na automacao - Fila Pedidos')
+
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        tamnho, datahora = RecarregaPedidos.LimpezaPedidosSku()
+        print('Sucesso - Limpeza PedidosSKU')
+    except:
+        print('falha na automacao - Limpeza PedidosSKU')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        tamnho, datahora = RecarregaPedidos.IncrementarSku()
+        print('Sucesso - Incrementacao Sku')
+    except:
+        print('falha na automacao - Incrementacao SKU')
 
     print('fim do ciclo')
 

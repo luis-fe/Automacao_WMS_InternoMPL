@@ -1,4 +1,6 @@
 import pandas as pd
+
+import CalculoNecessidadesEndereco
 import ConexaoPostgreMPL
 import ConexaoCSW
 import datetime
@@ -128,3 +130,48 @@ def SugestaoSKU():
         return SugestoesAbertos
     else:
         return SugestoesAbertos
+
+def IncrementarSku():
+
+    conn2 = ConexaoPostgreMPL.conexao()
+    sku_csw = SugestaoSKU()
+    sku_anterior = pd.read_sql('select codpedido, '+"'ok'"+' as verifica from "Reposicao".pedidossku ',conn2)
+    sku = pd.merge(sku_csw, sku_anterior, on='codpedido', how='left')
+
+    sku = sku.loc[sku['verifica'].isnull()]
+    # Excluir a coluna 'B' inplace
+    sku.drop('verifica', axis=1, inplace=True)
+    # Chamar a função NecessidadesPedidos() para obter os novos valores calculados
+    novos_valores = CalculoNecessidadesEndereco.NecessidadesPedidos()
+    novos_valoresTamanho = novos_valores['codpedido'].size
+    print('inserindo novos dados calculados no POSTGRE')
+    ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
+    print(sku.dtypes)
+
+    if not sku.empty:
+        print('iniciando o incremento no peido')
+        tamanho = sku['codpedido'].size
+        ConexaoPostgreMPL.Funcao_Inserir(sku, tamanho, 'pedidossku', 'append')
+       # print(f'incremento realizado{sku["codpedido"][0]}')
+    else:
+        print('sem dados a incrementar')
+
+    #Atualizar a tabela "Reposicao.pedidossku" com os novos valores em massa
+    #CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(novos_valores)
+    conn2.close()
+    return 'teste'
+
+def LimpezaPedidosSku():
+    conn = ConexaoPostgreMPL.conexao()
+    query = 'delete from "Reposicao".pedidossku  p ' \
+            'where p.codpedido  in ( ' \
+            'select f.codigopedido   from "Reposicao".filaseparacaopedidos f  ' \
+            'left join "Reposicao".pedidossku p ' \
+            'on p.codpedido = f.codigopedido ' \
+            'where p.codpedido is null)'
+    cursor = conn.cursor()
+    cursor.execute(query,)
+    conn.commit()
+    cursor.close()
+    print('Limpeza dos Pedidos Sku Realizada !')
+    return True
