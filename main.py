@@ -7,12 +7,12 @@ import os
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 8000))
 def my_task():
-    print('Começando a Automacao Automatica do WMS:')
-    print(f'\n 1 - Iniciando a Fila das Tags para Repor:')
+    print('\n ###Começando a Automacao  do WMS ### ')
+    print(f'\n1 - Iniciando a Fila das Tags para Repor:')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho1, datahora1 = RecarregarBanco.FilaTags()
-        print(f'1.1 Sucesso - Fila das Tag \n{tamnho1} tags foram adicionadas, as {datahora1}')
+        print(f'1.1 Sucesso - Fila das Tag \nAtenção, {tamnho1} tags foram adicionadas, as {datahora1}')
     except:
         print('1.1.1 falha na automacao - Fila Reposicao \n 0 tags foram adicionadas')
 
