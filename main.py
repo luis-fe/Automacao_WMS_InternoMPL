@@ -40,6 +40,14 @@ def my_task():
     except:
         print(f'4.1.1 falha na automacao - Fila Pedidos')
 
+    print('\n 5 - Limpando PedidoSku')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        datahora5 = RecarregaPedidos.LimpezaPedidosSku()
+        print(f'5.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora5}')
+    except:
+        print(f'5.1.1 falha na automacao - Limpeza PedidosSku')
+
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho, datahora = RecarregaPedidos.LimpezaPedidosSku()

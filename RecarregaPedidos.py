@@ -151,8 +151,7 @@ def IncrementarSku():
         ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
     except:
         print('erro ao inserir dados no Postgre')
-    print(sku.dtypes)
-    print(sku)
+
     if not sku.empty:
         print('2 - iniciando o incremento no pedidos')
         tamanho = sku['codpedido'].size
@@ -178,5 +177,5 @@ def LimpezaPedidosSku():
     cursor.execute(query,)
     conn.commit()
     cursor.close()
-    print('Limpeza dos Pedidos Sku Realizada !')
-    return True
+    datahora = obterHoraAtual()
+    return datahora
