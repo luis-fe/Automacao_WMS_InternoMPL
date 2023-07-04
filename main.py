@@ -12,33 +12,33 @@ def my_task():
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho1, datahora1 = RecarregarBanco.FilaTags()
-        print(f'1.1 Sucesso - Fila das Tag \nAtenção, {tamnho1} tags foram adicionadas, as {datahora1}')
+        print(f'    1.1 Sucesso - Fila das Tag \n   Atenção, {tamnho1} tags foram adicionadas, as {datahora1}')
     except:
-        print('1.1.1 falha na automacao - Fila Reposicao \n 0 tags foram adicionadas')
+        print(' 1.1.1 falha na automacao - Fila Reposicao \n 0 tags foram adicionadas')
 
     print('\n 2 - Limpando a Fila das Tags com saidas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamanho2, datahora2 = RecarregarBanco.avaliacaoFila()
-        print(f'2.1- Sucesso - avaliacao Fila Reposicao \n {tamanho2} tags foram eliminadas, as {datahora2}')
+        print(f' 2.1- Sucesso - avaliacao Fila Reposicao \n Atencao!{tamanho2} tags foram eliminadas, as {datahora2}')
     except:
-        print('2.1.1 falha na automacao - avaliacao Fila Reposicao')
+        print(' 2.1.1 falha na automacao - avaliacao Fila Reposicao')
 
     print('\n 3 - Limpando os Pedidos Faturados da Fila')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
-        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho3} pedidos eliminados, as {datahora3}')
+        print(f' 3.1 Sucesso - avaliacao Fila Pedidos \n Atencao {tamnho3} pedidos eliminados, as {datahora3}')
     except:
-        print('3.1.1 falha na automacao - avaliacao Fila Pedidos')
+        print(' 3.1.1 falha na automacao - avaliacao Fila Pedidos')
 
     print('\n 4 - Atualizando os Pedidos Conferidos')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho4, datahora4 = RecarregaPedidos.avaliacaoPedidos()
-        print(f'4.1 Sucesso - atualizacao Pedidos em Conferencia \n {tamnho4} pedidos atualizados, as {datahora4}')
+        tamnho4, datahora4 = RecarregaPedidos.AtualizarPedidosConferidos()
+        print(f' 4.1 Sucesso - atualizacao Pedidos em Conferencia \n Atencao, {tamnho4} pedidos atualizados, as {datahora4}')
     except:
-        print('4.1.1 falha na automacao - avaliacao Fila Pedidos')
+        print(' 4.1.1 falha na automacao - avaliacao Fila Pedidos')
 
     print('\n 5 - Carregando a Fila de Pedidos')
     try:
