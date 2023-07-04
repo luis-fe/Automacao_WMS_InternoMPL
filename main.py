@@ -8,7 +8,7 @@ app = Flask(__name__)
 port = int(os.environ.get('PORT', 8000))
 def my_task():
     print('Começando a Automacao Automatica do WMS:')
-    print('1 - Iniciando a Fila das Tags para Repor:')
+    print(f'\n 1 - Iniciando a Fila das Tags para Repor:')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho, datahora = RecarregarBanco.FilaTags()
@@ -16,22 +16,23 @@ def my_task():
     except:
         print('1.1.1 falha na automacao - Fila Reposicao \n 0 tags foram adicionadas')
 
-    print('2 - Limpando a Fila das Tags com saidas fora do WMS')
+    print('\n 2 - Limpando a Fila das Tags com saidas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamanho, datahora = RecarregarBanco.avaliacaoFila()
-        print(f'2.1- Sucesso - avaliacao Fila Reposicao \n {tamanho} tags foram eliminadas, as {datahora}')
+        tamanho, datahora2 = RecarregarBanco.avaliacaoFila()
+        print(f'2.1- Sucesso - avaliacao Fila Reposicao \n {tamanho} tags foram eliminadas, as {datahora2}')
     except:
         print('2.1.1 falha na automacao - avaliacao Fila Reposicao')
 
-    print('3 - Limpando os Pedidos Faturados da Fila')
+    print('\n 3 - Limpando os Pedidos Faturados da Fila')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho = RecarregaPedidos.avaliacaoPedidos()
-        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho} tags eliminadas')
+        tamnho, datahora3 = RecarregaPedidos.avaliacaoPedidos()
+        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho} tags eliminadas, as {datahora3}')
     except:
         print('3.1.1 falha na automacao - avaliacao Fila Pedidos')
 
+    print('\n 4 - Carregando a Fila de Pedidos')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho, datahora = RecarregaPedidos.SeparacoPedidos()

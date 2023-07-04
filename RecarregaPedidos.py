@@ -93,9 +93,10 @@ def avaliacaoPedidos():
             cursor.execute(query)
             conn2.commit()
     else:
-        print('sem incremento')
+        print('3.1.1 - sem Pedidos para serem eliminados da Fila de Pedidos')
 
-    return tamanho
+    datahora = obterHoraAtual()
+    return tamanho, datahora
 
 def SugestaoSKU():
     conn = ConexaoCSW.Conexao()
