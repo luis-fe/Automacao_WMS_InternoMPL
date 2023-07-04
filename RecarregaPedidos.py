@@ -189,6 +189,12 @@ def AtualizarPedidosConferidos():
 
     conn2 = ConexaoPostgreMPL.conexao()
 
+    # Voltando os pedidos:
+    query = 'update "Reposicao"."filaseparacaopedidos" set situacaopedido = '+ "'No Retorna'"
+    cursor = conn.cursor()
+    cursor.execute(query, )
+    conn.commit()
+
     tamanho = PedidosSituacao['codigopedido'].size
 
     # Obter os valores para a cláusula WHERE do DataFrame
