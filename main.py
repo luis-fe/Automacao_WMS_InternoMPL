@@ -11,42 +11,50 @@ def my_task():
     print(f'\n 1 - Iniciando a Fila das Tags para Repor:')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho, datahora = RecarregarBanco.FilaTags()
-        print(f'1.1 Sucesso - Fila das Tag \n{tamnho} tags foram adicionadas, as {datahora}')
+        tamnho1, datahora1 = RecarregarBanco.FilaTags()
+        print(f'1.1 Sucesso - Fila das Tag \n{tamnho1} tags foram adicionadas, as {datahora1}')
     except:
         print('1.1.1 falha na automacao - Fila Reposicao \n 0 tags foram adicionadas')
 
     print('\n 2 - Limpando a Fila das Tags com saidas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamanho, datahora2 = RecarregarBanco.avaliacaoFila()
-        print(f'2.1- Sucesso - avaliacao Fila Reposicao \n {tamanho} tags foram eliminadas, as {datahora2}')
+        tamanho2, datahora2 = RecarregarBanco.avaliacaoFila()
+        print(f'2.1- Sucesso - avaliacao Fila Reposicao \n {tamanho2} tags foram eliminadas, as {datahora2}')
     except:
         print('2.1.1 falha na automacao - avaliacao Fila Reposicao')
 
     print('\n 3 - Limpando os Pedidos Faturados da Fila')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho, datahora3 = RecarregaPedidos.avaliacaoPedidos()
-        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho} pedidos eliminados, as {datahora3}')
+        tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
+        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho3} pedidos eliminados, as {datahora3}')
     except:
         print('3.1.1 falha na automacao - avaliacao Fila Pedidos')
 
-    print('\n 4 - Carregando a Fila de Pedidos')
+    print('\n 4 - Atualizando os Pedidos Conferidos')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho4, datahora4 = RecarregaPedidos.SeparacoPedidos()
-        print(f'4.1 Sucesso - Atualizacao Fila Pedidos \n {tamnho4} Pedidos, as {datahora4}')
+        tamnho4, datahora4 = RecarregaPedidos.avaliacaoPedidos()
+        print(f'4.1 Sucesso - atualizacao Pedidos em Conferencia \n {tamnho4} pedidos atualizados, as {datahora4}')
     except:
-        print(f'4.1.1 falha na automacao - Fila Pedidos')
+        print('4.1.1 falha na automacao - avaliacao Fila Pedidos')
 
-    print('\n 5 - Limpando PedidoSku')
+    print('\n 5 - Carregando a Fila de Pedidos')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        datahora5 = RecarregaPedidos.LimpezaPedidosSku()
-        print(f'5.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora5}')
+        tamnho5, datahora5 = RecarregaPedidos.SeparacoPedidos()
+        print(f'5.1 Sucesso - Atualizacao Fila Pedidos \n {tamnho5} Pedidos, as {datahora5}')
     except:
-        print(f'5.1.1 falha na automacao - Limpeza PedidosSku')
+        print(f'5.1.1 falha na automacao - Fila Pedidos')
+
+    print('\n 6 - Limpando PedidoSku')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        datahora6 = RecarregaPedidos.LimpezaPedidosSku()
+        print(f'6.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora6}')
+    except:
+        print(f'6.1.1 falha na automacao - Limpeza PedidosSku')
 
     try:
         # coloque o código que você deseja executar continuamente aqui

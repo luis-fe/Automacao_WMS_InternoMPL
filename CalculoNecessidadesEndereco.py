@@ -44,7 +44,7 @@ def NecessidadesPedidos():
             enderecoi[col_name] = enderecoi['endestoque']  # Criar a coluna com o valor do loop
             enderecoi[col_name2] = enderecoi['saldo']  # Criar a coluna com o valor do loop
             enderecoi[col_name2] = enderecoi[col_name2].astype(int)
-            print(enderecoi[col_name2])
+
             pedidos = pd.merge(pedidos, enderecoi, on='codreduzido', how='left')
             pedidos['Necessidade Endereco'] = 0
             pedidos['endereco'] = 'a Repor'

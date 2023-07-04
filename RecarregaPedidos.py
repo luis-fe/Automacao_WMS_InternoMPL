@@ -153,7 +153,7 @@ def IncrementarSku():
         print('erro ao inserir dados no Postgre')
 
     if not sku.empty:
-        print('2 - iniciando o incremento no pedidos')
+        print('2 - iniciando a atualizacao do incremento no pedidossku')
         tamanho = sku['codpedido'].size
         ConexaoPostgreMPL.Funcao_Inserir(sku, tamanho, 'pedidossku', 'append')
        # print(f'incremento realizado{sku["codpedido"][0]}')
@@ -179,3 +179,33 @@ def LimpezaPedidosSku():
     cursor.close()
     datahora = obterHoraAtual()
     return datahora
+
+def AtualizarPedidosConferidos():
+    conn = ConexaoCSW.Conexao()
+    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido as codigopedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
+                                  'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
+                                  'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 and s.situacaoSugestao = 2', conn)
+
+
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    tamanho = PedidosSituacao['codigopedido'].size
+
+    # Obter os valores para a cláusula WHERE do DataFrame
+    lista = PedidosSituacao['codigopedido'].tolist()
+    # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
+
+    query = sql.SQL('update "Reposicao"."filaseparacaopedidos" set situacaopedido = '+"'Em Conferencia'  WHERE codigopedido IN ({})").format(
+        sql.SQL(',').join(map(sql.Literal, lista))
+    )
+
+    if tamanho != 0:
+        # Executar a consulta DELETE
+        with conn2.cursor() as cursor:
+            cursor.execute(query)
+            conn2.commit()
+    else:
+        print('3.1.1 - sem Pedidos para serem eliminados da Fila de Pedidos')
+
+    datahora = obterHoraAtual()
+    return tamanho, datahora
