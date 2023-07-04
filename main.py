@@ -28,17 +28,17 @@ def my_task():
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho, datahora3 = RecarregaPedidos.avaliacaoPedidos()
-        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho} tags eliminadas, as {datahora3}')
+        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho} pedidos eliminados, as {datahora3}')
     except:
         print('3.1.1 falha na automacao - avaliacao Fila Pedidos')
 
     print('\n 4 - Carregando a Fila de Pedidos')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho, datahora = RecarregaPedidos.SeparacoPedidos()
-        print('Sucesso - Fila Pedidos')
+        tamnho4, datahora4 = RecarregaPedidos.SeparacoPedidos()
+        print(f'4.1 Sucesso - Atualizacao Fila Pedidos \n {tamnho4} Pedidos, as {datahora4}')
     except:
-        print('falha na automacao - Fila Pedidos')
+        print(f'4.1.1 falha na automacao - Fila Pedidos')
 
     try:
         # coloque o código que você deseja executar continuamente aqui

@@ -17,6 +17,11 @@ def SeparacoPedidos():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql('SELECT codPedido, dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
                                    'WHERE codEmpresa =1 and situacaoSugestao =2',conn)
+    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
+                                  'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
+                                  'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 and s.situacaoSugestao = 2', conn)
+    SugestoesAbertos = pd.merge(SugestoesAbertos, PedidosSituacao, on='codPedido', how='left')
+
     CapaPedido = pd.read_sql('select top 100000 codPedido, codCliente, '
                              '(select c.nome from fat.Cliente c WHERE c.codEmpresa = 1 and p.codCliente = c.codCliente) as desc_cliente, '
                              '(select r.nome from fat.Representante  r WHERE r.codEmpresa = 1 and r.codRepresent = p.codRepresentante) as desc_representante, '
@@ -57,16 +62,12 @@ def SeparacoPedidos():
     # Aplicar a função de agrupamento usando o método groupby
     SugestoesAbertos['agrupamentopedido'] = SugestoesAbertos.groupby('codcliente')['codigopedido'].transform(criar_agrupamentos)
 
-   # try:
-    ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos,tamanho,'filaseparacaopedidos','append')
-     #   hora = obterHoraAtual()
-      #  return tamanho, hora
+    try:
+        ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos,tamanho,'filaseparacaopedidos','append')
+    except:
+        print('\n4.1.1 Sem dados a Incluir')
+    return tamanho, dataHora
 
-    #except:
-     #   print('falha na funçao Inserir Separacao')
-      #  hora = obterHoraAtual()
-       # conn.close()
-        #return tamanho, hora
 def avaliacaoPedidos():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
