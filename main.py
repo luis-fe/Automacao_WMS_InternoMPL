@@ -7,26 +7,30 @@ import os
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 8000))
 def my_task():
+    print('Começando a Automacao Automatica do WMS:')
+    print('1 - Iniciando a Fila das Tags para Repor:')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho, datahora = RecarregarBanco.FilaTags()
-        print('Sucesso - Fila Tag')
+        print(f'1.1 Sucesso - Fila das Tag \n{tamnho} tags foram adicionadas, as {datahora}')
     except:
-        print('falha na automacao - Fila Reposicao')
+        print('1.1.1 falha na automacao - Fila Reposicao \n 0 tags foram adicionadas')
 
+    print('2 - Limpando a Fila das Tags com saidas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho = RecarregarBanco.avaliacaoFila()
-        print(f'Sucesso - avaliacao Fila Reposicao {tamnho} tags eliminadas')
+        tamanho, datahora = RecarregarBanco.avaliacaoFila()
+        print(f'2.1- Sucesso - avaliacao Fila Reposicao \n {tamanho} tags foram eliminadas, as {datahora}')
     except:
-        print('falha na automacao - avaliacao Fila Reposicao')
+        print('2.1.1 falha na automacao - avaliacao Fila Reposicao')
 
+    print('3 - Limpando os Pedidos Faturados da Fila')
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho = RecarregaPedidos.avaliacaoPedidos()
-        print(f'Sucesso - avaliacao Fila Pedidos  {tamnho} tags eliminadas')
+        print(f'3.1 Sucesso - avaliacao Fila Pedidos \n {tamnho} tags eliminadas')
     except:
-        print('falha na automacao - avaliacao Fila Pedidos')
+        print('3.1.1 falha na automacao - avaliacao Fila Pedidos')
 
     try:
         # coloque o código que você deseja executar continuamente aqui
@@ -48,7 +52,7 @@ def my_task():
     except:
         print('falha na automacao - Incrementacao SKU')
 
-    print('fim do ciclo')
+    print('Fim do Ciclo')
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=my_task, trigger='interval', seconds=270)

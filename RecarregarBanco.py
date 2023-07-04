@@ -4,6 +4,7 @@ import pandas as pd
 import jaydebeapi
 from psycopg2 import sql
 
+import ConexaoCSW
 import ConexaoPostgreMPL
 
 
@@ -13,12 +14,7 @@ def obterHoraAtual():
     return hora_str
 
 def FilaTags():
-    conn = jaydebeapi.connect(
-    'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/SISTEMAS',
-    {'user': 'root', 'password': 'ccscache'},
-    'CacheDB.jar'
-)
+    conn = ConexaoCSW.Conexao()
     conn2 = ConexaoPostgreMPL.conexao()
     df_tags = pd.read_sql(
         "SELECT  codBarrasTag as codbarrastag, codNaturezaAtual , codEngenharia , codReduzido as codreduzido,(SELECT i.nome  FROM cgi.Item i WHERE i.codigo = t.codReduzido) as descricao , numeroop as numeroop,"
@@ -56,12 +52,9 @@ def FilaTags():
     df_tags.drop('sti_aterior', axis=1, inplace=True)
     df_tags.drop_duplicates(subset='codbarrastag', inplace=True)
     df_tags['epc'] = df_tags['epc'].str.extract('\|\|(.*)').squeeze()
-    print(df_tags.dtypes)
-    print(df_tags['codbarrastag'].size)
     tamanho = df_tags['codbarrastag'].size
     dataHora = obterHoraAtual()
     df_tags['DataHora'] = dataHora
-    df_tags.to_csv('planilha.csv')
     try:
         ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho,'filareposicaoportag', 'append')
         hora = obterHoraAtual()
@@ -73,12 +66,7 @@ def FilaTags():
 
 
 def LerEPC():
-    conn = jaydebeapi.connect(
-        'com.intersys.jdbc.CacheDriver',
-        'jdbc:Cache://192.168.0.25:1972/SISTEMAS',
-        {'user': 'root', 'password': 'ccscache'},
-        'CacheDB.jar'
-    )
+    conn = ConexaoCSW.Conexao()
 
 
     consulta = pd.read_sql('select epc.id as epc, t.codBarrasTag as codbarrastag from tcr.SeqLeituraFase  t '
@@ -88,15 +76,9 @@ def LerEPC():
                            'or codLote like "22%" )',conn)
     conn.close()
 
-    print(consulta)
     return consulta
 def avaliacaoFila():
-    conn = jaydebeapi.connect(
-        'com.intersys.jdbc.CacheDriver',
-        'jdbc:Cache://192.168.0.25:1972/SISTEMAS',
-        {'user': 'root', 'password': 'ccscache'},
-        'CacheDB.jar'
-    )
+    conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
         'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual = 5', conn)
@@ -105,9 +87,7 @@ def avaliacaoFila():
     tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
     tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
     tagWms = tagWms[tagWms['estoque']!='estoque']
-    tagWms.to_csv('avaliacaoFila.csv')
     tamanho =tagWms['codbarrastag'].size
-    print(tamanho)
     # Obter os valores para a cláusula WHERE do DataFrame
     lista = tagWms['codbarrastag'].tolist()
     # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
@@ -123,7 +103,7 @@ def avaliacaoFila():
             cursor.execute(query)
             conn2.commit()
     else:
-        print('sem incremento')
+        print('2.1.1 sem tags para ser eliminadas na Fila Tags Reposicao')
 
-
-    return tagWms['codbarrastag'].size
+    dataHora = obterHoraAtual()
+    return tagWms['codbarrastag'].size, dataHora

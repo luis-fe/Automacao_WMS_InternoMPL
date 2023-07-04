@@ -178,4 +178,3 @@ def LimpezaPedidosSku():
     cursor.close()
     print('Limpeza dos Pedidos Sku Realizada !')
     return True
-IncrementarSku()
