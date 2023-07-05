@@ -146,24 +146,25 @@ def IncrementarSku():
     # Chamar a função NecessidadesPedidos() para obter os novos valores calculados
     novos_valores = CalculoNecessidadesEndereco.NecessidadesPedidos()
     novos_valoresTamanho = novos_valores['codpedido'].size
-    print(f'inserindo {novos_valoresTamanho} linhas novos dados calculados no POSTGRE')
+    print(f' 8.1 - Inserindo {novos_valoresTamanho} linhas de novos dados calculados no POSTGRE "necessidadeendereco"')
     try:
         ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
     except:
-        print('erro ao inserir dados no Postgre')
+        print(' 8.1.1 Erro ao inserir dados no Postgre "necessidadeendereco" ')
 
     if not sku.empty:
-        print('2 - iniciando a atualizacao do incremento no pedidossku')
+        print('8.2 - Iniciando a atualizacao do Incremento na Tabela pedidossku ' )
         tamanho = sku['codpedido'].size
         ConexaoPostgreMPL.Funcao_Inserir(sku, tamanho, 'pedidossku', 'append')
-       # print(f'incremento realizado{sku["codpedido"][0]}')
+        conn2.close()
+        datahora = obterHoraAtual()
+        return tamanho, datahora
     else:
-        print('sem dados a incrementar')
+        print('8.2.1 sem dados a incrementar na tabela pedidossku')
+        datahora = obterHoraAtual()
+        conn2.close()
+        return 0, datahora
 
-    #Atualizar a tabela "Reposicao.pedidossku" com os novos valores em massa
-    CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(novos_valores)
-    conn2.close()
-    return 'teste'
 
 def LimpezaPedidosSku():
     conn = ConexaoPostgreMPL.conexao()

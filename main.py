@@ -1,3 +1,4 @@
+import CalculoNecessidadesEndereco
 import RecarregaPedidos
 import RecarregarBanco
 from flask import Flask, render_template, jsonify, request
@@ -60,19 +61,27 @@ def my_task():
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
-        print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} Pedidos, as {datahora7}')
+        print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
     except:
         print(f'7.1.1 falha na automacao - Limpando Saida da Reposicao')
 
     print('\n 8- Atualizando os PedidosSKU')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho, datahora = RecarregaPedidos.IncrementarSku()
-        print('Sucesso - Incrementacao Sku')
+        tamnho8, datahora8 = RecarregaPedidos.IncrementarSku()
+        print(f'8.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho8} Pedidos, as {datahora8}')
     except:
-        print('falha na automacao - Incrementacao SKU')
+        print('8.1.1 Falha na automacao - Incrementacao SKU')
 
     print('\n 9- Atualizando os Endereço!')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        DataFrameSKU = CalculoNecessidadesEndereco.CarregarSkuAtual()
+
+        tamnho9, datahora9 = CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(DataFrameSKU)
+        print(f'9.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho9} Linhas de Endereco, as {datahora9}')
+    except:
+        print('9.1.1 Falha na automacao - Incrementacao SKU')
 
     print('\n 10- TratamentoErrosDuplicacoes')
 

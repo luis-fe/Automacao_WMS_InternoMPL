@@ -1,12 +1,16 @@
 import pandas as pd
 import numpy
-
+import datetime
 
 import ConexaoPostgreMPL
-
+def obterHoraAtual():
+    agora = datetime.datetime.now()
+    hora_str = agora.strftime('%d/%m/%Y %H:%M')
+    return hora_str
 def CarregarSkuAtual():
     conn2 = ConexaoPostgreMPL.conexao()
     validacao = pd.read_sql('select codpedido, endereco from "Reposicao".pedidossku f '
+                            'where f.necessidade > 0'
                             , conn2)
     conn2.close()
     return validacao
@@ -100,5 +104,7 @@ def AtualizarTabelaPedidosSKU(dataframe):
     # Fechar a conexão com o banco de dados
     cursor.close()
     conn.close()
+    datahora = obterHoraAtual()
+    return tamnho, datahora
 
 
