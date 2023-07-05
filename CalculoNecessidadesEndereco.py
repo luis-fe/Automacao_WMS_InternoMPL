@@ -9,7 +9,7 @@ def obterHoraAtual():
     return hora_str
 def CarregarSkuAtual():
     conn2 = ConexaoPostgreMPL.conexao()
-    validacao = pd.read_sql('select codpedido, endereco from "Reposicao".pedidossku f '
+    validacao = pd.read_sql('select codpedido, endereco, produto from "Reposicao".pedidossku f '
                             'where f.necessidade > 0'
                             , conn2)
     conn2.close()
