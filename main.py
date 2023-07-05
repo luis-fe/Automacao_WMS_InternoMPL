@@ -80,8 +80,7 @@ def my_task():
 
         tamnho9, datahora9 = CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(DataFrameSKU)
         print(f'9.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho9} Linhas de Endereco, as {datahora9}')
-    except:
-        print('9.1.1 Falha na automacao - Incrementacao SKU')
+
 
     print('\n 10- TratamentoErrosDuplicacoes')
 
