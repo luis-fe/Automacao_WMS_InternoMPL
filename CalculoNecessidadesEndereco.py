@@ -88,7 +88,7 @@ def AtualizarTabelaPedidosSKU(dataframe):
     tamnho = dataframe['codpedido'].size
     print(f' 9.1 -Iniciando a Atualizacao de {tamnho} linhas')
     print(f' 9.1 -Primeiros 25%')
-    tamnho25 = int(tamnho/4)
+    tamnho25 = int(tamnho)
 
     for i in range(tamnho25):
         codpedido = dataframe['codpedido'][i]
