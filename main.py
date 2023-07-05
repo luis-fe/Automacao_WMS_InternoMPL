@@ -74,12 +74,12 @@ def my_task():
         print('8.1.1 Falha na automacao - Incrementacao SKU')
 
     print('\n 9- Atualizando os Endereço!')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        DataFrameSKU = CalculoNecessidadesEndereco.CarregarSkuAtual()
 
-        tamnho9, datahora9 = CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(DataFrameSKU)
-        print(f'9.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho9} Linhas de Endereco, as {datahora9}')
+    # coloque o código que você deseja executar continuamente aqui
+    DataFrameSKU = CalculoNecessidadesEndereco.CarregarSkuAtual()
+
+    tamnho9, datahora9 = CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(DataFrameSKU)
+    print(f'9.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho9} Linhas de Endereco, as {datahora9}')
 
 
     print('\n 10- TratamentoErrosDuplicacoes')
