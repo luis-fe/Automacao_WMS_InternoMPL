@@ -14,7 +14,6 @@ def CarregarSkuAtual():
                             , conn2)
     conn2.close()
     return validacao
-
 def NecessidadesPedidos():
     # Trazer o dataframe das sugestoes em abertos a nivel de sku
     conn = ConexaoPostgreMPL.conexao()
