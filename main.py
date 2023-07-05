@@ -5,6 +5,8 @@ from flask import Flask, render_template, jsonify, request
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
+import TratamentoErro
+
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 8000))
 def my_task():
@@ -73,17 +75,12 @@ def my_task():
     except:
         print('8.1.1 Falha na automacao - Incrementacao SKU')
 
-    print('\n 9- Atualizando os Endereço!')
-
-    # coloque o código que você deseja executar continuamente aqui
-    DataFrameSKU = CalculoNecessidadesEndereco.CarregarSkuAtual()
-
-    tamnho9, datahora9 = CalculoNecessidadesEndereco.AtualizarTabelaPedidosSKU(DataFrameSKU)
-    print(f'9.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho9} Linhas de Endereco, as {datahora9}')
-
-
-    print('\n 10- TratamentoErrosDuplicacoes')
-
+    print('\n 9- TratamentoErrosDuplicacoes')
+    try:
+        datahora9 = TratamentoErro.RemoveDuplicatasUsuario()
+        print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
+    except:
+        print('9.1.1 Falha na automacao - Tratamento de Erros')
 
     print('Fim do Ciclo')
 
