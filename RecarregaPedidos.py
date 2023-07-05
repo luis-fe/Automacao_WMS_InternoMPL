@@ -215,3 +215,34 @@ def AtualizarPedidosConferidos():
 
     datahora = obterHoraAtual()
     return tamanho, datahora
+
+def avaliacaoReposicao():
+    conn = ConexaoCSW.Conexao()
+    SugestoesAbertos = pd.read_sql(
+        "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
+        'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual = 5', conn)
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    tagWms = pd.read_sql('select * from "Reposicao".tagsreposicao t ', conn2)
+    tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
+    tagWms = tagWms[tagWms['estoque']!='estoque']
+    tagWms.to_csv('AvaliaReposicao.csv')
+    tamanho = tagWms['codbarrastag'].size
+    # Obter os valores para a cláusula WHERE do DataFrame
+    lista = tagWms['codbarrastag'].tolist()
+    # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
+
+    query = sql.SQL('DELETE FROM "Reposicao"."tagsreposicao" WHERE codbarrastag IN ({})').format(
+        sql.SQL(',').join(map(sql.Literal, lista))
+    )
+
+    if tamanho != 0:
+        # Executar a consulta DELETE
+        with conn2.cursor() as cursor:
+            cursor.execute(query)
+            conn2.commit()
+    else:
+        print('sem incremento')
+
+    dataHora = obterHoraAtual()
+    return tagWms['codbarrastag'].size, dataHora
