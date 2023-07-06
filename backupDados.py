@@ -38,7 +38,7 @@ def InserirDados():
             cursor.execute(query,(tagsreposicao['codpedido'][i],tagsreposicao['produto'][i],
                                   tagsreposicao['qtdesugerida'][i],tagsreposicao['qtdepecasconf'][i],
                                   tagsreposicao['endereco'][i],tagsreposicao['necessidade'][i],
-                                  tagsreposicao['datahora'][i]))
+                                  '2023-07-06 17:00:00'))
             conn.commit()
     else:
         print('sem incremento')
