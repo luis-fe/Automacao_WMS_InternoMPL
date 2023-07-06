@@ -3,11 +3,12 @@ import RecarregaPedidos
 import RecarregarBanco
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
-
+from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
 import TratamentoErro
+import Usuarios
 
 app = Flask(__name__)
 CORS(app)
@@ -86,6 +87,52 @@ def my_task():
         print('9.1.1 Falha na automacao - Tratamento de Erros')
 
     print('Fim do Ciclo')
+def token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if token == 'a40016aabcx9':  # Verifica se o token é igual ao token fixo
+            return f(*args, **kwargs)
+        return jsonify({'message': 'Acesso negado'}), 401
+
+    return decorated_function
+@app.route('/api/UsuarioSenha', methods=['GET'])
+@token_required
+def check_user_password():
+    # Obtém o código do usuário e a senha dos parâmetros da URL
+    codigo = request.args.get('codigo')
+    senha = request.args.get('senha')
+
+    # Verifica se o código do usuário e a senha foram fornecidos
+    if codigo is None or senha is None:
+        return jsonify({'message': 'Código do usuário e senha devem ser fornecidos.'}), 400
+
+    # Consulta no banco de dados para verificar se o usuário e senha correspondem
+    result = Usuarios.ConsultaUsuarioSenha(codigo, senha)
+
+    # Verifica se o usuário existe
+    if result == 1:
+        # Consulta no banco de dados para obter informações adicionais do usuário
+
+        nome, funcao, situacao = Usuarios.PesquisarUsuariosCodigo(codigo)
+
+        # Verifica se foram encontradas informações adicionais do usuário
+        if nome != 0:
+            Usuarios.RegistroLog(codigo)
+            # Retorna as informações adicionais do usuário
+            return jsonify({
+                "status": True,
+                "message": "Usuário e senha VALIDADOS!",
+                "nome": nome,
+                "funcao": funcao,
+                "situacao": situacao
+            })
+        else:
+            return jsonify({'message': 'Não foi possível obter informações adicionais do usuário.'}), 500
+    else:
+        return jsonify({"status": False,
+                        "message": 'Usuário ou senha não existe'}), 401
+
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=my_task, trigger='interval', seconds=270)
