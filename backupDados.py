@@ -30,7 +30,7 @@ def InserirDados():
             'values (%s, %s, %s, %s, %s) '
     tagsreposicao['produto'] = tagsreposicao['produto'].astype(str)
     tagsreposicao['datahora'] = tagsreposicao['datahora'].astype(str)
-    tagsreposicao['necessidade'] = 0
+    tagsreposicao['necessidade'] = tagsreposicao['qtdesugerida']
     print(tagsreposicao.dtypes)
     if tamanho != 0:
         # Executar a consulta DELETE
