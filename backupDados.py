@@ -52,5 +52,5 @@ def InserirDados():
     print('Dados Inseridos com Suecesso!')
     return tamanho
 
-InserirDados()
+
 

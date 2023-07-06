@@ -109,4 +109,5 @@ def AtualizarTabelaPedidosSKU(dataframe):
     datahora = obterHoraAtual()
     return tamnho, datahora
 
-
+dataframe = CarregarSkuAtual()
+AtualizarTabelaPedidosSKU(dataframe)
