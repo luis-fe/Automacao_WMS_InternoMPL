@@ -1,6 +1,9 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
+import ConexaoPostgreMPL
+
+
 def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "Reposicao"
@@ -19,17 +22,26 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
 
 
 def InserirDados():
-    tagsreposicao = pd.read_csv('cadendereco_202307040812.csv')
-    tagsreposicao['rua'] = tagsreposicao['rua'].astype(str)
-    tagsreposicao['modulo'] = tagsreposicao['modulo'].astype(str)
-    tagsreposicao['posicao'] = tagsreposicao['posicao'].astype(str)
-
+    tagsreposicao = pd.read_csv('data.csv',sep=';')
+    conn = ConexaoPostgreMPL.conexao()
+    tamanho = tagsreposicao['cor'].size
+    query = 'update "Reposicao".tagsreposicao' \
+            'set cor = %s , descricao = %s, tamanho = %s ' \
+            'where codreduzido = %s'
+    if tamanho != 0:
+        # Executar a consulta DELETE
+       for i in range(tamanho):
+            cursor = conn.cursor()
+            cursor.execute(query,(tagsreposicao['cor'][i],tagsreposicao['descricao'][i],tagsreposicao['tamanho'][i],tagsreposicao['codreduzido'][i]))
+            conn.commit()
+    else:
+        print('sem incremento')
 
 
     print('Iniciando Insercao')
-    tamanho = tagsreposicao['rua'].size
-    Funcao_Inserir(tagsreposicao,tamanho,'cadendereco','append')
-    print('Dados Inseridos com Suecesso!')
 
+    print('Dados Inseridos com Suecesso!')
+    return tamanho
 
 InserirDados()
+
