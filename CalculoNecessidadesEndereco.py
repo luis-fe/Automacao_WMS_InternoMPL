@@ -108,6 +108,6 @@ def AtualizarTabelaPedidosSKU(dataframe):
     conn.close()
     datahora = obterHoraAtual()
     return tamnho, datahora
-
+NecessidadesPedidos()
 dataframe = CarregarSkuAtual()
 AtualizarTabelaPedidosSKU(dataframe)
