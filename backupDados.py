@@ -26,8 +26,8 @@ def InserirDados():
     conn = ConexaoPostgreMPL.conexao()
     tamanho = tagsreposicao['produto'].size
     query = 'insert into "Reposicao".pedidossku ' \
-            '(codpedido, produto, qtdesugerida, qtdepecasconf,  necessidade) ' \
-            'values (%s, %s, %s, %s, %s) '
+            '(codpedido, produto, qtdesugerida, qtdepecasconf) ' \
+            'values (%s, %s, %s, %s) '
     tagsreposicao['produto'] = tagsreposicao['produto'].astype(str)
     tagsreposicao['datahora'] = tagsreposicao['datahora'].astype(str)
     tagsreposicao['necessidade'] = tagsreposicao['qtdesugerida'].astype(float)
@@ -38,7 +38,7 @@ def InserirDados():
             cursor = conn.cursor()
             cursor.execute(query,(tagsreposicao['codpedido'][i],tagsreposicao['produto'][i],
                                   tagsreposicao['qtdesugerida'][i],tagsreposicao['qtdepecasconf'][i]
-                                  ,tagsreposicao['necessidade'][i],
+                                  ,
                                   ))
             conn.commit()
     else:
