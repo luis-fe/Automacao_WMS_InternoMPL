@@ -22,7 +22,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
 
 
 def InserirDados():
-    tagsreposicao = pd.read_csv('pedidoFake.csv',sep=',')
+    tagsreposicao = pd.read_csv('pedidoFake.csv',sep=';')
     conn = ConexaoPostgreMPL.conexao()
     tamanho = tagsreposicao['produto'].size
     query = 'insert into "Reposicao".pedidossku ' \
