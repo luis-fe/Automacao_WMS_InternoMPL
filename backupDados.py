@@ -28,6 +28,7 @@ def InserirDados():
     query = 'update "Reposicao".tagsreposicao' \
             'set cor = %s , descricao = %s, tamanho = %s ' \
             'where codreduzido = %s'
+    tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     print(tagsreposicao.dtypes)
     if tamanho != 0:
         # Executar a consulta DELETE
