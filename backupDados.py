@@ -27,7 +27,7 @@ def InserirDados():
     tamanho = tagsreposicao['produto'].size
     query = 'insert into "Reposicao".pedidossku ' \
             '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora) ' \
-            'values (%s, %s, %s, %s, %s, %s, %s) '
+            'values (%s, %s, %s, %s, %s, %s) '
     tagsreposicao['produto'] = tagsreposicao['produto'].astype(str)
     tagsreposicao['datahora'] = tagsreposicao['datahora'].astype(str)
     print(tagsreposicao.dtypes)
@@ -38,7 +38,7 @@ def InserirDados():
             cursor.execute(query,(tagsreposicao['codpedido'][i],tagsreposicao['produto'][i],
                                   tagsreposicao['qtdesugerida'][i],tagsreposicao['qtdepecasconf'][i],
                                   tagsreposicao['endereco'][i],tagsreposicao['necessidade'][i],
-                                  '2023-07-06',))
+                                  ))
             conn.commit()
     else:
         print('sem incremento')
