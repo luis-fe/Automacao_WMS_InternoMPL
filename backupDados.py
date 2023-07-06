@@ -22,19 +22,22 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
 
 
 def InserirDados():
-    tagsreposicao = pd.read_csv('data.csv',sep=';')
+    tagsreposicao = pd.read_csv('pedidoFake.csv',sep=',')
     conn = ConexaoPostgreMPL.conexao()
-    tamanho = tagsreposicao['codreduzido'].size
-    query = 'update "Reposicao".tagsreposicao' \
-            ' set engenharia = %s ' \
-            'where codreduzido = %s'
-    tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
+    tamanho = tagsreposicao['produto'].size
+    query = 'insert into "Reposicao".pedidossku ' \
+            '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora) ' \
+            'values (%s, %s, %s, %s, %s, %s, %s) '
+    tagsreposicao['produto'] = tagsreposicao['produto'].astype(str)
     print(tagsreposicao)
     if tamanho != 0:
         # Executar a consulta DELETE
        for i in range(tamanho):
             cursor = conn.cursor()
-            cursor.execute(query,(tagsreposicao['engenharia'][i],tagsreposicao['codreduzido'][i],))
+            cursor.execute(query,(tagsreposicao['codpedido'][i],tagsreposicao['produto'][i],
+                                  tagsreposicao['qtdesugerida'][i],tagsreposicao['qtdepecasconf'][i],
+                                  tagsreposicao['endereco'][i],tagsreposicao['necessidade'][i],
+                                  tagsreposicao['datahora'][i]))
             conn.commit()
     else:
         print('sem incremento')
