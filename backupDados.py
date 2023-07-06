@@ -34,7 +34,7 @@ def InserirDados():
         # Executar a consulta DELETE
        for i in range(tamanho):
             cursor = conn.cursor()
-            cursor.execute(query,(tagsreposicao['engenharia'],tagsreposicao['codreduzido'][i]))
+            cursor.execute(query,(tagsreposicao['engenharia'],tagsreposicao['codreduzido'][i],))
             conn.commit()
     else:
         print('sem incremento')
