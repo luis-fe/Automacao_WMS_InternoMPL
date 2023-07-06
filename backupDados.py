@@ -24,9 +24,9 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
 def InserirDados():
     tagsreposicao = pd.read_csv('data.csv',sep=';')
     conn = ConexaoPostgreMPL.conexao()
-    tamanho = tagsreposicao['cor'].size
-    query = 'update "Reposicao".tags_separacao' \
-            ' set cor = %s , descricao = %s, tamanho = %s ' \
+    tamanho = tagsreposicao['codreduzido'].size
+    query = 'update "Reposicao".tagsreposicao' \
+            ' set engenharia = %s ' \
             'where codreduzido = %s'
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     print(tagsreposicao.dtypes)
@@ -34,7 +34,7 @@ def InserirDados():
         # Executar a consulta DELETE
        for i in range(tamanho):
             cursor = conn.cursor()
-            cursor.execute(query,(tagsreposicao['cor'][i],tagsreposicao['descricao'][i],tagsreposicao['tamanho'][i],tagsreposicao['codreduzido'][i]))
+            cursor.execute(query,(tagsreposicao['engenharia'],tagsreposicao['codreduzido'][i]))
             conn.commit()
     else:
         print('sem incremento')
