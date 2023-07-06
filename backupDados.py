@@ -29,6 +29,7 @@ def InserirDados():
             '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora) ' \
             'values (%s, %s, %s, %s, %s, %s, %s) '
     tagsreposicao['produto'] = tagsreposicao['produto'].astype(str)
+    tagsreposicao['datahora'] = tagsreposicao['datahora'].astype(str)
     print(tagsreposicao)
     if tamanho != 0:
         # Executar a consulta DELETE
