@@ -32,7 +32,7 @@ def InserirDados():
     print(tagsreposicao)
     if tamanho != 0:
         # Executar a consulta DELETE
-       for i in range(tamanho):
+       for i in range(5):
             cursor = conn.cursor()
             cursor.execute(query,(tagsreposicao['engenharia'],tagsreposicao['codreduzido'][i],))
             conn.commit()
