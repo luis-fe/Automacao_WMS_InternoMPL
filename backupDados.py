@@ -29,7 +29,7 @@ def InserirDados():
             ' set engenharia = %s ' \
             'where codreduzido = %s'
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
-    print(tagsreposicao.dtypes)
+    print(tagsreposicao)
     if tamanho != 0:
         # Executar a consulta DELETE
        for i in range(tamanho):
