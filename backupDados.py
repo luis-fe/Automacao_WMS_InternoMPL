@@ -28,6 +28,7 @@ def InserirDados():
     query = 'update "Reposicao".tagsreposicao' \
             'set cor = %s , descricao = %s, tamanho = %s ' \
             'where codreduzido = %s'
+    print(tagsreposicao.dtypes)
     if tamanho != 0:
         # Executar a consulta DELETE
        for i in range(tamanho):
