@@ -26,7 +26,7 @@ def InserirDados():
     conn = ConexaoPostgreMPL.conexao()
     tamanho = tagsreposicao['cor'].size
     query = 'update "Reposicao".tagsreposicao' \
-            'set cor = %s , descricao = %s, tamanho = %s ' \
+            ' set cor = %s , descricao = %s, tamanho = %s ' \
             'where codreduzido = %s'
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     print(tagsreposicao.dtypes)
