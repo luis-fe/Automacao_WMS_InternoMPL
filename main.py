@@ -2,13 +2,16 @@ import CalculoNecessidadesEndereco
 import RecarregaPedidos
 import RecarregarBanco
 from flask import Flask, render_template, jsonify, request
+from flask_cors import CORS
+
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
 import TratamentoErro
 
 app = Flask(__name__)
-port = int(os.environ.get('PORT', 8000))
+CORS(app)
+port = int(os.environ.get('PORT', 9000))
 def my_task():
     print('\n ###Começando a Automacao  do WMS ### ')
     print(f'\n1 - Iniciando a Fila das Tags para Repor:')
