@@ -31,6 +31,8 @@ def InserirDados():
     tagsreposicao['produto'] = tagsreposicao['produto'].astype(str)
     tagsreposicao['datahora'] = tagsreposicao['datahora'].astype(str)
     tagsreposicao['necessidade'] = tagsreposicao['qtdesugerida'].astype(float)
+    tagsreposicao['qtdesugerida'] = tagsreposicao['qtdesugerida'].astype(float)
+    tagsreposicao['qtdepecasconf'] = tagsreposicao['qtdepecasconf'].astype(float)
     print(tagsreposicao.dtypes)
     if tamanho != 0:
         # Executar a consulta DELETE
