@@ -71,7 +71,7 @@ def Calculo():
 
                     # Confirmar as alterações
                     conn.commit()
-                    pedidosku.loc[pedidosku['codreduzido'] == produto and pedidosku['codpedido'] == pedido  , 'validado']='ok'
+                    pedidosku.loc[pedidosku['codreduzido'] == produto & pedidosku['codpedido'] == pedido  , 'validado']='ok'
 
             else:
                     print('nao atualizado')
