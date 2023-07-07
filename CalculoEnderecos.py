@@ -35,7 +35,8 @@ def Calculo():
     ocorrencia = 0
 
     for i in range(tamanho):
-
+        necessidade = pedidoskuIteracao['necessidade'][i]
+        print(necessidade)
         try:
             if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
                 update = 'UPDATE "Reposicao".pedidossku '\
@@ -55,7 +56,7 @@ def Calculo():
                 # Confirmar as alterações
                 conn.commit()
                 oi = i + 1
-                print(oi)
+
         except:
             print('nao calculo')
 
