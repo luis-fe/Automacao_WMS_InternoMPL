@@ -26,7 +26,7 @@ def Calculo():
     pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
 
     pedidosku['validado'] = 'nao'
-
+    total = 0
     for i in range(2):
     # Loop de iteracao
         lista = lista[lista['repeticoessku'] == (i + 1)]
@@ -66,10 +66,10 @@ def Calculo():
                     # Confirmar as alterações
                     conn.commit()
                     pedidosku.loc[(pedidosku['codreduzido'] == produto) & (pedidosku['codpedido'] == pedido)  , 'validado']='ok'
-
+                    total = total + 1
             else:
                     print('nao atualizado')
-
+    print(f'{total} atualizacoes realizadas')
     return 'true'
 
 
