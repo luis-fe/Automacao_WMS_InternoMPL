@@ -27,7 +27,7 @@ def Calculo():
 
     pedidosku['validado'] = 'nao'
     total = 0
-    for i in range(2):
+    for i in range(20):
     # Loop de iteracao
         lista = lista[lista['repeticoessku'] == (i + 1)]
         pedidosku = pedidosku[pedidosku['validado'] == 'nao']
