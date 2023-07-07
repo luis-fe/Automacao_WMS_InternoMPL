@@ -31,9 +31,9 @@ def Calculo():
     # Loop de iteracao
         lista = lista[lista['repeticoessku'] == (i + 1)]
         pedidosku = pedidosku[pedidosku['validado'] == 'nao']
-        pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
+        pedidoskuIteracao = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
-        pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
+
         tamanho = pedidoskuIteracao['codreduzido'].size
         pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
         print(pedidoskuIteracao)
