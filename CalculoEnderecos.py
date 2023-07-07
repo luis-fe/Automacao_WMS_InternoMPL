@@ -54,8 +54,8 @@ def Calculo():
 
                 # Confirmar as alterações
                 conn.commit()
-                ocorrencia = ocorrencia + 1
-                print(ocorrencia)
+                oi = i + 1
+                print(oi)
         except:
             print(ocorrencia)
 
