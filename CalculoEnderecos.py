@@ -23,20 +23,20 @@ def Calculo():
 
     lista = lista[lista['repeticoessku'] == 1]
 
-    pedidosku = pd.read_sql(' select * from "Reposicao".pedidossku where necessidade > 0')
+    pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0')
 
     pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
 
-    pedidosku = pd.merge(pedidosku,lista , on ='codreduzido',how='left' )
+    pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
     pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
     tamanho = pedidoskuIteracao['codreduzido'].size
 
     for i in range(tamanho):
-        if pedidoskuIteracao['necessidade'][i] <=pedidoskuIteracao['SaldoLiquid'][i]:
-            update = ' update "Reposicao".pedidossku '\
-                     ' set necessidade = 0, endereco = %s '\
-                     ' where codpedido = %s and produto = %s'
+        if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
+            update = 'UPDATE "Reposicao".pedidossku '\
+                     'SET necessidade = 0, endereco = %s '\
+                     'WHERE codpedido = %s AND produto = %s'
 
             pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
 
@@ -45,12 +45,13 @@ def Calculo():
             # Executar a atualização na tabela "Reposicao.pedidossku"
             cursor.execute(update,
                            (pedidoskuIteracao['SaldoLiquid'][i], pedidoskuIteracao['codendereco2'][i],
-                            pedidoskuIteracao['codpedido'][i],pedidoskuIteracao['codreduzido'][i]))
+                            pedidoskuIteracao['codpedido'][i], pedidoskuIteracao['codreduzido'][i]))
 
-        # Confirmar as alterações
-        conn.commit()
+            # Confirmar as alterações
+            conn.commit()
 
-        return 'true'
+    return 'true'
+
 
 Calculo()
 
