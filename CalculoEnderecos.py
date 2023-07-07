@@ -38,17 +38,20 @@ def Calculo():
     pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
     print(pedidoskuIteracao)
     pedidoskuIteracao['necessidade'] = pedidoskuIteracao['necessidade'].astype(int)
+    pedidoskuIteracao['SaldoLiquid'] = pedidoskuIteracao['SaldoLiquid'].astype(int)
     for i in range(tamanho):
         necessidade = pedidoskuIteracao['necessidade'][i]
         print(necessidade)
-        '''
-        try:
-            if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
+
+        if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
                 update = 'UPDATE "Reposicao".pedidossku '\
-                         'SET necessidade = 0, endereco = %s '\
+                         'SET endereco = %s '\
                          'WHERE codpedido = %s AND produto = %s'
 
-                #pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
+                endereco = pedidoskuIteracao['codendereco2'][i]
+                # Filtrar e atualizar os valores "a" para "aa"
+                pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
+                    = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
 
                 cursor = conn.cursor()
 
@@ -60,12 +63,8 @@ def Calculo():
 
                 # Confirmar as alterações
                 conn.commit()
-                oi = i + 1
-
-        except:
-            print('nao calculo')
-    '''
-    print(tamanho)
+        else:
+                print('nao atualizado')
 
     return 'true'
 
