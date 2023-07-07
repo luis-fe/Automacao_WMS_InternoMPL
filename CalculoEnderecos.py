@@ -5,16 +5,56 @@ import ConexaoPostgreMPL
 def ListaDeEnderecosOculpados():
     conn = ConexaoPostgreMPL.conexao()
 
-    enderecosSku = pd.read_sql(' SELECT * from "Reposicao".enderecoporsku '
+    enderecosSku = pd.read_sql('select codendereco as codendereco2 , saldo, codreduzido from "Reposicao".enderecoporsku '
                                ' order by saldo desc',conn)
 
     # Passo 3: obt
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
-
+    enderecosSku['Reserva'] = 0
+    enderecosSku['SaldoLiquid'] = enderecosSku['saldo']
 
 
     return enderecosSku
 
 
-x = ListaDeEnderecosOculpados()
-print(x)
+def Calculo():
+    conn = ConexaoPostgreMPL.conexao()
+    lista = ListaDeEnderecosOculpados
+
+    lista = lista[lista['repeticoessku'] == 1]
+
+    pedidosku = pd.read_sql(' select * from "Reposicao".pedidossku where necessidade > 0')
+
+    pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
+
+    pedidosku = pd.merge(pedidosku,lista , on ='codreduzido',how='left' )
+
+    pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
+    tamanho = pedidoskuIteracao['codreduzido'].size
+
+    for i in range(tamanho):
+        if pedidoskuIteracao['necessidade'][i] <=pedidoskuIteracao['SaldoLiquid'][i]:
+            update = ' update "Reposicao".pedidossku '\
+                     ' set necessidade = 0, endereco = %s '\
+                     ' where codpedido = %s and produto = %s'
+
+            pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
+
+            cursor = conn.cursor()
+
+            # Executar a atualização na tabela "Reposicao.pedidossku"
+            cursor.execute(update,
+                           (pedidoskuIteracao['SaldoLiquid'][i], pedidoskuIteracao['codendereco2'][i],
+                            pedidoskuIteracao['codpedido'][i],pedidoskuIteracao['codreduzido'][i]))
+
+        # Confirmar as alterações
+        conn.commit()
+
+        return 'true'
+
+Calculo()
+
+
+
+
+
