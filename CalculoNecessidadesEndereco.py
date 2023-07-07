@@ -100,11 +100,14 @@ def AtualizarTabelaPedidosSKU(dataframe):
         cursor.execute('UPDATE "Reposicao".pedidossku SET endereco = %s WHERE codpedido = %s AND produto = %s',
                        (endereco, codpedido, produto))
 
-    # Confirmar as alterações
-    conn.commit()
+        # Confirmar as alterações
+        conn.commit()
+        print(i)
 
-    # Fechar a conexão com o banco de dados
+        # Fechar a conexão com o banco de dados
     cursor.close()
     conn.close()
+
     datahora = obterHoraAtual()
+
     return tamnho, datahora
