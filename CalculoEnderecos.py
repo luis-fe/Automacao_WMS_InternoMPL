@@ -33,10 +33,11 @@ def Calculo():
     pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
     tamanho = pedidoskuIteracao['codreduzido'].size
     print(pedidoskuIteracao)
-
+    pedidoskuIteracao['necessidade'] = pedidoskuIteracao['necessidade'].astype(int)
     for i in range(tamanho):
         necessidade = pedidoskuIteracao['necessidade'][i]
         print(necessidade)
+        '''
         try:
             if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
                 update = 'UPDATE "Reposicao".pedidossku '\
@@ -59,7 +60,7 @@ def Calculo():
 
         except:
             print('nao calculo')
-
+    '''
     print(tamanho)
 
     return 'true'
