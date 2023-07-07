@@ -247,5 +247,3 @@ def avaliacaoReposicao():
 
     dataHora = obterHoraAtual()
     return tagWms['codbarrastag'].size, dataHora
-
-IncrementarSku()
