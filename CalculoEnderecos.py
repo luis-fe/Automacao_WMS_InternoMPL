@@ -28,7 +28,7 @@ def Calculo():
 
     pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
 
-    pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
+    pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left', index = False)
 
     pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
     tamanho = pedidoskuIteracao['codreduzido'].size
