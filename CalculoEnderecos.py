@@ -34,23 +34,29 @@ def Calculo():
     tamanho = pedidoskuIteracao['codreduzido'].size
 
     for i in range(tamanho):
-        if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
-            update = 'UPDATE "Reposicao".pedidossku '\
-                     'SET necessidade = 0, endereco = %s '\
-                     'WHERE codpedido = %s AND produto = %s'
+        ocorrencia = 0
+        try:
+            if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
+                update = 'UPDATE "Reposicao".pedidossku '\
+                         'SET necessidade = 0, endereco = %s '\
+                         'WHERE codpedido = %s AND produto = %s'
 
-            #pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
+                #pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
 
-            cursor = conn.cursor()
+                cursor = conn.cursor()
 
-            # Executar a atualização na tabela "Reposicao.pedidossku"
-            cursor.execute(update,
-                           (pedidoskuIteracao['codendereco2'][i],
-                            str(pedidoskuIteracao['codpedido'][i]), str(pedidoskuIteracao['codreduzido'][i])
-                            ))
+                # Executar a atualização na tabela "Reposicao.pedidossku"
+                cursor.execute(update,
+                               (pedidoskuIteracao['codendereco2'][i],
+                                str(pedidoskuIteracao['codpedido'][i]), str(pedidoskuIteracao['codreduzido'][i])
+                                ))
 
-            # Confirmar as alterações
-            conn.commit()
+                # Confirmar as alterações
+                conn.commit()
+                ocorrencia = i
+        except:
+            print(ocorrencia)
+
 
     return 'true'
 
