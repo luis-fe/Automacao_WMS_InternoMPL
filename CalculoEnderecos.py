@@ -22,49 +22,59 @@ def Calculo():
     conn = ConexaoPostgreMPL.conexao()
     # Trazer a Lista de Saldos por codreduzido e  Enderecos
     lista = ListaDeEnderecosOculpados()
-
-    # Loop de iteracao
-    lista = lista[lista['repeticoessku'] == 1]
-
-    pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0',conn)
-
+    pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0', conn)
     pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
 
-    pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
+    pedidosku['validado'] = 'nao'
+
+    for i in range(2):
+    # Loop de iteracao
+        lista = lista[lista['repeticoessku'] == 1]
+        pedidosku = pedidosku[pedidosku['validado'] == 'nao']
+        pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
 
-    pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
-    tamanho = pedidoskuIteracao['codreduzido'].size
-    pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
-    print(pedidoskuIteracao)
-    pedidoskuIteracao['necessidade'] = pedidoskuIteracao['necessidade'].astype(int)
-    pedidoskuIteracao['SaldoLiquid'] = pedidoskuIteracao['SaldoLiquid'].astype(int)
-    for i in range(tamanho):
-        necessidade = pedidoskuIteracao['necessidade'][i]
-        print(necessidade)
 
-        if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
-                update = 'UPDATE "Reposicao".pedidossku '\
-                         'SET endereco = %s '\
-                         'WHERE codpedido = %s AND produto = %s'
 
-                endereco = pedidoskuIteracao['codendereco2'][i]
-                # Filtrar e atualizar os valores "a" para "aa"
-                pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
-                    = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
 
-                cursor = conn.cursor()
 
-                # Executar a atualização na tabela "Reposicao.pedidossku"
-                cursor.execute(update,
-                               (pedidoskuIteracao['codendereco2'][i],
-                                str(pedidoskuIteracao['codpedido'][i]), str(pedidoskuIteracao['codreduzido'][i])
-                                ))
+        pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
+        tamanho = pedidoskuIteracao['codreduzido'].size
+        pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
+        print(pedidoskuIteracao)
+        pedidoskuIteracao['necessidade'] = pedidoskuIteracao['necessidade'].astype(int)
+        pedidoskuIteracao['SaldoLiquid'] = pedidoskuIteracao['SaldoLiquid'].astype(int)
+        for i in range(tamanho):
+            necessidade = pedidoskuIteracao['necessidade'][i]
+            print(necessidade)
 
-                # Confirmar as alterações
-                conn.commit()
-        else:
-                print('nao atualizado')
+            if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
+                    update = 'UPDATE "Reposicao".pedidossku '\
+                             'SET endereco = %s '\
+                             'WHERE codpedido = %s AND produto = %s'
+
+                    endereco = pedidoskuIteracao['codendereco2'][i]
+                    produto = pedidoskuIteracao['codreduzido'][i]
+                    pedido = pedidoskuIteracao['codpedido'][i]
+
+                    # Filtrar e atualizar os valores "a" para "aa"
+                    pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
+                        = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
+
+                    cursor = conn.cursor()
+
+                    # Executar a atualização na tabela "Reposicao.pedidossku"
+                    cursor.execute(update,
+                                   (pedidoskuIteracao['codendereco2'][i],
+                                    str(pedidoskuIteracao['codpedido'][i]), str(pedidoskuIteracao['codreduzido'][i])
+                                    ))
+
+                    # Confirmar as alterações
+                    conn.commit()
+                    pedidosku.loc[pedidosku['codreduzido'] == produto and pedidosku['codpedido'] == pedido  , 'validado']='ok'
+
+            else:
+                    print('nao atualizado')
 
     return 'true'
 
