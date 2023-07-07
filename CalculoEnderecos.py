@@ -20,18 +20,22 @@ def ListaDeEnderecosOculpados():
 
 def Calculo():
     conn = ConexaoPostgreMPL.conexao()
+    # Trazer a Lista de Saldos por codreduzido e  Enderecos
     lista = ListaDeEnderecosOculpados()
 
+    # Loop de iteracao
     lista = lista[lista['repeticoessku'] == 1]
 
     pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0',conn)
 
     pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
 
-    pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left', index = False)
+    pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
+
 
     pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
     tamanho = pedidoskuIteracao['codreduzido'].size
+    pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
     print(pedidoskuIteracao)
     pedidoskuIteracao['necessidade'] = pedidoskuIteracao['necessidade'].astype(int)
     for i in range(tamanho):
