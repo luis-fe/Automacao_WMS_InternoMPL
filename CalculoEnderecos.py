@@ -29,7 +29,7 @@ def Calculo():
 
     for i in range(2):
     # Loop de iteracao
-        lista = lista[lista['repeticoessku'] == 1]
+        lista = lista[lista['repeticoessku'] == (i + 1)]
         pedidosku = pedidosku[pedidosku['validado'] == 'nao']
         pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
