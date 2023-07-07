@@ -32,9 +32,9 @@ def Calculo():
 
     pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
     tamanho = pedidoskuIteracao['codreduzido'].size
-
+    ocorrencia = 0
     for i in range(tamanho):
-        ocorrencia = 0
+
         try:
             if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
                 update = 'UPDATE "Reposicao".pedidossku '\
