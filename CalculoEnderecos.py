@@ -39,7 +39,7 @@ def Calculo():
                      'SET necessidade = 0, endereco = %s '\
                      'WHERE codpedido = %s AND produto = %s'
 
-            pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
+            #pedidoskuIteracao['SaldoLiquid'][i] = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
 
             cursor = conn.cursor()
 
