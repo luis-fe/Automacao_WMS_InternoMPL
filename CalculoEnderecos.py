@@ -57,7 +57,7 @@ def Calculo():
                 oi = i + 1
                 print(oi)
         except:
-            print(ocorrencia)
+            print('nao calculo')
 
     print(tamanho)
 
