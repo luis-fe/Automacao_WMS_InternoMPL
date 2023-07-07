@@ -19,7 +19,7 @@ def ListaDeEnderecosOculpados():
 
 def Calculo():
     conn = ConexaoPostgreMPL.conexao()
-    lista = ListaDeEnderecosOculpados
+    lista = ListaDeEnderecosOculpados()
 
     lista = lista[lista['repeticoessku'] == 1]
 
