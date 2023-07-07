@@ -33,6 +33,7 @@ def Calculo():
     pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
     tamanho = pedidoskuIteracao['codreduzido'].size
     ocorrencia = 0
+    ''''
     for i in range(tamanho):
 
         try:
@@ -57,7 +58,8 @@ def Calculo():
                 print(ocorrencia)
         except:
             print(ocorrencia)
-
+    '''''
+    print(tamanho)
 
     return 'true'
 
