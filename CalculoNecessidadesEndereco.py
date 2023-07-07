@@ -102,6 +102,7 @@ def AtualizarTabelaPedidosSKU(dataframe):
 
         # Confirmar as alterações
         conn.commit()
+
         print(i)
 
         # Fechar a conexão com o banco de dados
