@@ -33,17 +33,11 @@ def Calculo():
         pedidosku = pedidosku[pedidosku['validado'] == 'nao']
         pedidosku = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
-
-
-
-
-
         pedidoskuIteracao = pedidosku[pedidosku['SaldoLiquid'] >= 0]
         tamanho = pedidoskuIteracao['codreduzido'].size
         pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
         print(pedidoskuIteracao)
-        pedidoskuIteracao['necessidade'] = pedidoskuIteracao['necessidade'].astype(int)
-        pedidoskuIteracao['SaldoLiquid'] = pedidoskuIteracao['SaldoLiquid'].astype(int)
+
         for i in range(tamanho):
             necessidade = pedidoskuIteracao['necessidade'][i]
             print(necessidade)
