@@ -23,7 +23,7 @@ def Calculo():
 
     lista = lista[lista['repeticoessku'] == 1]
 
-    pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0')
+    pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0',conn)
 
     pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
 
