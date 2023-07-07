@@ -10,6 +10,7 @@ def ListaDeEnderecosOculpados():
 
     # Passo 3: obt
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
+    enderecosSku['codreduzido'] = enderecosSku['codreduzido'].str(str)
     enderecosSku['Reserva'] = 0
     enderecosSku['SaldoLiquid'] = enderecosSku['saldo']
 
