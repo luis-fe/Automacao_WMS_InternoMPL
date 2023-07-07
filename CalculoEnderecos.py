@@ -45,7 +45,7 @@ def Calculo():
 
             # Executar a atualização na tabela "Reposicao.pedidossku"
             cursor.execute(update,
-                           (pedidoskuIteracao['SaldoLiquid'][i], pedidoskuIteracao['codendereco2'][i],
+                           (pedidoskuIteracao['codendereco2'][i],
                             str(pedidoskuIteracao['codpedido'][i]), str(pedidoskuIteracao['codreduzido'][i])
                             ))
 
