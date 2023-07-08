@@ -5,7 +5,7 @@ import ConexaoPostgreMPL
 def ListaDeEnderecosOculpados():
     conn = ConexaoPostgreMPL.conexao()
 
-    enderecosSku = pd.read_sql(' select * from "Reposicao"."calculoEndereco" from "Reposicao".enderecoporsku '
+    enderecosSku = pd.read_sql(' select * from "Reposicao"."calculoEndereco"  '
                                ' order by saldo desc',conn)
 
     # Passo 3: obt
