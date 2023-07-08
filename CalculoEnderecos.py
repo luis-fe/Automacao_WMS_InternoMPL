@@ -21,16 +21,15 @@ def ListaDeEnderecosOculpados():
 def Calculo():
     conn = ConexaoPostgreMPL.conexao()
     # Trazer a Lista de Saldos por codreduzido e  Enderecos
-    lista = ListaDeEnderecosOculpados()
-    pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0', conn)
-    pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
-
-    pedidosku['validado'] = 'nao'
     total = 0
     for i in range(20):
     # Loop de iteracao
+
+        lista = ListaDeEnderecosOculpados()
         lista = lista[lista['repeticoessku'] == (i + 1)]
-        pedidosku = pedidosku[pedidosku['validado'] == 'nao']
+        pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0 '
+                            "where reservado = 'nao'", conn)
+        pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
         pedidoskuIteracao = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
 
@@ -59,13 +58,27 @@ def Calculo():
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(update,
-                                   (pedidoskuIteracao['codendereco2'][i],
-                                    str(pedidoskuIteracao['codpedido'][i]), str(pedidoskuIteracao['codreduzido'][i])
-                                    ))
+                                   (endereco,
+                                    pedido, produto)
+                                    )
 
                     # Confirmar as alterações
                     conn.commit()
-                    pedidosku.loc[(pedidosku['codreduzido'] == produto) & (pedidosku['codpedido'] == pedido)  , 'validado']='ok'
+
+                    update2 = 'UPDATE "Reposicao".pedidossku ' \
+                             'SET reservado = %s ' \
+                             'WHERE codpedido = %s AND produto = %s'
+
+                    cursor = conn.cursor()
+
+                    # Executar a atualização na tabela "Reposicao.pedidossku"
+                    cursor.execute(update2,
+                                   ('sim',pedido, produto)
+                                    )
+
+                    # Confirmar as alterações
+                    conn.commit()
+
                     total = total + 1
             else:
                     print('nao atualizado')
