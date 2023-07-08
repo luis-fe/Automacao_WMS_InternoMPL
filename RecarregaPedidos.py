@@ -143,14 +143,7 @@ def IncrementarSku():
     sku = sku.loc[sku['verifica'].isnull()]
     # Excluir a coluna 'B' inplace
     sku.drop('verifica', axis=1, inplace=True)
-    # Chamar a função NecessidadesPedidos() para obter os novos valores calculados
-    novos_valores = CalculoNecessidadesEndereco.NecessidadesPedidos()
-    novos_valoresTamanho = novos_valores['codpedido'].size
-    print(f' 8.1 - Inserindo {novos_valoresTamanho} linhas de novos dados calculados no POSTGRE "necessidadeendereco"')
-    try:
-        ConexaoPostgreMPL.Funcao_Inserir(novos_valores,novos_valoresTamanho,'necessidadeendereco','replace')
-    except:
-        print(' 8.1.1 Erro ao inserir dados no Postgre "necessidadeendereco" ')
+    sku['reservado'] = 'nao'
 
     if not sku.empty:
         print('8.2 - Iniciando a atualizacao do Incremento na Tabela pedidossku ' )

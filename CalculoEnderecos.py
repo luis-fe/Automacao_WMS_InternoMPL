@@ -21,6 +21,7 @@ def ListaDeEnderecosOculpados():
 def Calculo():
     conn = ConexaoPostgreMPL.conexao()
     total = 0 # Para Totalizar o numer de atualizcoes
+    inseridosDuplos = 0
     for i in range(10):
     # Loop de iteracao
 
@@ -108,11 +109,11 @@ def Calculo():
 
                 # Confirmar as alterações
                 conn.commit()
-
+                inseridosDuplos = 1 + inseridosDuplos
             else:
                     print('nao atualizado')
     print(f'{total} atualizacoes realizadas')
-    return 'true'
+    return total, inseridosDuplos
 
 
 Calculo()

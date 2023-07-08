@@ -85,6 +85,12 @@ def my_task():
         print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
     except:
         print('9.1.1 Falha na automacao - Tratamento de Erros')
+    print('\n 10- Calculando Necessidade de Enderecos')
+    try:
+        tamanho10 , inseridos10 = TratamentoErro.RemoveDuplicatasUsuario()
+        print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
+    except:
+        print('10.1.1 Falha na automacao - Calculo dos Enderecos')
 
     print('Fim do Ciclo')
 def token_required(f):
