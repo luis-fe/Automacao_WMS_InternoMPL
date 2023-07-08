@@ -92,7 +92,7 @@ def Calculo():
                 conn.commit()
                 insert = 'insert into "Reposicao".pedidossku (codpedido,datahora,endereco,necessidade,produto,qtdepecasconf,' \
                          'qtdesugerida,reservado,status,valorunitarioliq) ' \
-                         'select codpedido,datahora,"'"Não Reposto"'",%s,produto,qtdepecasconf, ' \
+                         'select codpedido,datahora,"'"Não Reposto"'", %s ,produto,qtdepecasconf, ' \
                          's% , %s , status , valorunitarioliq ' \
                          'WHERE codpedido = %s AND produto = %s'
                 cursor = conn.cursor()
