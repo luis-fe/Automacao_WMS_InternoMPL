@@ -50,7 +50,8 @@ def Calculo():
 
 
                     # Filtrar e atualizar os valores "a" para "aa"
-                    pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
+                    pedidoskuIteracao.loc[(pedidoskuIteracao['codendereco2'] == endereco) &
+                    (pedidoskuIteracao['codreduzido'] == produto), 'SaldoLiquid'] \
                         = pedidoskuIteracao['SaldoLiquid'][i] - pedidoskuIteracao['necessidade'][i]
 
                     cursor = conn.cursor()
@@ -77,7 +78,8 @@ def Calculo():
 
 
                 # Filtrar e atualizar os valores "a" para "aa"
-                pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
+                pedidoskuIteracao.loc[(pedidoskuIteracao['codendereco2'] == endereco) &
+                                      (pedidoskuIteracao['codreduzido'] == produto), 'SaldoLiquid'] \
                     = 0
 
                 cursor = conn.cursor()
