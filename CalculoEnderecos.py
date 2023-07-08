@@ -92,15 +92,15 @@ def Calculo():
                 conn.commit()
                 insert = 'insert into "Reposicao".pedidossku (codpedido,datahora,endereco,necessidade,produto,qtdepecasconf,' \
                          'qtdesugerida,reservado,status,valorunitarioliq) ' \
-                         'select codpedido,datahora,"'"Não Reposto"'",%s,produto,qtdepecasconf,' \
-                         's%,%s,status,valorunitarioliq ' \
+                         'select codpedido,datahora,"'"Não Reposto"'",%s,produto,qtdepecasconf, ' \
+                         's% , %s , status , valorunitarioliq ' \
                          'WHERE codpedido = %s AND produto = %s'
                 cursor = conn.cursor()
                 qtde_sugerida = qtde_sugerida -saldo
 
                 # Executar a atualização na tabela "Reposicao.pedidossku"
                 cursor.execute(insert,
-                               (0,qtde_sugerida,'nao',
+                               (0, qtde_sugerida,'nao',
                                 pedido, produto)
                                )
 
