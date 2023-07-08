@@ -5,14 +5,14 @@ import ConexaoPostgreMPL
 def ListaDeEnderecosOculpados():
     conn = ConexaoPostgreMPL.conexao()
 
-    enderecosSku = pd.read_sql('select codendereco as codendereco2 , saldo, codreduzido from "Reposicao".enderecoporsku '
+    enderecosSku = pd.read_sql('select select * from "Reposicao"."calculoEndereco" from "Reposicao".enderecoporsku '
                                ' order by saldo desc',conn)
 
     # Passo 3: obt
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
     enderecosSku['codreduzido'] = enderecosSku['codreduzido'].astype(str)
-    enderecosSku['Reserva'] = 0
-    enderecosSku['SaldoLiquid'] = enderecosSku['saldo']
+
+
 
 
     return enderecosSku
@@ -20,8 +20,7 @@ def ListaDeEnderecosOculpados():
 
 def Calculo():
     conn = ConexaoPostgreMPL.conexao()
-    # Trazer a Lista de Saldos por codreduzido e  Enderecos
-    total = 0
+    total = 0 # Para Totalizar o numer de atualizcoes
     for i in range(20):
     # Loop de iteracao
 
