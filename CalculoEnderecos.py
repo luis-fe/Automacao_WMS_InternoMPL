@@ -34,13 +34,13 @@ def Calculo():
 
         tamanho = pedidoskuIteracao['codreduzido'].size
         pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
-        print(pedidoskuIteracao)
+
 
         for i in range(tamanho):
             necessidade = pedidoskuIteracao['necessidade'][i]
-            print(necessidade)
 
-            if pedidoskuIteracao['necessidade'][i] <= pedidoskuIteracao['SaldoLiquid'][i]:
+
+            if necessidade<= pedidoskuIteracao['SaldoLiquid'][i]:
                     update = 'UPDATE "Reposicao".pedidossku '\
                              'SET endereco = %s '\
                              'WHERE codpedido = %s AND produto = %s'
