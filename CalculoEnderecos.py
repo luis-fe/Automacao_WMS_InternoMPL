@@ -93,7 +93,7 @@ def Calculo():
                 insert = 'insert into "Reposicao".pedidossku (codpedido,datahora,endereco,necessidade,produto,qtdepecasconf,' \
                          'qtdesugerida,reservado,status,valorunitarioliq) ' \
                          'select codpedido,datahora,"'"Não Reposto"'", %s ,produto,qtdepecasconf, ' \
-                         's% , %s , status , valorunitarioliq ' \
+                         's% , %s , status , valorunitarioliq from "Reposicao".pedidossku ' \
                          'WHERE codpedido = %s AND produto = %s'
                 cursor = conn.cursor()
                 qtde_sugerida = qtde_sugerida -saldo
