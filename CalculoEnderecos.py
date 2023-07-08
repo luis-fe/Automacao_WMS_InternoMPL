@@ -28,7 +28,7 @@ def Calculo():
         lista = ListaDeEnderecosOculpados()
         lista = lista[lista['repeticoessku'] == (i + 1)]
         pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0 '
-                            "where reservado = 'nao'", conn)
+                            "and reservado = 'nao'", conn)
         pedidosku.rename(columns={'produto': "codreduzido"}, inplace=True)
         pedidoskuIteracao = pd.merge(pedidosku, lista, on='codreduzido', how='left')
 
