@@ -73,7 +73,7 @@ def Calculo():
                                                                                                   " '"+produto+"'",conn)
                 qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
                 update = 'UPDATE "Reposicao".pedidossku ' \
-                         'SET endereco = %s , qtdesugerida = %s , reservado = %s' \
+                         'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
                          'WHERE codpedido = %s AND produto = %s'
 
 
@@ -86,7 +86,7 @@ def Calculo():
 
                 # Executar a atualização na tabela "Reposicao.pedidossku"
                 cursor.execute(update,
-                               (endereco, saldo,'sim',
+                               (endereco, saldo,'sim',saldo,
                                 pedido, produto)
                                )
 
@@ -102,7 +102,7 @@ def Calculo():
 
                 # Executar a atualização na tabela "Reposicao.pedidossku"
                 cursor.execute(insert,
-                           ('Não Reposto', 0, qtde_sugerida, 'nao',
+                           ('Não Reposto', qtde_sugerida, qtde_sugerida, 'nao',
                             pedido, produto)
                            )
 
