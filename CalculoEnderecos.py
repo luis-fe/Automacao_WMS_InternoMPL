@@ -38,16 +38,16 @@ def Calculo():
 
         for i in range(tamanho):
             necessidade = pedidoskuIteracao['necessidade'][i]
+            saldo = pedidoskuIteracao['SaldoLiquid'][i]
+            endereco = pedidoskuIteracao['codendereco2'][i]
+            produto = pedidoskuIteracao['codreduzido'][i]
+            pedido = pedidoskuIteracao['codpedido'][i]
 
-
-            if necessidade<= pedidoskuIteracao['SaldoLiquid'][i]:
+            if necessidade<= saldo:
                     update = 'UPDATE "Reposicao".pedidossku '\
-                             'SET endereco = %s '\
+                             'SET endereco = %s , reservado = %s'\
                              'WHERE codpedido = %s AND produto = %s'
 
-                    endereco = pedidoskuIteracao['codendereco2'][i]
-                    produto = pedidoskuIteracao['codreduzido'][i]
-                    pedido = pedidoskuIteracao['codpedido'][i]
 
                     # Filtrar e atualizar os valores "a" para "aa"
                     pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
@@ -57,28 +57,57 @@ def Calculo():
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(update,
-                                   (endereco,
+                                   (endereco,'sim',
                                     pedido, produto)
                                     )
 
                     # Confirmar as alterações
                     conn.commit()
 
-                    update2 = 'UPDATE "Reposicao".pedidossku ' \
-                             'SET reservado = %s ' \
-                             'WHERE codpedido = %s AND produto = %s'
-
-                    cursor = conn.cursor()
-
-                    # Executar a atualização na tabela "Reposicao.pedidossku"
-                    cursor.execute(update2,
-                                   ('sim',pedido, produto)
-                                    )
-
-                    # Confirmar as alterações
-                    conn.commit()
-
                     total = total + 1
+
+            if saldo >0 and necessidade > saldo:
+                qtde_sugerida = pd.read_sql('select qtdesugerida from "Reposicao".pedidossku '
+                                            "where reservado = 'nao' and codpedido = "+"'"+pedido+"' and produto ="
+                                                                                                  " '"+produto+"'",conn)
+                qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
+                update = 'UPDATE "Reposicao".pedidossku ' \
+                         'SET endereco = %s , qtdesugerida = %s , reservado = %s' \
+                         'WHERE codpedido = %s AND produto = %s'
+
+
+                # Filtrar e atualizar os valores "a" para "aa"
+                pedidoskuIteracao.loc[pedidoskuIteracao['codendereco2'] == endereco, 'SaldoLiquid'] \
+                    = 0
+
+                cursor = conn.cursor()
+
+                # Executar a atualização na tabela "Reposicao.pedidossku"
+                cursor.execute(update,
+                               (endereco, saldo,'sim',
+                                pedido, produto)
+                               )
+
+                # Confirmar as alterações
+                conn.commit()
+                insert = 'insert into "Reposicao".pedidossku (codpedido,datahora,endereco,necessidade,produto,qtdepecasconf,' \
+                         'qtdesugerida,reservado,status,valorunitarioliq) ' \
+                         'select codpedido,datahora,"'"Não Reposto"'",%s,produto,qtdepecasconf,' \
+                         's%,%s,status,valorunitarioliq ' \
+                         'WHERE codpedido = %s AND produto = %s'
+                cursor = conn.cursor()
+                qtde_sugerida = qtde_sugerida -saldo
+
+                # Executar a atualização na tabela "Reposicao.pedidossku"
+                cursor.execute(insert,
+                               (0,qtde_sugerida,'nao',
+                                pedido, produto)
+                               )
+
+                # Confirmar as alterações
+                conn.commit()
+
+
             else:
                     print('nao atualizado')
     print(f'{total} atualizacoes realizadas')
