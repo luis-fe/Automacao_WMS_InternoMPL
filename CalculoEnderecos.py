@@ -21,7 +21,7 @@ def ListaDeEnderecosOculpados():
 def Calculo():
     conn = ConexaoPostgreMPL.conexao()
     total = 0 # Para Totalizar o numer de atualizcoes
-    for i in range(20):
+    for i in range(10):
     # Loop de iteracao
 
         lista = ListaDeEnderecosOculpados()
