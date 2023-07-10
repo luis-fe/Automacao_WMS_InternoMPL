@@ -62,10 +62,10 @@ def SeparacoPedidos():
     # Aplicar a função de agrupamento usando o método groupby
     SugestoesAbertos['agrupamentopedido'] = SugestoesAbertos.groupby('codcliente')['codigopedido'].transform(criar_agrupamentos)
 
-    try:
-        ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos,tamanho,'filaseparacaopedidos','append')
-    except:
-        print('\n4.1.1 Sem dados a Incluir')
+    #try:
+    ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos,tamanho,'filaseparacaopedidos','append')
+    #except:
+    print('\n4.1.1 Sem dados a Incluir')
     return tamanho, dataHora
 
 def avaliacaoPedidos():
