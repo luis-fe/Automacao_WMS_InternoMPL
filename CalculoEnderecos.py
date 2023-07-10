@@ -70,19 +70,19 @@ def Calculo():
                                                                                                   " '"+produto+"'",conn)
                 if not qtde_sugerida.empty:
                     qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
-                    qtde_sugerida = qtde_sugerida - saldoliq
+                    qtde_sugerida2 = qtde_sugerida - saldoliq
 
                     insert = 'insert into "Reposicao".pedidossku (codpedido, datahora, endereco, necessidade, produto, qtdepecasconf, ' \
                              'qtdesugerida, reservado, status, valorunitarioliq) ' \
                              'select codpedido, datahora, %s, %s, produto, qtdepecasconf, ' \
                              '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
                              'WHERE codpedido = %s AND produto = %s and reservado = %s ' \
-                             ' order by codpedido, produto limit 1;'
+                             ' limit 1;'
                     cursor = conn.cursor()
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(insert,
-                                   ('Não Reposto', qtde_sugerida, qtde_sugerida, 'nao',
+                                   ('Não Reposto', qtde_sugerida2, qtde_sugerida2, 'nao',
                                     pedido, produto,'nao')
                                    )
 
@@ -91,7 +91,7 @@ def Calculo():
 
                     update = 'UPDATE "Reposicao".pedidossku ' \
                              'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
-                             'WHERE codpedido = %s AND produto = %s and reservado = %s order by codpedido, produto LIMIT 1'
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s and qtdesugerida = %s'
 
 
                     # Filtrar e atualizar os valores "a" para "aa"
@@ -104,7 +104,7 @@ def Calculo():
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(update,
                                    (endereco, saldoliq,'sim',saldoliq,
-                                    pedido, produto,'nao')
+                                    pedido, produto,'nao',qtde_sugerida)
                                    )
 
                     # Confirmar as alterações
