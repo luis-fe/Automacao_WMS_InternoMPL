@@ -76,7 +76,8 @@ def Calculo():
                              'qtdesugerida, reservado, status, valorunitarioliq) ' \
                              'select codpedido, datahora, %s, %s, produto, qtdepecasconf, ' \
                              '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
-                             'WHERE codpedido = %s AND produto = %s and reservado = %s limit 1;'
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s ' \
+                             ' order by codpedido, produto limit 1;'
                     cursor = conn.cursor()
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
@@ -90,7 +91,7 @@ def Calculo():
 
                     update = 'UPDATE "Reposicao".pedidossku ' \
                              'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
-                             'WHERE codpedido = %s AND produto = %s and reservado = %s LIMIT 1'
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s order by codpedido, produto LIMIT 1'
 
 
                     # Filtrar e atualizar os valores "a" para "aa"
