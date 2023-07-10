@@ -30,6 +30,8 @@ def InserirDados():
             'where codreduzido =  %s '
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     tagsreposicao['tamanho'] = tagsreposicao['tamanho'].astype(str)
+    tagsreposicao['cor'] = tagsreposicao['cor'].astype(str)
+
 
     print(tagsreposicao.dtypes)
     if tamanho != 0:
