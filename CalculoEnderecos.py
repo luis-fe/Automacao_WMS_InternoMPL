@@ -72,51 +72,51 @@ def Calculo():
                 qtde_sugerida = pd.read_sql('select qtdesugerida from "Reposicao".pedidossku '
                                             "where reservado = 'nao' and codpedido = "+"'"+pedido+"' and produto ="
                                                                                                   " '"+produto+"'",conn)
-                qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
-                update = 'UPDATE "Reposicao".pedidossku ' \
-                         'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
+                if not qtde_sugerida.empty:
+                    qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
+                    update = 'UPDATE "Reposicao".pedidossku ' \
+                             'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
+                             'WHERE codpedido = %s AND produto = %s'
+
+
+                    # Filtrar e atualizar os valores "a" para "aa"
+                    pedidoskuIteracao.loc[(pedidoskuIteracao['codendereco2'] == endereco) &
+                                          (pedidoskuIteracao['codreduzido'] == produto), 'SaldoLiquid'] \
+                        = 0
+
+                    cursor = conn.cursor()
+
+                    # Executar a atualização na tabela "Reposicao.pedidossku"
+                    cursor.execute(update,
+                                   (endereco, saldo,'sim',saldo,
+                                    pedido, produto)
+                                   )
+
+                    # Confirmar as alterações
+                    conn.commit()
+                    insert = 'insert into "Reposicao".pedidossku (codpedido, datahora, endereco, necessidade, produto, qtdepecasconf, ' \
+                         'qtdesugerida, reservado, status, valorunitarioliq) ' \
+                         'select codpedido, datahora, %s, %s, produto, qtdepecasconf, ' \
+                         '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
                          'WHERE codpedido = %s AND produto = %s'
+                    cursor = conn.cursor()
+                    qtde_sugerida = qtde_sugerida - saldo
 
-
-                # Filtrar e atualizar os valores "a" para "aa"
-                pedidoskuIteracao.loc[(pedidoskuIteracao['codendereco2'] == endereco) &
-                                      (pedidoskuIteracao['codreduzido'] == produto), 'SaldoLiquid'] \
-                    = 0
-
-                cursor = conn.cursor()
-
-                # Executar a atualização na tabela "Reposicao.pedidossku"
-                cursor.execute(update,
-                               (endereco, saldo,'sim',saldo,
+                    # Executar a atualização na tabela "Reposicao.pedidossku"
+                    cursor.execute(insert,
+                               ('Não Reposto', qtde_sugerida, qtde_sugerida, 'nao',
                                 pedido, produto)
                                )
 
-                # Confirmar as alterações
-                conn.commit()
-                insert = 'insert into "Reposicao".pedidossku (codpedido, datahora, endereco, necessidade, produto, qtdepecasconf, ' \
-                     'qtdesugerida, reservado, status, valorunitarioliq) ' \
-                     'select codpedido, datahora, %s, %s, produto, qtdepecasconf, ' \
-                     '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
-                     'WHERE codpedido = %s AND produto = %s'
-                cursor = conn.cursor()
-                qtde_sugerida = qtde_sugerida - saldo
-
-                # Executar a atualização na tabela "Reposicao.pedidossku"
-                cursor.execute(insert,
-                           ('Não Reposto', qtde_sugerida, qtde_sugerida, 'nao',
-                            pedido, produto)
-                           )
-
-                # Confirmar as alterações
-                conn.commit()
-                inseridosDuplos = 1 + inseridosDuplos
+                    # Confirmar as alterações
+                    conn.commit()
+                    inseridosDuplos = 1 + inseridosDuplos
             else:
                     print('nao atualizado')
     print(f'{total} atualizacoes realizadas')
     return total, inseridosDuplos
 
 
-Calculo()
 
 
 
