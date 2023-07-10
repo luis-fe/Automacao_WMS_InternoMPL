@@ -6,14 +6,10 @@ def ListaDeEnderecosOculpados():
     conn = ConexaoPostgreMPL.conexao()
 
     enderecosSku = pd.read_sql(' select  codreduzido, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-                               ' order by saldo desc',conn)
+                               ' order by "SaldoLiquid" desc',conn)
 
-    # Passo 3: obt
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
     enderecosSku['codreduzido'] = enderecosSku['codreduzido'].astype(str)
-
-
-
 
     return enderecosSku
 
@@ -39,12 +35,12 @@ def Calculo():
 
         for i in range(tamanho):
             necessidade = pedidoskuIteracao['necessidade'][i]
-            saldo = pedidoskuIteracao['SaldoLiquid'][i]
+            saldoliq = pedidoskuIteracao['SaldoLiquid'][i]
             endereco = pedidoskuIteracao['codendereco2'][i]
             produto = pedidoskuIteracao['codreduzido'][i]
             pedido = pedidoskuIteracao['codpedido'][i]
 
-            if necessidade<= saldo:
+            if necessidade<= saldoliq:
                     update = 'UPDATE "Reposicao".pedidossku '\
                              'SET endereco = %s , reservado = %s'\
                              'WHERE codpedido = %s AND produto = %s'
@@ -68,7 +64,7 @@ def Calculo():
 
                     total = total + 1
 
-            if saldo >0 and necessidade > saldo:
+            if saldoliq >0 and necessidade > saldoliq:
                 qtde_sugerida = pd.read_sql('select qtdesugerida from "Reposicao".pedidossku '
                                             "where reservado = 'nao' and codpedido = "+"'"+pedido+"' and produto ="
                                                                                                   " '"+produto+"'",conn)
@@ -88,7 +84,7 @@ def Calculo():
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(update,
-                                   (endereco, saldo,'sim',saldo,
+                                   (endereco, saldoliq,'sim',saldoliq,
                                     pedido, produto)
                                    )
 
@@ -100,7 +96,7 @@ def Calculo():
                          '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
                          'WHERE codpedido = %s AND produto = %s'
                     cursor = conn.cursor()
-                    qtde_sugerida = qtde_sugerida - saldo
+                    qtde_sugerida = qtde_sugerida - saldoliq
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(insert,
