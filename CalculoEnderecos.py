@@ -6,7 +6,7 @@ def ListaDeEnderecosOculpados():
     conn = ConexaoPostgreMPL.conexao()
 
     enderecosSku = pd.read_sql(' select  codreduzido, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-                               ' order by "SaldoLiquid" desc',conn)
+                               ' where "SaldoLiquid" > 0 order by "SaldoLiquid" desc',conn)
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
     enderecosSku['codreduzido'] = enderecosSku['codreduzido'].astype(str)
