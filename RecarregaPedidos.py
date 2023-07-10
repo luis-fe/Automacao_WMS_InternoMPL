@@ -120,7 +120,7 @@ def SugestaoSKU():
     tamanho = SugestoesAbertos['codpedido'].size
     dataHora = obterHoraAtual()
     SugestoesAbertos['datahora'] = dataHora
-
+    SugestoesAbertos['reservado'] = 'nao'
     if not SugestoesAbertos.empty:
 
         SugestoesAbertos['endereco'] = 'Não Reposto'
