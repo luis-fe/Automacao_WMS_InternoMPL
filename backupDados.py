@@ -25,7 +25,7 @@ def InserirDados():
     tagsreposicao = pd.read_csv('data.csv',sep=';')
     conn = ConexaoPostgreMPL.conexao()
     tamanho = tagsreposicao['codreduzido'].size
-    query = 'update  "Reposicao".tagsreposicao ' \
+    query = 'update  "Reposicao".tags_separacao ' \
             'set descricao = %s , cor = %s , tamanho = %s' \
             'where codreduzido =  %s '
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
