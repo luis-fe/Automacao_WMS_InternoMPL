@@ -32,7 +32,6 @@ def InserirDados():
     tagsreposicao['tamanho'] = tagsreposicao['tamanho'].astype(str)
     tagsreposicao['cor'] = tagsreposicao['cor'].astype(str)
 
-
     print(tagsreposicao.dtypes)
     if tamanho != 0:
         # Executar a consulta DELETE
