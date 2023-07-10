@@ -70,9 +70,27 @@ def Calculo():
                                                                                                   " '"+produto+"'",conn)
                 if not qtde_sugerida.empty:
                     qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
+                    qtde_sugerida = qtde_sugerida - saldoliq
+
+                    insert = 'insert into "Reposicao".pedidossku (codpedido, datahora, endereco, necessidade, produto, qtdepecasconf, ' \
+                             'qtdesugerida, reservado, status, valorunitarioliq) ' \
+                             'select codpedido, datahora, %s, %s, produto, qtdepecasconf, ' \
+                             '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s '
+                    cursor = conn.cursor()
+
+                    # Executar a atualização na tabela "Reposicao.pedidossku"
+                    cursor.execute(insert,
+                                   ('Não Reposto', qtde_sugerida, qtde_sugerida, 'nao',
+                                    pedido, produto,'nao')
+                                   )
+
+                    # Confirmar as alterações
+                    conn.commit()
+
                     update = 'UPDATE "Reposicao".pedidossku ' \
                              'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
-                             'WHERE codpedido = %s AND produto = %s and reservado = %s '
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s LIMIT 1'
 
 
                     # Filtrar e atualizar os valores "a" para "aa"
@@ -90,22 +108,7 @@ def Calculo():
 
                     # Confirmar as alterações
                     conn.commit()
-                    insert = 'insert into "Reposicao".pedidossku (codpedido, datahora, endereco, necessidade, produto, qtdepecasconf, ' \
-                         'qtdesugerida, reservado, status, valorunitarioliq) ' \
-                         'select codpedido, datahora, %s, %s, produto, qtdepecasconf, ' \
-                         '%s, %s, status, valorunitarioliq from "Reposicao".pedidossku ' \
-                         'WHERE codpedido = %s AND produto = %s'
-                    cursor = conn.cursor()
-                    qtde_sugerida = qtde_sugerida - saldoliq
 
-                    # Executar a atualização na tabela "Reposicao.pedidossku"
-                    cursor.execute(insert,
-                               ('Não Reposto', qtde_sugerida, qtde_sugerida, 'nao',
-                                pedido, produto)
-                               )
-
-                    # Confirmar as alterações
-                    conn.commit()
                     inseridosDuplos = 1 + inseridosDuplos
             else:
                     print('nao atualizado')
