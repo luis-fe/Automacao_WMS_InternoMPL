@@ -43,7 +43,7 @@ def Calculo():
             if necessidade<= saldoliq:
                     update = 'UPDATE "Reposicao".pedidossku '\
                              'SET endereco = %s , reservado = %s'\
-                             'WHERE codpedido = %s AND produto = %s'
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s '
 
 
                     # Filtrar e atualizar os valores "a" para "aa"
@@ -56,7 +56,7 @@ def Calculo():
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(update,
                                    (endereco,'sim',
-                                    pedido, produto)
+                                    pedido, produto,'nao')
                                     )
 
                     # Confirmar as alterações
@@ -72,7 +72,7 @@ def Calculo():
                     qtde_sugerida = qtde_sugerida['qtdesugerida'][0]
                     update = 'UPDATE "Reposicao".pedidossku ' \
                              'SET endereco = %s , qtdesugerida = %s , reservado = %s, necessidade = %s ' \
-                             'WHERE codpedido = %s AND produto = %s'
+                             'WHERE codpedido = %s AND produto = %s and reservado = %s '
 
 
                     # Filtrar e atualizar os valores "a" para "aa"
@@ -85,7 +85,7 @@ def Calculo():
                     # Executar a atualização na tabela "Reposicao.pedidossku"
                     cursor.execute(update,
                                    (endereco, saldoliq,'sim',saldoliq,
-                                    pedido, produto)
+                                    pedido, produto,'nao')
                                    )
 
                     # Confirmar as alterações
