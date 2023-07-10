@@ -148,8 +148,6 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    RecarregaPedidos.SeparacoPedidos()
-    RecarregaPedidos.IncrementarSku()
     try:
         tamanho10 , inseridos10 = CalculoEnderecos.Calculo()
         print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
