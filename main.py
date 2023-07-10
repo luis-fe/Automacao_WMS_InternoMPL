@@ -148,10 +148,10 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
-
-    tamnho5, datahora5 = RecarregaPedidos.SeparacoPedidos()
-    print(f'5.1 Sucesso - Atualizacao Fila Pedidos \nAtenção!  {tamnho5} Pedidos, as {datahora5}')
-
+    try:
+        tamanho10 , inseridos10 = CalculoEnderecos.Calculo()
+        print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
+    except:
+        print('10.1.1 Falha na automacao - Calculo dos Enderecos')
 
     app.run(host='0.0.0.0', port=port)
