@@ -26,7 +26,7 @@ def InserirDados():
     conn = ConexaoPostgreMPL.conexao()
     tamanho = tagsreposicao['codreduzido'].size
     query = 'update  "Reposicao".tags_separacao ' \
-            'set descricao = %s , cor = %s , tamanho = %s' \
+            'set descricao = %s , cor = %s , tamanho = %s , engenharia = %s' \
             'where codreduzido =  %s '
     tagsreposicao['codreduzido'] = tagsreposicao['codreduzido'].astype(str)
     tagsreposicao['tamanho'] = tagsreposicao['tamanho'].astype(str)
@@ -39,7 +39,7 @@ def InserirDados():
        for i in range(tamanho):
             cursor = conn.cursor()
             cursor.execute(query,(tagsreposicao['descricao'][i],tagsreposicao['cor'][i],
-                                  tagsreposicao['tamanho'][i],tagsreposicao['codreduzido'][i]
+                                  tagsreposicao['tamanho'][i],tagsreposicao['engenharia'][i],tagsreposicao['codreduzido'][i]
                                   ,
                                   ))
             conn.commit()
