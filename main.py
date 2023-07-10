@@ -148,12 +148,10 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print('teste')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamnho5, datahora5 = RecarregaPedidos.SeparacoPedidos()
-        print(f'5.1 Sucesso - Atualizacao Fila Pedidos \nAtenção!  {tamnho5} Pedidos, as {datahora5}')
-    except:
-        print(f'5.1.1 falha na automacao - Fila Pedidos')
+
+
+    tamnho5, datahora5 = RecarregaPedidos.SeparacoPedidos()
+    print(f'5.1 Sucesso - Atualizacao Fila Pedidos \nAtenção!  {tamnho5} Pedidos, as {datahora5}')
+
 
     app.run(host='0.0.0.0', port=port)
