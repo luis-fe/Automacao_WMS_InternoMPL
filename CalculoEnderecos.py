@@ -1,7 +1,10 @@
 import pandas as pd
 import ConexaoPostgreMPL
-
-
+import datetime
+def obterHoraAtual():
+    agora = datetime.datetime.now()
+    hora_str = agora.strftime('%d/%m/%Y %H:%M')
+    return hora_str
 def ListaDeEnderecosOculpados():
     conn = ConexaoPostgreMPL.conexao()
 
@@ -112,8 +115,9 @@ def Calculo():
 
                     inseridosDuplos = 1 + inseridosDuplos
             else:
-                    print('nao atualizado')
-    print(f'{total} atualizacoes realizadas')
+                encerra = i
+    datahora = obterHoraAtual()
+    print(f'{total} atualizacoes realizadas, as {datahora}')
     return total, inseridosDuplos
 
 
