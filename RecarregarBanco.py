@@ -3,13 +3,14 @@ import numpy
 import pandas as pd
 import jaydebeapi
 from psycopg2 import sql
-
+import pytz
 import ConexaoCSW
 import ConexaoPostgreMPL
 
 
 def obterHoraAtual():
-    agora = datetime.datetime.now()
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
 

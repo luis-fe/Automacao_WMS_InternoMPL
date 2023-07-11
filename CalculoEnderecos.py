@@ -1,8 +1,10 @@
 import pandas as pd
 import ConexaoPostgreMPL
 import datetime
+import pytz
 def obterHoraAtual():
-    agora = datetime.datetime.now()
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
 def ListaDeEnderecosOculpados():
