@@ -1,4 +1,5 @@
 import pandas as pd
+import pytz
 
 import CalculoNecessidadesEndereco
 import ConexaoPostgreMPL
@@ -8,7 +9,8 @@ from psycopg2 import sql
 
 # Recarga de fila de Pedidos
 def obterHoraAtual():
-    agora = datetime.datetime.now()
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
 def criar_agrupamentos(grupo):
