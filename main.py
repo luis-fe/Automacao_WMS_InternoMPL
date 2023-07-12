@@ -149,9 +149,9 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     try:
-        tamanho10 , inseridos10 = CalculoEnderecos.Calculo()
-        print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
+        # coloque o código que você deseja executar continuamente aqui
+        tamnho1, datahora1 = RecarregarBanco.FilaTags()
+        print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
     except:
-        print('10.1.1 Falha na automacao - Calculo dos Enderecos')
-
+        print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
     app.run(host='0.0.0.0', port=port)
