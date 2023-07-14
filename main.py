@@ -148,6 +148,7 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    RecarregarBanco.FilaTags()
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho1, datahora1 = RecarregarBanco.FilaTags()
