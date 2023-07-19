@@ -165,10 +165,10 @@ def LimpezaPedidosSku():
     conn = ConexaoPostgreMPL.conexao()
     query = 'delete from "Reposicao".pedidossku  p ' \
             'where p.codpedido  in ( ' \
-            'select f.codigopedido   from "Reposicao".filaseparacaopedidos f  ' \
-            'left join "Reposicao".pedidossku p ' \
+            'select p.codpedido   from "Reposicao".filaseparacaopedidos f  ' \
+            'right join "Reposicao".pedidossku p ' \
             'on p.codpedido = f.codigopedido ' \
-            'where p.codpedido is null)'
+            'where f.codigopedido is null)'
     cursor = conn.cursor()
     cursor.execute(query,)
     conn.commit()
