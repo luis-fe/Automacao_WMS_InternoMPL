@@ -23,7 +23,7 @@ def SeparacoPedidos():
 
     PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codPedido , 'Em Conferencia' as situacaopedido  FROM ped.SugestaoPedItem p "
                                   'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
-                                  'WHERE p.codEmpresa = 1 and s.situacaoSugestao = 2', conn)
+                                  'WHERE p.codEmpresa = 1 and s.situacaoSugestao = 2 and p.qtdePecasConf > 0', conn)
 
     SugestoesAbertos = pd.merge(SugestoesAbertos, PedidosSituacao, on='codPedido', how='left')
 
