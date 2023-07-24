@@ -131,7 +131,7 @@ def SugestaoSKU():
     SugestoesAbertos['datahora'] = dataHora
     SugestoesAbertos['reservado'] = 'nao'
 
-    SugestoesAbertos['codpedido'] =SugestoesAbertos["codpedido"]+SugestoesAbertos["codSequencia"]
+    SugestoesAbertos['codpedido'] =SugestoesAbertos["codpedido"]+'-'+SugestoesAbertos["codSequencia"]
     SugestoesAbertos.drop('codSequencia', axis=1, inplace=True)
     if not SugestoesAbertos.empty:
 
