@@ -17,7 +17,7 @@ def criar_agrupamentos(grupo):
     return '/'.join(sorted(set(grupo)))
 def SeparacoPedidos():
     conn = ConexaoCSW.Conexao()
-    SugestoesAbertos = pd.read_sql('SELECT codPedido2, dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
+    SugestoesAbertos = pd.read_sql('SELECT codPedido as codPedido2 , dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
                                    'WHERE codEmpresa =1 and situacaoSugestao =2',conn)
     SugestoesAbertos['codPedido'] =f'{SugestoesAbertos["codPedido2"]}/{SugestoesAbertos.groupby("codPedido").cumcount() + 1}'
 
