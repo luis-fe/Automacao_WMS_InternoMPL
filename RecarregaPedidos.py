@@ -17,12 +17,9 @@ def criar_agrupamentos(grupo):
     return '/'.join(sorted(set(grupo)))
 def SeparacoPedidos():
     conn = ConexaoCSW.Conexao()
-    SugestoesAbertos = pd.read_sql('SELECT codPedido as codPedido2 , dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
+    SugestoesAbertos = pd.read_sql("SELECT codPedido||'-'||codsequencia as codPedido, codPedido as codPedido2, dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  "
                                    'WHERE codEmpresa =1 and situacaoSugestao =2',conn)
-    SugestoesAbertos["codPedido2"] = SugestoesAbertos["codPedido2"].astype(str)
-    # Cria a nova coluna "codPedido" concatenando "codPedido2" com o número da ocorrência dentro do grupo
-    SugestoesAbertos['codPedido'] = SugestoesAbertos["codPedido2"] + '-' + (
-                SugestoesAbertos.groupby("codPedido2").cumcount() + 1).astype(str)
+
 
     PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codPedido , 'Em Conferencia' as situacaopedido  FROM ped.SugestaoPedItem p "
                                   'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
@@ -80,9 +77,10 @@ def SeparacoPedidos():
 
 def avaliacaoPedidos():
     conn = ConexaoCSW.Conexao()
-    SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
+    SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido||'-'||codsequencia   as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
                                    " WHERE codEmpresa =1 and situacaoSugestao =2",conn)
-    SugestoesAbertos['codigopedido'] =f'{SugestoesAbertos["codigopedido"]}/{SugestoesAbertos.groupby("codigopedido").cumcount() + 1}'
+
+
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filaseparacaopedidos t ', conn2)
