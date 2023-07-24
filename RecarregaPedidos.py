@@ -113,7 +113,7 @@ def SugestaoSKU():
     SugestoesAbertos = pd.read_sql(
         'select s.codPedido as codpedido, s.codSequencia , s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
         'from ped.SugestaoPedItem s  '
-        'left join ped.SugestaoPed p on p.codEmpresa = s.codEmpresa and p.codPedido = s.codPedido  '
+        'left join ped.SugestaoPed p on p.codEmpresa = s.codEmpresa and p.codPedido = s.codPedido and p.codSequencia = s.codSequencia '
         'WHERE s.codEmpresa =1 and p.situacaoSugestao =2'
         ' order by p.dataGeracao, p.codPedido ', conn)
 
@@ -130,7 +130,8 @@ def SugestaoSKU():
     dataHora = obterHoraAtual()
     SugestoesAbertos['datahora'] = dataHora
     SugestoesAbertos['reservado'] = 'nao'
-    SugestoesAbertos['codpedido'] =f'{SugestoesAbertos["codpedido"]}/{SugestoesAbertos["codSequencia"]}'
+
+    SugestoesAbertos['codpedido'] =SugestoesAbertos["codpedido"]+SugestoesAbertos["codSequencia"]
     SugestoesAbertos.drop('codSequencia', axis=1, inplace=True)
     if not SugestoesAbertos.empty:
 
