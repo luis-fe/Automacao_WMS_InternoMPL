@@ -17,21 +17,24 @@ def criar_agrupamentos(grupo):
     return '/'.join(sorted(set(grupo)))
 def SeparacoPedidos():
     conn = ConexaoCSW.Conexao()
-    SugestoesAbertos = pd.read_sql('SELECT codPedido, dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
+    SugestoesAbertos = pd.read_sql('SELECT codPedido2, dataGeracao,  priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  '
                                    'WHERE codEmpresa =1 and situacaoSugestao =2',conn)
-    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
+    SugestoesAbertos['codPedido'] =f'{SugestoesAbertos["codPedido2"]}/{SugestoesAbertos.groupby("codPedido").cumcount() + 1}'
+
+    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'/'||p.codSequencia as codPedido , 'Em Conferencia' as situacaopedido  FROM ped.SugestaoPedItem p "
                                   'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
                                   'WHERE p.codEmpresa = 1 and s.situacaoSugestao = 2', conn)
+
     SugestoesAbertos = pd.merge(SugestoesAbertos, PedidosSituacao, on='codPedido', how='left')
 
-    CapaPedido = pd.read_sql('select top 100000 codPedido, codCliente, '
+    CapaPedido = pd.read_sql('select top 100000 codPedido2, codCliente, '
                              '(select c.nome from fat.Cliente c WHERE c.codEmpresa = 1 and p.codCliente = c.codCliente) as desc_cliente, '
                              '(select r.nome from fat.Representante  r WHERE r.codEmpresa = 1 and r.codRepresent = p.codRepresentante) as desc_representante, '
                              '(select c.nomeCidade from fat.Cliente  c WHERE c.codEmpresa = 1 and c.codCliente = p.codCliente) as cidade, '
                              '(select c.nomeEstado from fat.Cliente  c WHERE c.codEmpresa = 1 and c.codCliente = p.codCliente) as estado, '
                              ' codRepresentante , codTipoNota, CondicaoDeVenda as condvenda  from ped.Pedido p  '
                                    ' WHERE p.codEmpresa = 1 order by codPedido desc ',conn)
-    SugestoesAbertos = pd.merge(SugestoesAbertos,CapaPedido,on= 'codPedido', how = 'left')
+    SugestoesAbertos = pd.merge(SugestoesAbertos,CapaPedido,on= 'codPedido2', how = 'left')
     SugestoesAbertos.rename(columns={'codPedido': 'codigopedido', 'vlrSugestao': 'vlrsugestao'
         , 'dataGeracao': 'datageracao','situacaoSugestao':'situacaosugestao','dataFaturamentoPrevisto':'datafaturamentoprevisto',
         'codCliente':'codcliente', 'codRepresentante':'codrepresentante','codTipoNota':'codtiponota'}, inplace=True)
@@ -63,6 +66,8 @@ def SeparacoPedidos():
     SugestoesAbertos['contagem'] = SugestoesAbertos['codcliente'].map(contagem)
     # Aplicar a função de agrupamento usando o método groupby
     SugestoesAbertos['agrupamentopedido'] = SugestoesAbertos.groupby('codcliente')['codigopedido'].transform(criar_agrupamentos)
+    SugestoesAbertos.drop('codPedido2', axis=1, inplace=True)
+
 
     #try:
     ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos,tamanho,'filaseparacaopedidos','append')
@@ -74,6 +79,7 @@ def avaliacaoPedidos():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
                                    " WHERE codEmpresa =1 and situacaoSugestao =2",conn)
+    SugestoesAbertos['codigopedido'] =f'{SugestoesAbertos["codigopedido"]}/{SugestoesAbertos.groupby("codigopedido").cumcount() + 1}'
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filaseparacaopedidos t ', conn2)
@@ -104,7 +110,7 @@ def avaliacaoPedidos():
 def SugestaoSKU():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
-        'select s.codPedido as codpedido, s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
+        'select s.codPedido as codpedido, s.codSequencia , s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
         'from ped.SugestaoPedItem s  '
         'left join ped.SugestaoPed p on p.codEmpresa = s.codEmpresa and p.codPedido = s.codPedido  '
         'WHERE s.codEmpresa =1 and p.situacaoSugestao =2'
@@ -123,6 +129,8 @@ def SugestaoSKU():
     dataHora = obterHoraAtual()
     SugestoesAbertos['datahora'] = dataHora
     SugestoesAbertos['reservado'] = 'nao'
+    SugestoesAbertos['codpedido'] =f'{SugestoesAbertos["codpedido"]}/{SugestoesAbertos["codSequencia"]}'
+    SugestoesAbertos.drop('codSequencia', axis=1, inplace=True)
     if not SugestoesAbertos.empty:
 
         SugestoesAbertos['endereco'] = 'Não Reposto'
@@ -178,9 +186,10 @@ def LimpezaPedidosSku():
 
 def AtualizarPedidosConferidos():
     conn = ConexaoCSW.Conexao()
-    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido as codigopedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
+    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido as codigopedido, codSequencia, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
                                   'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
                                   'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 and s.situacaoSugestao = 2', conn)
+    PedidosSituacao['codigopedido'] =f'{PedidosSituacao["codigopedido"]}/{PedidosSituacao["codSequencia"]}'
 
 
     conn2 = ConexaoPostgreMPL.conexao()
@@ -217,6 +226,7 @@ def avaliacaoReposicao():
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
         'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual = 5', conn)
+
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".tagsreposicao t ', conn2)
