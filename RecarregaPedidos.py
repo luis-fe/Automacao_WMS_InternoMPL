@@ -27,7 +27,7 @@ def SeparacoPedidos():
 
     SugestoesAbertos = pd.merge(SugestoesAbertos, PedidosSituacao, on='codPedido', how='left')
 
-    CapaPedido = pd.read_sql('select top 100000 codPedido2, codCliente, '
+    CapaPedido = pd.read_sql('select top 100000 codPedido as codPedido2, codCliente, '
                              '(select c.nome from fat.Cliente c WHERE c.codEmpresa = 1 and p.codCliente = c.codCliente) as desc_cliente, '
                              '(select r.nome from fat.Representante  r WHERE r.codEmpresa = 1 and r.codRepresent = p.codRepresentante) as desc_representante, '
                              '(select c.nomeCidade from fat.Cliente  c WHERE c.codEmpresa = 1 and c.codCliente = p.codCliente) as cidade, '
