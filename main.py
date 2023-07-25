@@ -156,10 +156,8 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    try:
-        tamanho11  = TratamentoErro.AtualizandoAgrupamento()
-        print(f'11.1 Sucesso -Atualizdo novos  {tamanho11} ')
-    except:
-        print('11.1.1 Falha na automacao - Calculo dos Enderecos')
+
+    TratamentoErro.AtualizandoAgrupamento()
+
 
     app.run(host='0.0.0.0', port=port)
