@@ -23,7 +23,7 @@ def RemoveDuplicatasUsuario():
 def AtualizandoAgrupamento():
     conn = ConexaoPostgreMPL.conexao()
     query1 = pd.read_sql( 'select codigopedido, codcliente from "Reposicao".filaseparacaopedidos ', conn)
-    query2 = pd.read_sql( 'select codigopedido2, codcliente from "Reposicao".filaseparacaopedidos ', conn)
+    query2 = pd.read_sql( 'select codigopedido as codigopedido2, codcliente from "Reposicao".filaseparacaopedidos ', conn)
 
     data = pd.merge(query1,query2,on='codcliente')
     if not data.empty:
