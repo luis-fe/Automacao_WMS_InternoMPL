@@ -29,7 +29,7 @@ def AtualizandoAgrupamento():
     if not data.empty:
         tamanho = data['codcliente'].size
 
-        for i in tamanho:
+        for i in range(tamanho):
             pedido1 = data['codigopedido'][i]
             pedido1 = str(pedido1)
             pedido2 = data['codigopedido2'][i]
