@@ -93,6 +93,14 @@ def my_task():
     except:
         print('10.1.1 Falha na automacao - Calculo dos Enderecos')
 
+    print('\n 11- Atualizando Agrupamentos')
+
+    try:
+        tamanho11  = TratamentoErro.AtualizandoAgrupamento()
+        print(f'11.1 Sucesso -Atualizdo novos  {tamanho11} ')
+    except:
+        print('11.1.1 Falha na automacao - Calculo dos Enderecos')
+
     print('Fim do Ciclo')
 def token_required(f):
     @wraps(f)
@@ -148,7 +156,10 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    RecarregaPedidos.SugestaoSKU()
-    RecarregaPedidos.IncrementarSku()
+    try:
+        tamanho11  = TratamentoErro.AtualizandoAgrupamento()
+        print(f'11.1 Sucesso -Atualizdo novos  {tamanho11} ')
+    except:
+        print('11.1.1 Falha na automacao - Calculo dos Enderecos')
 
     app.run(host='0.0.0.0', port=port)

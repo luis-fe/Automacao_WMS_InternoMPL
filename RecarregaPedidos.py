@@ -234,7 +234,6 @@ def avaliacaoReposicao():
     tagWms = pd.read_sql('select * from "Reposicao".tagsreposicao t ', conn2)
     tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
     tagWms = tagWms[tagWms['estoque']!='estoque']
-    tagWms.to_csv('AvaliaReposicao.csv')
     tamanho = tagWms['codbarrastag'].size
     # Obter os valores para a cláusula WHERE do DataFrame
     lista = tagWms['codbarrastag'].tolist()
