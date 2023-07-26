@@ -27,6 +27,8 @@ def AtualizandoAgrupamento():
 
     data = pd.merge(query1,query2,on='codcliente')
     data = data[data['codigopedido']!= data['codigopedido2']]
+    data = data.reset_index(drop=True)
+
     if not data.empty:
         tamanho = data['codcliente'].size
 
