@@ -26,6 +26,7 @@ def AtualizandoAgrupamento():
     query2 = pd.read_sql( 'select codigopedido as codigopedido2, codcliente from "Reposicao".filaseparacaopedidos ', conn)
 
     data = pd.merge(query1,query2,on='codcliente')
+    data = data[data['codigopedido']!= data['codigopedido2']]
     if not data.empty:
         tamanho = data['codcliente'].size
 
