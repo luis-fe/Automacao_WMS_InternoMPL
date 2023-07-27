@@ -157,7 +157,6 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    TratamentoErro.AtualizandoAgrupamento()
-
+    RecarregarBanco.FilaTags()
 
     app.run(host='0.0.0.0', port=port)
