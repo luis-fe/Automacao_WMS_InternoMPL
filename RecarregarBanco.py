@@ -21,8 +21,8 @@ def FilaTags():
         "SELECT  codBarrasTag as codbarrastag, codNaturezaAtual , codEngenharia , codReduzido as codreduzido,(SELECT i.nome  FROM cgi.Item i WHERE i.codigo = t.codReduzido) as descricao , numeroop as numeroop,"
         " (SELECT i2.codCor||'-'  FROM cgi.Item2  i2 WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) || "
         "(SELECT i2.descricao  FROM tcp.SortimentosProduto  i2 WHERE i2.codEmpresa = 1 and  i2.codProduto  = t.codEngenharia  and t.codSortimento  = i2.codSortimento) as cor,"
-        " (SELECT tam.descricao  FROM cgi.Item2  i2 join tcp.Tamanhos tam on tam.codEmpresa = i2.Empresa and tam.sequencia = i2.codSeqTamanho  WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as tamanho"
-        " from tcr.TagBarrasProduto t WHERE codEmpresa = 1 and codNaturezaAtual in (5, 7 ,53) and situacao = 3", conn)
+        " (SELECT tam.descricao  FROM cgi.Item2  i2 join tcp.Tamanhos tam on tam.codEmpresa = i2.Empresa and tam.sequencia = i2.codSeqTamanho  WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as tamanho, codEmpresa"
+        " from tcr.TagBarrasProduto t WHERE codEmpresa in (1, 4) and codNaturezaAtual in (5, 7 ,54) and situacao = 3", conn)
 
     df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
                               'from tco.MovimentacaoOPFase WHERE codEmpresa = 1 and codFase = 236  '
@@ -82,7 +82,7 @@ def avaliacaoFila():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
-        'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual = 5', conn)
+        'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual in (5, 7, 54)', conn)
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
