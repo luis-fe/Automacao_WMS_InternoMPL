@@ -92,4 +92,4 @@ def imprimir_pdf(pdf_file, printer_name):
 
 criar_pdf("305815-1.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
 imprimir_pdf("305815-1.pdf", "ZM400")
-os.remove("305815-1.pdf")
+os.remove("305813-1.pdf")

@@ -8,6 +8,7 @@ from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 
+import Ritmo
 import TratamentoErro
 import Usuarios
 
@@ -157,6 +158,6 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    RecarregarBanco.FilaTags()
+    Ritmo.RelatorioSeparadores()
 
     app.run(host='0.0.0.0', port=port)
