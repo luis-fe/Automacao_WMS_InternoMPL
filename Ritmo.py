@@ -29,7 +29,7 @@ def RelatorioSeparadores():
 
 
     for i in range(limite):
-            try:
+
                 ritmo = relatorio['ritmo'][i]
                 pedido = relatorio['codpedido'][i]
                 datahora = relatorio['dataseparacao'][i]
@@ -41,7 +41,5 @@ def RelatorioSeparadores():
                 cursor.execute(update,ritmo,pedido,datahora )
                 conn.commit()
                 cursor.close()
-            except:
-                print('erro')
 
     return relatorio
