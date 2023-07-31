@@ -1,5 +1,5 @@
 Flask==2.0.3
-django-qrcode=0.3
+django-qrcode==0.3
 reportlab ==3.6.8
 ipp==2021.9.0
 flask_cors==4.0.0
