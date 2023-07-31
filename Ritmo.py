@@ -8,7 +8,7 @@ def RelatorioSeparadores():
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     relatorio = pd.merge(relatorio, Usuarios, on='usuario', how='left')
 
-    relatorio = relatorio.iloc[0:102]
+    relatorio = relatorio.iloc[:102]
     relatorio = relatorio.reset_index(drop=True)
 
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
