@@ -30,16 +30,16 @@ def RelatorioSeparadores():
 
     for i in range(limite):
 
-                ritmo = relatorio['ritmo'][i]
-                pedido = relatorio['codpedido'][i]
-                datahora = relatorio['dataseparacao'][i]
-                update = 'Update "Reposicao".tags_separacao ' \
+        ritmo = relatorio['ritmo'][i]
+        pedido = relatorio['codpedido'][i]
+        datahora = relatorio['dataseparacao'][i]
+        update = 'Update "Reposicao".tags_separacao ' \
                          ' set ritmo = %s ' \
                          'where codpedido = %s and dataseparacao = %s'
 
-                cursor = conn.cursor()
-                cursor.execute(update,ritmo,pedido,datahora )
-                conn.commit()
-                cursor.close()
+        cursor = conn.cursor()
+        cursor.execute(update,(ritmo,pedido,datahora) )
+        conn.commit()
+        cursor.close()
 
     return relatorio
