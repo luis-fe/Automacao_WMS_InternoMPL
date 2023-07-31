@@ -4,7 +4,7 @@ import pandas as pd
 def RelatorioSeparadores():
 
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('select top 100 * from "Reposicao".tags_separacao where ritmo is null order by dataseparacao desc', conn)
+    relatorio = pd.read_sql('select  * from "Reposicao".tags_separacao where ritmo is null order by dataseparacao desc', conn)
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     relatorio = pd.merge(relatorio, Usuarios, on='usuario', how='left')
