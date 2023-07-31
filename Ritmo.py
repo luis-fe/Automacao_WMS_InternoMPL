@@ -28,16 +28,19 @@ def RelatorioSeparadores():
     relatorio.fillna(500, inplace=True)
 
     for i in range(limite):
-        ritmo = relatorio['ritmo'][i]
-        pedido = relatorio['codpedido'][i]
-        datahora = relatorio['dataseparacao'][i]
-        update = 'Update "Reposicao".tags_separacao ' \
-                 ' set ritmo = %s ' \
-                 'where codpedido = %s and dataseparacao = %s'
+        if i >= 0:
+            ritmo = relatorio['ritmo'][i]
+            pedido = relatorio['codpedido'][i]
+            datahora = relatorio['dataseparacao'][i]
+            update = 'Update "Reposicao".tags_separacao ' \
+                     ' set ritmo = %s ' \
+                     'where codpedido = %s and dataseparacao = %s'
 
-        cursor = conn.cursor()
-        cursor.execute(update,ritmo,pedido,datahora )
-        conn.commit()
-        cursor.close()
+            cursor = conn.cursor()
+            cursor.execute(update,ritmo,pedido,datahora )
+            conn.commit()
+            cursor.close()
+        else:
+            print('0')
 
     return relatorio
