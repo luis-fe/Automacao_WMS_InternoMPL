@@ -26,7 +26,7 @@ def RelatorioSeparadores():
     relatorio['ritmo'] = relatorio['ritmo'] * 3600
     relatorio.fillna(500, inplace=True)
 
-    for _, row in relatorio.head(1000).iterrows():
+    for _, row in relatorio.head(10000).iterrows():
         ritmo = row['ritmo']
         pedido = row['codpedido']
         datahora = row['dataseparacao']
