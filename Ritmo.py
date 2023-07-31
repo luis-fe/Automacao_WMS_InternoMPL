@@ -7,8 +7,6 @@ def RelatorioSeparadores():
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     relatorio = pd.merge(relatorio, Usuarios, on='usuario', how='left')
-    limite = 100
-    relatorio = relatorio.iloc[:limite]
     relatorio = relatorio.reset_index(drop=True)
 
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
@@ -28,7 +26,7 @@ def RelatorioSeparadores():
     relatorio.fillna(500, inplace=True)
 
 
-    for i in range(limite):
+    for i in range(100):
 
         ritmo = relatorio['ritmo'][i]
         pedido = relatorio['codpedido'][i]
