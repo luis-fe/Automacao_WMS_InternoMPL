@@ -26,21 +26,21 @@ def RelatorioSeparadores():
     relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].diff()
     relatorio['ritmo'] = relatorio['ritmo'] * 3600
     relatorio.fillna(500, inplace=True)
+    try:
+        for i in range(limite):
 
-    for i in range(limite):
-        if i >= 0:
-            ritmo = relatorio['ritmo'][i]
-            pedido = relatorio['codpedido'][i]
-            datahora = relatorio['dataseparacao'][i]
-            update = 'Update "Reposicao".tags_separacao ' \
-                     ' set ritmo = %s ' \
-                     'where codpedido = %s and dataseparacao = %s'
+                ritmo = relatorio['ritmo'][i]
+                pedido = relatorio['codpedido'][i]
+                datahora = relatorio['dataseparacao'][i]
+                update = 'Update "Reposicao".tags_separacao ' \
+                         ' set ritmo = %s ' \
+                         'where codpedido = %s and dataseparacao = %s'
 
-            cursor = conn.cursor()
-            cursor.execute(update,ritmo,pedido,datahora )
-            conn.commit()
-            cursor.close()
-        else:
-            print('0')
+                cursor = conn.cursor()
+                cursor.execute(update,ritmo,pedido,datahora )
+                conn.commit()
+                cursor.close()
+    except:
+        print('erro')
 
     return relatorio
