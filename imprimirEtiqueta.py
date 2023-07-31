@@ -45,7 +45,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         title_width = c.stringWidth(title, "Helvetica-Bold", 10)
         c.drawString(title_width * 2, 180, title)
 
-        qr = qrcode.(version=1, box_size=int(qr_code_width / 30), border=0)
+        qr = qrcode.QRCode(version=1, box_size=int(qr_code_width / 30), border=0)
         qr.add_data(cliente)  # Substitua pelo link desejado
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
