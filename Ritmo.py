@@ -1,5 +1,6 @@
 import ConexaoPostgreMPL
 import pandas as pd
+
 def RelatorioSeparadores():
 
     conn = ConexaoPostgreMPL.conexao()
@@ -25,18 +26,16 @@ def RelatorioSeparadores():
     relatorio['ritmo'] = relatorio['ritmo'] * 3600
     relatorio.fillna(500, inplace=True)
 
-
-    for i in range(100):
-
-        ritmo = relatorio['ritmo'][i]
-        pedido = relatorio['codpedido'][i]
-        datahora = relatorio['dataseparacao'][i]
-        update = 'Update "Reposicao".tags_separacao ' \
-                         ' set ritmo = %s ' \
-                         'where codpedido = %s and dataseparacao = %s'
+    for _, row in relatorio.head(100).iterrows():
+        ritmo = row['ritmo']
+        pedido = row['codpedido']
+        datahora = row['dataseparacao']
+        update = 'UPDATE "Reposicao".tags_separacao ' \
+                 'SET ritmo = %s ' \
+                 'WHERE codpedido = %s AND dataseparacao = %s'
 
         cursor = conn.cursor()
-        cursor.execute(update,(ritmo,pedido,datahora) )
+        cursor.execute(update, (ritmo, pedido, datahora))
         conn.commit()
         cursor.close()
 
