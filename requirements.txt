@@ -1,4 +1,5 @@
 Flask==2.0.3
+cups==0.0.6
 django-qrcode==0.3
 reportlab ==3.6.8
 ipp==2021.9.0
