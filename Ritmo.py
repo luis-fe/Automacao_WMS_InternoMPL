@@ -1,13 +1,10 @@
 import ConexaoPostgreMPL
 import pandas as pd
 
-def RelatorioSeparadores():
+def RelatorioSeparadores(limite):
 
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('select  * from "Reposicao".tags_separacao where ritmo is null and dataseparacao is not null order by dataseparacao desc', conn)
-    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
-    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
-    relatorio = pd.merge(relatorio, Usuarios, on='usuario', how='left')
+    relatorio = pd.read_sql('select  * from "Reposicao".tags_separacao where ritmo is null and dataseparacao is not null and dataseparacao like "'"2023-08%"'" order by dataseparacao desc', conn)
     relatorio = relatorio.reset_index(drop=True)
 
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
@@ -26,7 +23,7 @@ def RelatorioSeparadores():
     relatorio['ritmo'] = relatorio['ritmo'] * 3600
     relatorio.fillna(500, inplace=True)
 
-    for _, row in relatorio.head(10000).iterrows():
+    for _, row in relatorio.head(limite).iterrows():
         ritmo = row['ritmo']
         pedido = row['codpedido']
         datahora = row['dataseparacao']
