@@ -4,7 +4,8 @@ import pandas as pd
 def RelatorioSeparadores(limite):
 
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('select  * from "Reposicao".tags_separacao where ritmo is null and dataseparacao is not null and dataseparacao like "'"2023-08%"'" order by dataseparacao desc', conn)
+    relatorio = pd.read_sql('select  * from "Reposicao".tags_separacao where ritmo is null and dataseparacao is not null and dataseparacao '
+                            " like '2023-08%' order by dataseparacao desc", conn)
     relatorio = relatorio.reset_index(drop=True)
 
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
