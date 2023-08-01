@@ -30,7 +30,7 @@ def FilaTags():
 
     df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
     df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
-    df_tags['codNaturezaAtual'] = df_tags['codNaturezaAtual'].astype(str)
+    df_tags['codnaturezaatual'] = df_tags['codnaturezaatual'].astype(str)
     df_tags['totalop'] = df_tags['totalop'].astype(int)
     # CRIANDO O DATAFRAME DO QUE JA FOI REPOSTO E USANDO MERGE
        # Verificando as tag's que ja foram repostas
