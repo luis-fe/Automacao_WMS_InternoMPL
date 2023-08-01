@@ -4,7 +4,9 @@ import pandas as pd
 def RelatorioSeparadoresLimite(limite):
 
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido from "Reposicao"."ProducaoSeparadores" where ritmo is null  order by dataseparacao desc', conn)
+    relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido from "Reposicao"."ProducaoSeparadores" where ritmo is null  '
+                            "where dataseparacao = '2023-08-01 "
+                            'order by dataseparacao desc', conn)
     if not relatorio.empty:
         relatorio = relatorio.reset_index(drop=True)
 
