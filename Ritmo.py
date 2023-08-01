@@ -27,7 +27,7 @@ def RelatorioSeparadores(limite):
     relatorio['ritmo'] = relatorio['ritmo'] * 3600
 
     # Remova esta linha, pois o ritmo já foi calculado corretamente
-    # relatorio.fillna(500, inplace=True)
+    relatorio.fillna(500, inplace=True)
 
     update = 'UPDATE "Reposicao".tags_separacao ' \
              'SET ritmo = %s ' \
