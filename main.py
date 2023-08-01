@@ -101,6 +101,17 @@ def my_task():
         print(f'11.1 Sucesso -Atualizdo novos  {tamanho11} ')
     except:
         print('11.1.1 Falha na automacao - Calculo dos Enderecos')
+    print('\n 12- Atualizando dos ritmos')
+
+    try:
+        tamanho12 = 50
+        Ritmo.RelatorioSeparadoresLimite(tamanho12)
+        print(f'ritmo atualizado {tamanho12} itens ')
+
+    except:
+        print('12.1.1 Falha na automacao - Atualizacao dos ritmos')
+
+
 
     print('Fim do Ciclo')
 def token_required(f):
@@ -150,6 +161,7 @@ def check_user_password():
                         "message": 'Usuário ou senha não existe'}), 401
 
 
+
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=my_task, trigger='interval', seconds=270)
 scheduler.start()
@@ -158,6 +170,5 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    Ritmo.RelatorioSeparadoresLimite(70)
 
     app.run(host='0.0.0.0', port=port)
