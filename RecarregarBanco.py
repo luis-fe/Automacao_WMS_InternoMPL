@@ -60,11 +60,11 @@ def FilaTags():
         tamanho2 = 1000
         ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
         hora = obterHoraAtual()
-        return tamanho, hora
+        return tamanho2, hora
     except:
         print('falha na funçao Inserir')
         hora = obterHoraAtual()
-        return tamanho2, hora
+        return tamanho, hora
 
 
 def LerEPC():
