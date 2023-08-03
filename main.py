@@ -179,5 +179,5 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    Ritmo.RelatorioSeparadoresLimite(50)
+    Ritmo.RelatorioSeparadoresLimite(300)
     app.run(host='0.0.0.0', port=port)
