@@ -1,3 +1,5 @@
+import pytz
+
 import CalculoEnderecos
 import CalculoNecessidadesEndereco
 import RecarregaPedidos
@@ -162,8 +164,12 @@ def check_user_password():
 
 
 
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler(timezone=pytz.timezone('America/Sao_Paulo'))
+
+# Define o horário de início do agendamento (8:00 AM)
 start_time = datetime.combine(datetime.today(), time(hour=8, minute=0, second=0))
+
+# Define o horário de término do agendamento (5:30 PM)
 end_time = datetime.combine(datetime.today(), time(hour=17, minute=30, second=0))
 
 
