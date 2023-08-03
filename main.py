@@ -7,7 +7,7 @@ from flask_cors import CORS
 from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
-
+from datetime import datetime, time
 import Ritmo
 import TratamentoErro
 import Usuarios
@@ -163,7 +163,11 @@ def check_user_password():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=my_task, trigger='interval', seconds=270)
+start_time = datetime.combine(datetime.today(), time(hour=8, minute=0, second=0))
+end_time = datetime.combine(datetime.today(), time(hour=17, minute=30, second=0))
+
+
+scheduler.add_job(func=my_task, trigger='interval', seconds=270, start_date=start_time, end_date=end_time)
 scheduler.start()
 
 

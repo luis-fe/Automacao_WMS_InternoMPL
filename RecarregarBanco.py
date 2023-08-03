@@ -57,13 +57,14 @@ def FilaTags():
     dataHora = obterHoraAtual()
     df_tags['DataHora'] = dataHora
     try:
-        ConexaoPostgreMPL.Funcao_Inserir(df_tags, 1000,'filareposicaoportag', 'append')
+        tamanho2 = 1000
+        ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
         hora = obterHoraAtual()
         return tamanho, hora
     except:
         print('falha na funçao Inserir')
         hora = obterHoraAtual()
-        return tamanho, hora
+        return tamanho2, hora
 
 
 def LerEPC():
