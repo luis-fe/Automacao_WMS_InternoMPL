@@ -17,12 +17,12 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
     p = int(posicao)
     posicaoLimite = int(posicaoLimite)
 
-    while r <= ruaLimite:
-        ruaAtual = str(r)
-        while m <= moduloLimite:
-            moduloAtual = str(m)
-            while p <= posicaoLimite:
-                posicaoAtual = str(p)
+    while r < ruaLimite:
+        ruaAtual = Acres_0(r)
+        while m < moduloLimite:
+            moduloAtual = Acres_0(m)
+            while p < posicaoLimite:
+                posicaoAtual = Acres_0(p)
                 codendereco = ruaAtual + '-' + moduloAtual +"-"+posicaoAtual
                 cursor = conn.cursor()
                 try:
@@ -36,6 +36,15 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
         r += 1
 
 
+
+def Acres_0(valor):
+    if valor < 10:
+        valor = valor(str)
+        valor = '0'+valor
+        return valor
+    else:
+        valor = valor(str)
+        return valor
 
 
 
