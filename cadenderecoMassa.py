@@ -36,7 +36,9 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
                     cursor.close()
                     print(f'{codendereco} ja exite')
                 p += 1
+            p = int(posicao)
             m +=1
+        m = int(modulo)
         r += 1
 
 
