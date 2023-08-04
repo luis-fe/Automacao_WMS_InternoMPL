@@ -30,10 +30,10 @@ def RelatorioSeparadoresLimite(limite, usuario):
 
         update = 'UPDATE "Reposicao".tags_separacao ' \
                  'SET ritmo = %s ' \
-                 'WHERE codpedido = %s AND dataseparacao = %s and usuario = %s'
+                 'WHERE codpedido = %s AND dataseparacao = %s and usuario = '+"'"+usuario+"'"
 
         cursor = conn.cursor()
-        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'datatempo', usuario]].values)
+        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'datatempo']].values)
         conn.commit()
         cursor.close()
     else:
