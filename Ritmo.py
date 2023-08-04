@@ -1,12 +1,12 @@
 import ConexaoPostgreMPL
 import pandas as pd
 
-def RelatorioSeparadoresLimite(limite):
+def RelatorioSeparadoresLimite(limite, usuario):
 
     conn = ConexaoPostgreMPL.conexao()
     relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido from "Reposicao"."ProducaoSeparadores" where ritmo is null  '
-                            "and dataseparacao >= '2023-07-29' "
-                            'order by dataseparacao desc', conn)
+                            "and dataseparacao >= '2023-07-20' and usuario = %s "
+                            'order by dataseparacao desc', conn, params=(usuario,))
     if not relatorio.empty:
         relatorio = relatorio.reset_index(drop=True)
 
@@ -30,10 +30,10 @@ def RelatorioSeparadoresLimite(limite):
 
         update = 'UPDATE "Reposicao".tags_separacao ' \
                  'SET ritmo = %s ' \
-                 'WHERE codpedido = %s AND dataseparacao = %s'
+                 'WHERE codpedido = %s AND dataseparacao = %s and usuario = %s'
 
         cursor = conn.cursor()
-        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'datatempo']].values)
+        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'datatempo', usuario]].values)
         conn.commit()
         cursor.close()
     else:
