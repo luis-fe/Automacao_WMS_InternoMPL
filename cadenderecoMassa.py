@@ -8,6 +8,7 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
     query = 'insert into "Reposicao".cadendereco (codendereco, rua, modulo, posicao, tipo, codempresa, natureza) ' \
             'values (%s, %s, %s, %s, %s, %s, %s )'
 
+
     r = int(rua)
     ruaLimite = int(ruaLimite)
 
@@ -25,11 +26,14 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
                 posicaoAtual = Acres_0(p)
                 codendereco = ruaAtual + '-' + moduloAtual +"-"+posicaoAtual
                 cursor = conn.cursor()
-                try:
+                select = pd.read_sql('select codendereco from "Reposicao".cadendereco where codendereco = %s ', conn,
+                                     params=(codendereco,))
+                if select.empty:
                     cursor.execute(query, (codendereco, ruaAtual, moduloAtual, posicaoAtual, tipo, codempresa, natureza,))
                     conn.commit()
                     cursor.close()
-                except:
+                else:
+                    cursor.close()
                     print(f'{codendereco} ja exite')
                 p += 1
             m +=1
