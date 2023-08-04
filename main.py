@@ -13,6 +13,7 @@ from datetime import datetime, time
 import Ritmo
 import TratamentoErro
 import Usuarios
+import cadenderecoMassa
 
 app = Flask(__name__)
 CORS(app)
@@ -179,5 +180,6 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    Ritmo.RelatorioSeparadoresLimite(50)
+    #Ritmo.RelatorioSeparadoresLimite(50)
+    cadenderecoMassa.ImportEndereco('17','18','1','20','1','24','COLECAO','1','5')
     app.run(host='0.0.0.0', port=port)
