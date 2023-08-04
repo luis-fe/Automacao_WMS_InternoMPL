@@ -39,11 +39,11 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
 
 def Acres_0(valor):
     if valor < 10:
-        valor = valor(str)
+        valor = str(valor)
         valor = '0'+valor
         return valor
     else:
-        valor = valor(str)
+        valor = str(valor)
         return valor
 
 
