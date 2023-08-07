@@ -4,8 +4,8 @@ import pandas as pd
 def RelatorioSeparadoresLimite(limite):
 
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido from "Reposicao"."ProducaoSeparadores" where ritmo is null  '
-                            "and dataseparacao >= '2023-08-01' "
+    relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido, ritmo from "Reposicao"."ProducaoSeparadores" where   '
+                            " dataseparacao >= '2023-08-07' "
                             'order by dataseparacao desc', conn)
     if not relatorio.empty:
         relatorio = relatorio.reset_index(drop=True)
@@ -28,13 +28,19 @@ def RelatorioSeparadoresLimite(limite):
         # Remova esta linha, pois o ritmo já foi calculado corretamente
         relatorio.fillna(500, inplace=True)
 
-        update = 'UPDATE "Reposicao".tags_separacao ' \
-                 'SET ritmo = %s ' \
-                 'WHERE codpedido = %s AND dataseparacao = %s '
+        for i in range(limite):
+            cursor = conn.cursor()
+            if relatorio['ritmo'][i] == 500:
+                print('ok')
+            else:
 
-        cursor = conn.cursor()
-        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'datatempo']].values)
-        conn.commit()
-        cursor.close()
+                update = 'UPDATE "Reposicao".tags_separacao ' \
+                         'SET ritmo = %s ' \
+                         'WHERE codpedido = %s AND dataseparacao = %s '
+
+
+                cursor.execute(update,(relatorio['ritmo'][i], relatorio['codpedido'][i], relatorio['datatempo'][i]))
+                conn.commit()
+            cursor.close()
     else:
         print('ok')
