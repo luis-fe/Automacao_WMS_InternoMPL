@@ -30,7 +30,7 @@ def RelatorioSeparadoresLimite(limite):
 
         for i in range(limite):
             cursor = conn.cursor()
-            if relatorio['r1'][i] == 500:
+            if relatorio['r1'][i] != 500:
                 print(f'ja tem{relatorio["r1"][i]}')
             else:
                 print(relatorio['r1'][i])
