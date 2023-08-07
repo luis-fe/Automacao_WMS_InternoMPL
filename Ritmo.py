@@ -4,7 +4,7 @@ import pandas as pd
 def RelatorioSeparadoresLimite(limite):
 
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido, ritmo from "Reposicao"."ProducaoSeparadores" where   '
+    relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido, ritmo as r1 from "Reposicao"."ProducaoSeparadores" where   '
                             " dataseparacao >= '2023-08-07' "
                             'order by dataseparacao desc', conn)
     if not relatorio.empty:
@@ -30,7 +30,7 @@ def RelatorioSeparadoresLimite(limite):
 
         for i in range(limite):
             cursor = conn.cursor()
-            if relatorio['ritmo'][i] == 500:
+            if relatorio['r1'][i] == 500:
                 print('ok')
             else:
 
