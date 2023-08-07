@@ -5,7 +5,7 @@ def RelatorioSeparadoresLimite(limite, usuario):
 
     conn = ConexaoPostgreMPL.conexao()
     relatorio = pd.read_sql('SELECT datatempo, usuario, codpedido from "Reposicao"."ProducaoSeparadores" where ritmo is null  '
-                            "and dataseparacao >= '2023-05-20' and usuario = %s "
+                            "and dataseparacao >= '2023-07-29' "
                             'order by dataseparacao desc', conn, params=(usuario,))
     if not relatorio.empty:
         relatorio = relatorio.reset_index(drop=True)
