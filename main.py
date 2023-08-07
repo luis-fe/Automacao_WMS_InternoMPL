@@ -108,7 +108,7 @@ def my_task():
 
     try:
         tamanho12 = 50
-        Ritmo.RelatorioSeparadoresLimite(200)
+        Ritmo.RelatorioSeparadoresLimite(50)
         print(f'ritmo atualizado {tamanho12} itens ')
 
     except:
