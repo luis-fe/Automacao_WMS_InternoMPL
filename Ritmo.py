@@ -33,10 +33,10 @@ def RelatorioSeparadoresLimite(limite):
 
             cursor = conn.cursor()
             if relatorio['r1'][i] != 500:
-                print(f'ja tem{relatorio["r1"][i]} ')
+                #print(f'ja tem{relatorio["r1"][i]} ')
                 i += 1
             else:
-                print(relatorio['r1'][i])
+                #print(relatorio['r1'][i])
                 update = 'UPDATE "Reposicao".tags_separacao ' \
                          'SET ritmo = %s ' \
                          'WHERE codpedido = %s AND dataseparacao = %s '
