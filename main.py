@@ -107,8 +107,8 @@ def my_task():
     print('\n 12- Atualizando dos ritmos')
 
     try:
-        tamanho12 = 50
-        Ritmo.RelatorioSeparadoresLimite(50)
+        tamanho12 = 100
+        Ritmo.RelatorioSeparadoresLimite(100)
         print(f'ritmo atualizado {tamanho12} itens ')
 
     except:
@@ -180,6 +180,6 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    Ritmo.RelatorioSeparadoresLimite(7000)
+    Ritmo.RelatorioSeparadoresLimite(100)
 
     app.run(host='0.0.0.0', port=port)
