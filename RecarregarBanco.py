@@ -83,7 +83,7 @@ def avaliacaoFila():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
-        'WHERE br.codEmpresa = 1 and br.situacao = 3 and codNaturezaAtual in (5, 7, 54)', conn)
+        'WHERE br.codEmpresa in (1,4) and br.situacao = 3 and codNaturezaAtual in (5, 7, 54)', conn)
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
