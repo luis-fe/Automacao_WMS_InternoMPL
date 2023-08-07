@@ -27,11 +27,14 @@ def RelatorioSeparadoresLimite(limite):
 
         # Remova esta linha, pois o ritmo já foi calculado corretamente
         relatorio.fillna(500, inplace=True)
+        limitein = 0
+        i =0
+        while limitein < limite:
 
-        for i in range(limite):
             cursor = conn.cursor()
             if relatorio['r1'][i] != 500:
                 print(f'ja tem{relatorio["r1"][i]} ')
+                i += 1
             else:
                 print(relatorio['r1'][i])
                 update = 'UPDATE "Reposicao".tags_separacao ' \
@@ -41,6 +44,8 @@ def RelatorioSeparadoresLimite(limite):
 
                 cursor.execute(update,(relatorio['ritmo'][i], relatorio['codpedido'][i], relatorio['datatempo'][i]))
                 conn.commit()
+                i += 1
+                limitein +=1
             cursor.close()
     else:
         print('ok')
