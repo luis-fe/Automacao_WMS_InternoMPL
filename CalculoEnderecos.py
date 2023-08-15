@@ -7,11 +7,11 @@ def obterHoraAtual():
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
-def ListaDeEnderecosOculpados():
+def ListaDeEnderecosOculpados(natureza):
     conn = ConexaoPostgreMPL.conexao()
 
     enderecosSku = pd.read_sql(' select  codreduzido, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-                               ' where "SaldoLiquid" > 0 order by "SaldoLiquid" desc',conn)
+                               ' where "SaldoLiquid" > 0 and natureza = %s order by "SaldoLiquid" desc',conn,params=(natureza,))
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
     enderecosSku['codreduzido'] = enderecosSku['codreduzido'].astype(str)
@@ -19,14 +19,14 @@ def ListaDeEnderecosOculpados():
     return enderecosSku
 
 
-def Calculo():
+def Calculo(natureza):
     conn = ConexaoPostgreMPL.conexao()
     total = 0 # Para Totalizar o numer de atualizcoes
     inseridosDuplos = 0
     for i in range(10):
     # Loop de iteracao
 
-        lista = ListaDeEnderecosOculpados()
+        lista = ListaDeEnderecosOculpados(natureza)
         lista = lista[lista['repeticoessku'] == (i + 1)]
         pedidosku = pd.read_sql('SELECT * FROM "Reposicao".pedidossku WHERE necessidade > 0 '
                             "and reservado = 'nao'", conn)
