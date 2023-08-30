@@ -193,6 +193,7 @@ def AtualizarPedidosConferidos():
                                   'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 and s.situacaoSugestao = 2', conn)
 
 
+    conn.close()
 
     conn2 = ConexaoPostgreMPL.conexao()
 
