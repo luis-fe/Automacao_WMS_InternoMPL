@@ -186,7 +186,9 @@ if __name__ == '__main__':
     conn = ConexaoCSW.Conexao()
     teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
     print(teste)
-
+    # coloque o código que você deseja executar continuamente aqui
+    tamnho1, datahora1 = RecarregarBanco.FilaTags()
+    print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 
 
 
