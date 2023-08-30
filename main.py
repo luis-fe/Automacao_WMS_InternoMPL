@@ -187,9 +187,8 @@ if __name__ == '__main__':
     teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
     print(teste)
 
-    tamnho4, datahora4 = RecarregaPedidos.AtualizarPedidosConferidos()
-    print(
-        f' 4.1 Sucesso - atualizacao Pedidos em Conferencia \n Atenção!  {tamnho4} pedidos atualizados, as {datahora4}')
+    tamnho5, datahora5 = RecarregaPedidos.SeparacoPedidos()
+    print(f'5.1 Sucesso - Atualizacao Fila Pedidos \nAtenção!  {tamnho5} Pedidos, as {datahora5}')
 
 
 
