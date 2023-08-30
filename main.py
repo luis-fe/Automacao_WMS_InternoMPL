@@ -197,7 +197,7 @@ if __name__ == '__main__':
 
     conn = Conexao()
     teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
-    print('conectou')
+    print(teste)
 
 
     app.run(host='0.0.0.0', port=port)
