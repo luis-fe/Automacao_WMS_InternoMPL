@@ -2,6 +2,7 @@ import pytz
 
 import CalculoEnderecos
 import CalculoNecessidadesEndereco
+import ConexaoCSW
 import RecarregaPedidos
 import RecarregarBanco
 from flask import Flask, render_template, jsonify, request
@@ -13,7 +14,7 @@ from datetime import datetime, time
 import Ritmo
 import TratamentoErro
 import Usuarios
-import cadenderecoMassa
+import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
@@ -180,24 +181,14 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    import jaydebeapi
-    import pandas as pd
 
 
-    def Conexao():
-        conn = jaydebeapi.connect(
-            'com.intersys.jdbc.CacheDriver',
-            'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
-            {'user': '_SYSTEM', 'password': 'ccscache'},
-            'CacheDB.jar'
-        )
-        return conn
-
-
-
-    conn = Conexao()
+    conn = ConexaoCSW.Conexao()
     teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
-    print(teste)
+    print('conectou')
+
+
+
 
 
     app.run(host='0.0.0.0', port=port)
