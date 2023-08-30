@@ -187,8 +187,10 @@ if __name__ == '__main__':
     teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
     print(teste)
     # coloque o código que você deseja executar continuamente aqui
-    tamnho1, datahora1 = RecarregarBanco.FilaTags()
-    print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+    # coloque o código que você deseja executar continuamente aqui
+    tamnho4, datahora4 = RecarregaPedidos.AtualizarPedidosConferidos()
+    print(
+        f' 4.1 Sucesso - atualizacao Pedidos em Conferencia \n Atenção!  {tamnho4} pedidos atualizados, as {datahora4}')
 
 
 
