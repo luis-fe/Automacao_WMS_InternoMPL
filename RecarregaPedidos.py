@@ -198,9 +198,9 @@ def AtualizarPedidosConferidos():
 
     # Voltando os pedidos:
     query = 'update "Reposicao"."filaseparacaopedidos" set situacaopedido = '+ "'No Retorna'"
-    cursor = conn.cursor()
+    cursor = conn2.cursor()
     cursor.execute(query, )
-    conn.commit()
+    conn2.commit()
 
     tamanho = PedidosSituacao['codigopedido'].size
 
