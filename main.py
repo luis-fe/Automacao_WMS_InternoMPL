@@ -22,13 +22,14 @@ port = int(os.environ.get('PORT', 9000))
 def my_task():
     print('\n ###Começando a Automacao  do WMS ### ')
     print(f'\n1 - Iniciando a Fila das Tags para Repor:')
+    '''''
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamnho1, datahora1 = RecarregarBanco.FilaTags()
         print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
     except:
         print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
-
+    '''''
     print('\n 2 - Limpando a Fila das Tags com saidas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
