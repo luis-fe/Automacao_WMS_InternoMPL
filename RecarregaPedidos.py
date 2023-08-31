@@ -198,9 +198,10 @@ def AtualizarPedidosConferidos():
     conn2 = ConexaoPostgreMPL.conexao()
 
     # Voltando os pedidos:
-    query = 'update "Reposicao"."filaseparacaopedidos" set situacaopedido = '+ "'No Retorna'"
+    query = 'update "Reposicao"."filaseparacaopedidos" set situacaopedido = %s '
+    chave = 'No Retorna'
     cursor = conn2.cursor()
-    cursor.execute(query, )
+    cursor.execute(query,(chave,) )
     conn2.commit()
 
     tamanho = PedidosSituacao['codigopedido'].size
