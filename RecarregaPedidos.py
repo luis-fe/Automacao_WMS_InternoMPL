@@ -190,7 +190,7 @@ def AtualizarPedidosConferidos():
     conn = ConexaoCSW.Conexao()
     PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codigopedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
                                   'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
-                                  'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 and s.situacaoSugestao = 2', conn)
+                                  'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 ', conn)
 
 
     conn.close()
