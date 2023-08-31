@@ -183,11 +183,6 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
-    conn = ConexaoCSW.Conexao()
-    teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
-    print(teste)
-    tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
-    datahora6 = RecarregaPedidos.LimpezaPedidosSku()
+    tamnho4, datahora4 = RecarregaPedidos.AtualizarPedidosConferidos()
 
     app.run(host='0.0.0.0', port=port)
