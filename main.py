@@ -184,7 +184,6 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-
     conn = ConexaoCSW.Conexao()
     teste = pd.read_sql('select top 1 * from tcp.tamanhos', conn)
     print(teste)
