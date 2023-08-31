@@ -185,7 +185,7 @@ scheduler.start()
 if __name__ == '__main__':
     tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
 
-    for i in  range(3):
+    for i in  range(12):
         my_task()
 
 
