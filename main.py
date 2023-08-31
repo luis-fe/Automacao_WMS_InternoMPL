@@ -183,7 +183,7 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    tamnho4, datahora4 = RecarregaPedidos.AtualizarPedidosConferidos()
-    print(f'{datahora4}   {tamnho4}')
+    datahora6 = RecarregaPedidos.LimpezaPedidosSku()
+    print(f'6.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora6}')
 
     app.run(host='0.0.0.0', port=port)
