@@ -31,7 +31,7 @@ def my_task():
         print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
 
     print('\n 2 - Limpando a Fila das Tags com saidas fora do WMS')
-    '''''
+
     try:
         # coloque o código que você deseja executar continuamente aqui
         tamanho2, datahora2 = RecarregarBanco.avaliacaoFila()
@@ -46,7 +46,7 @@ def my_task():
         print(f' 3.1 Sucesso - avaliacao Fila Pedidos \n Atenção!  {tamnho3} pedidos eliminados, as {datahora3}')
     except:
         print(' 3.1.1 falha na automacao - avaliacao Fila Pedidos')
-    '''''
+
     print('\n 4 - Atualizando os Pedidos Conferidos')
     try:
         # coloque o código que você deseja executar continuamente aqui
@@ -183,7 +183,7 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    datahora6 = RecarregaPedidos.LimpezaPedidosSku()
-    print(f'6.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora6}')
+    tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
+    print(f' 3.1 Sucesso - avaliacao Fila Pedidos \n Atenção!  {tamnho3} pedidos eliminados, as {datahora3}')
 
     app.run(host='0.0.0.0', port=port)
