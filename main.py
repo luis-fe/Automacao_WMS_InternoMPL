@@ -184,6 +184,9 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
-    my_task()
+
+    for i in  range(3):
+        my_task()
+
 
     app.run(host='0.0.0.0', port=port)
