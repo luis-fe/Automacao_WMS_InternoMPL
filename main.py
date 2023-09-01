@@ -185,8 +185,6 @@ scheduler.start()
 if __name__ == '__main__':
     tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
 
-    for i in  range(12):
-        my_task()
 
 
     app.run(host='0.0.0.0', port=port)
