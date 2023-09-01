@@ -107,15 +107,7 @@ def my_task():
         print(f'11.1 Sucesso -Atualizdo novos  {tamanho11} ')
     except:
         print('11.1.1 Falha na automacao - Calculo dos Enderecos')
-    print('\n 12- Atualizando dos ritmos')
 
-    try:
-        tamanho12 = 20
-        Ritmo.RelatorioSeparadoresLimite(20)
-        print(f'ritmo atualizado {tamanho12} itens ')
-
-    except:
-        print('12.1.1 Falha na automacao - Atualizacao dos ritmos')
 
 
 
