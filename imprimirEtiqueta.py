@@ -70,26 +70,14 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Remover o arquivo temporário
     os.remove(qr_filename)
 
-def imprimir_pdf(pdf_file, printer_name):
+def imprimir_pdf(pdf_file):
     conn = cups.Connection()
     printers = conn.getPrinters()
+    printer_name = printers.keys()[0]
+    job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.10x2.5cm', 'FitToPage': True, 'Scaling': 100})
+    print(f"ID {job_id} enviado para impressão")
 
-    if printer_name not in printers:
-        print(f"A impressora '{printer_name}' não foi encontrada no sistema.")
-        return
-
-    print_options = {
-        'PageSize': 'Custom.10x2.5cm',  # Tamanho do papel personalizado para as etiquetas
-        'FitToPage': True,
-        'Scaling': 100,
-        'NumberUp': 1,  # Quantidade de páginas por folha (neste caso, uma etiqueta por página)
-        'PageRanges': '1',  # Número da página a ser impressa (neste caso, apenas a primeira página)
-    }
-
-    job_id = conn.printFile(printer_name, pdf_file, "Label Printing", print_options)
-
-    print(f"Job ID {job_id} enviado para impressão na impressora '{printer_name}'.")
 
 criar_pdf("305815-1.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-imprimir_pdf("305815-1.pdf", "ZM400")
-os.remove("305813-1.pdf")
+imprimir_pdf("305815-1.pdf")
+os.remove("305815-1.pdf")
