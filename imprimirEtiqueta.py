@@ -1,11 +1,4 @@
-from reportlab.lib.pagesizes import landscape
-from reportlab.lib.units import cm
-from reportlab.pdfgen import canvas
-import qrcode
-import tempfile
 import os
-from reportlab.graphics import barcode
-from PIL import Image
 import cups #Importe o pacote pycups
 
 
