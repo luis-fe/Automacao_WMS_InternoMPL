@@ -10,11 +10,8 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 7.5 * cm
-    label_height = 1.9 * cm
-
-    # Configurações do QR code
-    qr_code_width = label_width
+    label_width = 10 * cm
+    label_height = 2.5 * cm
 
     # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
     custom_page_size = landscape((label_width, label_height))
@@ -26,30 +23,29 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         c = canvas.Canvas(saida_pdf, pagesize=custom_page_size)
 
         # Título centralizado
-        c.setFont("Helvetica-Bold", 20)
+        c.setFont("Helvetica-Bold", 10)
         title = titulo
-        title_width = c.stringWidth(title, "Helvetica-Bold", 10)
-        c.drawString(title_width * 2, 180, title)
+        c.drawString(0.3 * cm, 2.1 * cm, title)
 
-        qr = qrcode.QRCode(version=1, box_size=int(qr_code_width / 30), border=0)
+        qr = qrcode.QRCode(version=1, box_size=int(2.2 * cm), border=0)
         qr.add_data(cliente)  # Substitua pelo link desejado
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 150, 5, width=50, height=50)
+        c.drawImage(qr_filename, 7.5 * cm, 0.15 * cm, width=2.2 * cm, height= 2.2 * cm)
 
         barcode_value = cliente  # Substitua pelo valor do código de barras desejado
         barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
         # Desenhar o código de barras diretamente no canvas
-        barcode_code128.drawOn(c, 70, 10)
+        barcode_code128.drawOn(c, 3.9 * cm, 0.3 * cm)
 
         c.setFont("Helvetica", 10)
-        c.drawString(5, 50, "Nº Cliente:")
-        c.drawString(5, 30, "Nº Pedido:")
-        c.drawString(5, 10, transportadora)
+        c.drawString(0.3 * cm, 1.6 * cm, "Nº Cliente:")
+        c.drawString(0.3 * cm, 1 * cm, "Nº Pedido:")
+        c.drawString(0.3 * cm, 0.3 * cm, transportadora)
 
-        c.drawString(60, 50, cliente)
-        c.drawString(60, 30, pedido)
+        c.drawString(4.5 * cm, 1.6 * cm, cliente)
+        c.drawString(4.5 * cm, 1 * cm, pedido)
 
         c.save()
 
