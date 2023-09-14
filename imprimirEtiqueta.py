@@ -78,5 +78,5 @@ def imprimir_pdf(pdf_file):
     job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.2.5x10cm', 'FitToPage': 'True', 'Scaling': '75'})
     print(f"ID {job_id} enviado para impressão")
 
-criar_pdf("305815-2.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-imprimir_pdf("305815-1.pdf")
+criar_pdf("305815-3.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
+imprimir_pdf("305815-3.pdf")
