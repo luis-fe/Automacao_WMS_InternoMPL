@@ -45,6 +45,9 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         c.drawString(0.3 * cm, 0.8 * cm, "Nº Pedido:")
         c.drawString(0.3 * cm, 0.3 * cm, transportadora)
 
+        c.setFont("Helvetica-Bold", 8)
+        c.drawString(0.3 * cm, 0.3 * cm, "Dionatan Gonçalves Nunes")
+
         c.drawString(2.0 * cm, 1.1 * cm, cliente)
         c.drawString(2.0 * cm, 0.8 * cm, pedido)
 
@@ -58,4 +61,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-imprimir_pdf("teste.pdf")
+#imprimir_pdf("teste.pdf")
