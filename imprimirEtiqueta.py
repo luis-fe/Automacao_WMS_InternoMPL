@@ -41,12 +41,12 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         barcode_code128.drawOn(c, 3.0 * cm, 0.3 * cm)
 
         c.setFont("Helvetica", 9)
-        c.drawString(0.3 * cm, 1.2 * cm, "Nº Cliente:")
-        c.drawString(0.3 * cm, 0.9 * cm, "Nº Pedido:")
+        c.drawString(0.3 * cm, 1.1 * cm, "Nº Cliente:")
+        c.drawString(0.3 * cm, 0.8 * cm, "Nº Pedido:")
         c.drawString(0.3 * cm, 0.3 * cm, transportadora)
 
-        c.drawString(2.0 * cm, 1.2 * cm, cliente)
-        c.drawString(2.0 * cm, 0.9 * cm, pedido)
+        c.drawString(2.0 * cm, 1.1 * cm, cliente)
+        c.drawString(2.0 * cm, 0.8 * cm, pedido)
 
         c.save()
 
