@@ -10,8 +10,8 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 7 * cm
-    label_height = 1.8 * cm
+    label_width = 7.5 * cm
+    label_height = 1.9 * cm
 
     # Configurações do QR code
     qr_code_width = label_width
@@ -44,8 +44,8 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         barcode_code128.drawOn(c, 115, 10)
 
         c.setFont("Helvetica", 10)
-        c.drawString(10, 50, "Nº Cliente:")
-        c.drawString(10, 30, "Nº Pedido:")
+        c.drawString(10, 5, "Nº Cliente:")
+        c.drawString(10, 3, "Nº Pedido:")
         c.drawString(10, 10, transportadora)
 
         c.drawString(130, 50, cliente)
