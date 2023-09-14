@@ -10,8 +10,8 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 10 * cm
-    label_height = 2.5 * cm
+    label_width = 8 * cm
+    label_height = 2.0 * cm
 
     # Configurações do QR code
     qr_code_width = label_width
