@@ -10,7 +10,7 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 0.8 * cm
+    label_width = 7.5 * cm
     label_height = 2.5 * cm
     column_gap = 0.5 * cm
     num_columns = 3
