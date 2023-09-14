@@ -27,6 +27,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         title = titulo
         c.drawString(0.3 * cm, 2.1 * cm, title)
 
+
         qr = qrcode.QRCode(version=1, box_size=int(2.2 * cm), border=0)
         qr.add_data(cliente)  # Substitua pelo link desejado
         qr.make(fit=True)
