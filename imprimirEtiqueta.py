@@ -10,7 +10,7 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 10 * cm
+    label_width = 9 * cm
     label_height = 2.5 * cm
 
     # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
@@ -57,4 +57,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-imprimir_pdf("teste.pdf")
+#imprimir_pdf("teste.pdf")
