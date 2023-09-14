@@ -38,7 +38,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         barcode_value = cliente  # Substitua pelo valor do código de barras desejado
         barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
         # Desenhar o código de barras diretamente no canvas
-        barcode_code128.drawOn(c, 2.2 * cm, 0.3 * cm)
+        barcode_code128.drawOn(c, 2.8 * cm, 0.3 * cm)
 
         c.setFont("Helvetica", 9)
         c.drawString(0.3 * cm, 1.4 * cm, "Nº Cliente:")
