@@ -25,7 +25,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         # Título centralizado
         c.setFont("Helvetica-Bold", 9)
         title = titulo
-        c.drawString(0.3 * cm, 1.75 * cm, title)
+        c.drawString(0.3 * cm, 1.5 * cm, title)
 
 
         qr = qrcode.QRCode(version=1, box_size=int(1.75 * cm), border=0)
@@ -58,4 +58,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-#imprimir_pdf("teste.pdf")
+imprimir_pdf("teste.pdf")
