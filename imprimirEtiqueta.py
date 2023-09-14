@@ -44,8 +44,8 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         c.drawString(0.3 * cm, 1 * cm, "Nº Pedido:")
         c.drawString(0.3 * cm, 0.3 * cm, transportadora)
 
-        c.drawString(4.5 * cm, 1.6 * cm, cliente)
-        c.drawString(4.5 * cm, 1 * cm, pedido)
+        c.drawString(3.5 * cm, 1.6 * cm, cliente)
+        c.drawString(3.5 * cm, 1 * cm, pedido)
 
         c.save()
 
