@@ -32,7 +32,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 5.5 * cm, 0.15 * cm, width=2.2 * cm, height= 2.2 * cm)
+        c.drawImage(qr_filename, 5.5 * cm, 0.12 * cm, width=2.0 * cm, height= 2.0 * cm)
 
         barcode_value = cliente  # Substitua pelo valor do código de barras desejado
         barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
