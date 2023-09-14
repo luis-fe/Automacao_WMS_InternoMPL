@@ -10,34 +10,20 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 1.5 * cm
+    label_width = 10 * cm
     label_height = 2.5 * cm
-    column_gap = 0.05 * cm
-    num_columns = 3
-    num_rows = 3
 
     # Configurações do QR code
     qr_code_width = label_width
-    qr_code_height = label_height * num_rows
-    qr_code_padding = 0.2 * cm
-
-    # Configurações do código de barras
-    barcode_height = label_height
-    barcode_padding = 0.5 * cm
-    barcode_bar_width = 0.03 * cm  # Largura das barras verticais do código de barras
 
     # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
-    custom_page_size = landscape((label_width*num_columns + column_gap*(num_columns-1),
-                                  label_height*num_rows))
+    custom_page_size = landscape((label_width, label_height))
 
     # Criar um arquivo temporário para salvar o QR code
     with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file:
         qr_filename = temp_qr_file.name
 
         c = canvas.Canvas(saida_pdf, pagesize=custom_page_size)
-
-        # Posição inicial da primeira etiqueta
-        x, y = 0, label_height*num_rows
 
         # Título centralizado
         c.setFont("Helvetica-Bold", 20)
@@ -50,26 +36,22 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, label_width * 2.15, 10, width=qr_code_width - 2 * qr_code_padding, height=qr_code_height - 2 * qr_code_padding)
+        c.drawImage(qr_filename, 220, 10, width=50, height=50)
 
         barcode_value = cliente  # Substitua pelo valor do código de barras desejado
-        barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=barcode_height - 2 * barcode_padding, humanReadable=True, barWidth=barcode_bar_width)
+        barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
         # Desenhar o código de barras diretamente no canvas
-        barcode_code128.drawOn(c, label_width * 1.2, 20)
+        barcode_code128.drawOn(c, 115, 10)
 
-        c.setFont("Helvetica", 12)
-        c.drawString(10, 13, "Nº Cliente:")
-        c.drawString(10, 8, "Nº Pedido:")
-        c.drawString(10, 3, transportadora)
+        c.setFont("Helvetica", 10)
+        c.drawString(10, 50, "Nº Cliente:")
+        c.drawString(10, 30, "Nº Pedido:")
+        c.drawString(10, 10, transportadora)
 
-        c.drawString(label_width * 1.2, 130, cliente)
-        c.drawString(label_width * 1.2, 80, pedido)
+        c.drawString(130, 50, cliente)
+        c.drawString(130, 30, pedido)
 
         c.save()
-
-    # Remover o arquivo temporário
-    os.remove(qr_filename)
-
 
 def imprimir_pdf(pdf_file):
     conn = cups.Connection()
