@@ -10,8 +10,8 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 7.9 * cm
-    label_height = 1.9 * cm
+    label_width = 7.8 * cm
+    label_height = 1.8 * cm
 
     # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
     custom_page_size = landscape((label_width, label_height))
