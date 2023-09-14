@@ -40,7 +40,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         # Desenhar o código de barras diretamente no canvas
         barcode_code128.drawOn(c, 2.2 * cm, 0.3 * cm)
 
-        c.setFont("Helvetica", 10)
+        c.setFont("Helvetica", 9)
         c.drawString(0.3 * cm, 1.5 * cm, "Nº Cliente:")
         c.drawString(0.3 * cm, 1 * cm, "Nº Pedido:")
         c.drawString(0.3 * cm, 0.3 * cm, transportadora)
