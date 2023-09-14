@@ -36,12 +36,12 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 90, 10, width=50, height=50)
+        c.drawImage(qr_filename, 120, 10, width=50, height=50)
 
         barcode_value = cliente  # Substitua pelo valor do código de barras desejado
         barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
         # Desenhar o código de barras diretamente no canvas
-        barcode_code128.drawOn(c, 50, 10)
+        barcode_code128.drawOn(c, 70, 10)
 
         c.setFont("Helvetica", 10)
         c.drawString(5, 50, "Nº Cliente:")
@@ -61,4 +61,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-#imprimir_pdf("teste.pdf")
+imprimir_pdf("teste.pdf")
