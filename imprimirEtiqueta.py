@@ -44,12 +44,12 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         barcode_code128.drawOn(c, 115, 10)
 
         c.setFont("Helvetica", 10)
-        c.drawString(1, 50, "Nº Cliente:")
-        c.drawString(1, 30, "Nº Pedido:")
-        c.drawString(1, 10, transportadora)
+        c.drawString(5, 50, "Nº Cliente:")
+        c.drawString(5, 30, "Nº Pedido:")
+        c.drawString(5, 10, transportadora)
 
-        c.drawString(130, 50, cliente)
-        c.drawString(130, 30, pedido)
+        c.drawString(20, 50, cliente)
+        c.drawString(20, 30, pedido)
 
         c.save()
 
@@ -61,4 +61,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-imprimir_pdf("teste.pdf")
+#imprimir_pdf("teste.pdf")
