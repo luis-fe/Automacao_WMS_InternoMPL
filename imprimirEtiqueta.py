@@ -10,7 +10,7 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 9 * cm
+    label_width = 8 * cm
     label_height = 2.5 * cm
 
     # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
@@ -37,7 +37,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         barcode_value = cliente  # Substitua pelo valor do código de barras desejado
         barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
         # Desenhar o código de barras diretamente no canvas
-        barcode_code128.drawOn(c, 3.9 * cm, 0.3 * cm)
+        barcode_code128.drawOn(c, 1.9 * cm, 0.3 * cm)
 
         c.setFont("Helvetica", 10)
         c.drawString(0.3 * cm, 1.6 * cm, "Nº Cliente:")
