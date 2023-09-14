@@ -28,7 +28,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         c.drawString(0.3 * cm, 1.5 * cm, title)
 
 
-        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+        qr = qrcode.QRCode(version=1, box_size=int(1.70 * cm), border=0)
         qr.add_data(cliente)  # Substitua pelo link desejado
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
@@ -43,7 +43,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         c.setFont("Helvetica", 9)
         c.drawString(0.3 * cm, 1.1 * cm, "Nº Cliente:")
         c.drawString(0.3 * cm, 0.8 * cm, "Nº Pedido:")
-        c.drawString(0.3 * cm, 0.55 * cm, transportadora)
+        c.drawString(0.3 * cm, 0.6 * cm, transportadora)
 
         c.setFont("Helvetica-Bold", 8)
         c.drawString(0.3 * cm, 0.1 * cm, "Dionatan Gonçalves Nunes")
