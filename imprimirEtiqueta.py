@@ -61,4 +61,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-#imprimir_pdf("305815-3.pdf")
+imprimir_pdf("305815-3.pdf")
