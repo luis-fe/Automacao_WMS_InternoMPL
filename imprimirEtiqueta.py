@@ -10,8 +10,8 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 10 * cm
-    label_height = 2.5 * cm
+    label_width = 8 * cm
+    label_height = 2.0 * cm
     column_gap = 0.5 * cm
     num_columns = 3
     num_rows = 3
@@ -19,7 +19,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações do QR code
     qr_code_width = label_width
     qr_code_height = label_height * num_rows
-    qr_code_padding = 0.5 * cm
+    qr_code_padding = 0.2 * cm
 
     # Configurações do código de barras
     barcode_height = label_height
@@ -79,4 +79,4 @@ def imprimir_pdf(pdf_file):
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("305815-2.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-#imprimir_pdf("305815-1.pdf")
+imprimir_pdf("305815-1.pdf")
