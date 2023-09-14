@@ -25,7 +25,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
         # Título centralizado
         c.setFont("Helvetica-Bold", 9)
         title = titulo
-        c.drawString(0.3 * cm, 1.9 * cm, title)
+        c.drawString(0.3 * cm, 1.75 * cm, title)
 
 
         qr = qrcode.QRCode(version=1, box_size=int(1.75 * cm), border=0)
