@@ -10,8 +10,8 @@ import qrcode
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
-    label_width = 8 * cm
-    label_height = 2.0 * cm
+    label_width = 0.8 * cm
+    label_height = 1.0 * cm
     column_gap = 0.5 * cm
     num_columns = 3
     num_rows = 3
@@ -75,7 +75,7 @@ def imprimir_pdf(pdf_file):
     conn = cups.Connection()
     printers = conn.getPrinters()
     printer_name = list(printers.keys())[0]
-    job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.2.5x10cm', 'FitToPage': 'True', 'Scaling': '75'})
+    job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.10x2.5cm', 'FitToPage': 'True', 'Scaling': '100'})
     print(f"ID {job_id} enviado para impressão")
 
 criar_pdf("305815-3.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
