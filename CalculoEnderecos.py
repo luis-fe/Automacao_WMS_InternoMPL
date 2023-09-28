@@ -11,7 +11,7 @@ def ListaDeEnderecosOculpados(natureza):
     conn = ConexaoPostgreMPL.conexao()
 
     enderecosSku = pd.read_sql(' select  codreduzido, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-                               ' where "SaldoLiquid" > 0 and natureza = %s order by "SaldoLiquid" desc',conn,params=(natureza,))
+                               ' where "SaldoLiquid" > 0 and natureza = %s order by "SaldoLiquid" asc',conn,params=(natureza,))
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('codreduzido').cumcount() + 1
     enderecosSku['codreduzido'] = enderecosSku['codreduzido'].astype(str)
@@ -23,7 +23,7 @@ def Calculo(natureza):
     conn = ConexaoPostgreMPL.conexao()
     total = 0 # Para Totalizar o numer de atualizcoes
     inseridosDuplos = 0
-    for i in range(10):
+    for i in range(12):
     # Loop de iteracao
 
         lista = ListaDeEnderecosOculpados(natureza)
