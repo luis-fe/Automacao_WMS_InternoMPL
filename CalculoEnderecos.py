@@ -23,7 +23,7 @@ def Calculo(natureza):
     conn = ConexaoPostgreMPL.conexao()
     total = 0 # Para Totalizar o numer de atualizcoes
     inseridosDuplos = 0
-    for i in range(12):
+    for i in range(18):
     # Loop de iteracao
 
         lista = ListaDeEnderecosOculpados(natureza)

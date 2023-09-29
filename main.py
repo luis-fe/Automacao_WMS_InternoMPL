@@ -175,7 +175,11 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
+    try:
+        tamanho10, inseridos10 = CalculoEnderecos.Calculo('5')
+        print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
+    except:
+        print('10.1.1 Falha na automacao - Calculo dos Enderecos')
 
 
 
