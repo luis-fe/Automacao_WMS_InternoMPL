@@ -47,21 +47,6 @@ def my_task():
     except:
         print(' 3.1.1 falha na automacao - avaliacao Fila Pedidos')
 
-    print('\n 4 - Atualizando os Pedidos Conferidos')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamnho4, datahora4 = RecarregaPedidos.AtualizarPedidosConferidos()
-        print(f' 4.1 Sucesso - atualizacao Pedidos em Conferencia \n Atenção!  {tamnho4} pedidos atualizados, as {datahora4}')
-    except:
-        print(' 4.1.1 falha na automacao - avaliacao Fila Pedidos')
-
-    print('\n 5 - Carregando a Fila de Pedidos')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamnho5, datahora5 = RecarregaPedidos.SeparacoPedidos()
-        print(f'5.1 Sucesso - Atualizacao Fila Pedidos \nAtenção!  {tamnho5} Pedidos, as {datahora5}')
-    except:
-        print(f'5.1.1 falha na automacao - Fila Pedidos')
 
     print('\n 6 - Limpando PedidoSku')
     try:
@@ -99,14 +84,6 @@ def my_task():
         print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
     except:
         print('10.1.1 Falha na automacao - Calculo dos Enderecos')
-
-    print('\n 11- Atualizando Agrupamentos')
-
-    try:
-        tamanho11  = TratamentoErro.AtualizandoAgrupamento()
-        print(f'11.1 Sucesso -Atualizdo novos  {tamanho11} ')
-    except:
-        print('11.1.1 Falha na automacao - Calculo dos Enderecos')
 
 
 
