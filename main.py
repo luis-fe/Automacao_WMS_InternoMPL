@@ -64,14 +64,6 @@ def my_task():
     except:
         print(f'7.1.1 falha na automacao - Limpando Saida da Reposicao')
 
-    print('\n 8- Atualizando os PedidosSKU')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamnho8, datahora8 = RecarregaPedidos.IncrementarSku()
-        print(f'8.1 Sucesso - No Incremento PedidosSku \nAtenção!  {tamnho8} Pedidos, as {datahora8}')
-    except:
-        print('8.1.1 Falha na automacao - Incrementacao SKU')
-
     print('\n 9- TratamentoErrosDuplicacoes')
     try:
         datahora9 = TratamentoErro.RemoveDuplicatasUsuario()
