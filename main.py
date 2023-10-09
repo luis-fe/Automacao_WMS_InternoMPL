@@ -70,17 +70,19 @@ def my_task():
         print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
     except:
         print('9.1.1 Falha na automacao - Tratamento de Erros')
-    print('\n 10- Calculando Necessidade de Enderecos')
+
+
+
+    #print('\n 10- Calculando Necessidade de Enderecos')
+    '''''
     try:
         tamanho10 , inseridos10 = CalculoEnderecos.Calculo('5')
         print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
     except:
         print('10.1.1 Falha na automacao - Calculo dos Enderecos')
-
-
-
-
+    '''''
     print('Fim do Ciclo')
+
 def token_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -144,12 +146,5 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    try:
-        tamanho10, inseridos10 = CalculoEnderecos.Calculo('5')
-        print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
-    except:
-        print('10.1.1 Falha na automacao - Calculo dos Enderecos')
-
-
 
     app.run(host='0.0.0.0', port=port)
