@@ -58,15 +58,15 @@ def FilaTags():
     tamanho = df_tags['codbarrastag'].size
     dataHora = obterHoraAtual()
     df_tags['DataHora'] = dataHora
-    try:
-        tamanho2 = 1000
-        ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
-        hora = obterHoraAtual()
-        return tamanho2, hora
-    except:
-        print('falha na funçao Inserir')
-        hora = obterHoraAtual()
-        return tamanho, hora
+    #try:
+    tamanho2 = 1000
+    ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
+    hora = obterHoraAtual()
+    return tamanho2, hora
+    #except:
+     #   print('falha na funçao Inserir')
+      #  hora = obterHoraAtual()
+       # return tamanho, hora
 
 
 def LerEPC():
