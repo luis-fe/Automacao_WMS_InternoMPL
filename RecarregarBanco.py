@@ -6,7 +6,7 @@ from psycopg2 import sql
 import pytz
 import ConexaoCSW
 import ConexaoPostgreMPL
-
+import empresaConfigurada
 
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
@@ -15,6 +15,8 @@ def obterHoraAtual():
     return hora_str
 
 def FilaTags():
+    xemp = empresaConfigurada
+    xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
     conn2 = ConexaoPostgreMPL.conexao()
     df_tags = pd.read_sql(
@@ -22,10 +24,10 @@ def FilaTags():
         " (SELECT i2.codCor||'-'  FROM cgi.Item2  i2 WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) || "
         "(SELECT i2.descricao  FROM tcp.SortimentosProduto  i2 WHERE i2.codEmpresa = 1 and  i2.codProduto  = t.codEngenharia  and t.codSortimento  = i2.codSortimento) as cor,"
         " (SELECT tam.descricao  FROM cgi.Item2  i2 join tcp.Tamanhos tam on tam.codEmpresa = i2.Empresa and tam.sequencia = i2.codSeqTamanho  WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as tamanho, codEmpresa as codempresa "
-        " from tcr.TagBarrasProduto t WHERE codEmpresa in (1) and codNaturezaAtual in (5, 7 ,54) and situacao in (3, 8)", conn)
+        " from tcr.TagBarrasProduto t WHERE codEmpresa in ("+xemp+") and codNaturezaAtual in (5, 7 ,54) and situacao in (3, 8)", conn)
 
     df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
-                              'from tco.MovimentacaoOPFase WHERE codEmpresa = 1 and codFase = 236  '
+                              'from tco.MovimentacaoOPFase WHERE codEmpresa = '+xemp+ "and codFase = 236  "
                               'order by numeroOP desc ',conn)
 
     df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
@@ -68,22 +70,26 @@ def FilaTags():
 
 
 def LerEPC():
+    xemp = empresaConfigurada
+    xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
 
 
     consulta = pd.read_sql('select epc.id as epc, t.codBarrasTag as codbarrastag from tcr.SeqLeituraFase  t '
                            'join Tcr_Rfid.NumeroSerieTagEPC epc on epc.codTag = t.codBarrasTag '
-                           'WHERE t.codEmpresa = 1 and (t.codTransacao = 3500 or t.codTransacao = 501) '
+                           'WHERE t.codEmpresa = '+xemp+' and (t.codTransacao = 3500 or t.codTransacao = 501) '
                            'and (codLote like "23%" or  codLote like "24%" or codLote like "25%" '
                            'or codLote like "22%" )',conn)
     conn.close()
 
     return consulta
 def avaliacaoFila():
+    xemp = empresaConfigurada
+    xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
-        'WHERE br.codEmpresa in (1) and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
+        'WHERE br.codEmpresa in ('+xemp+') and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
