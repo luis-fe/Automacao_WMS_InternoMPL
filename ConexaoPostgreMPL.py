@@ -15,7 +15,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     database = "Reposicao"
     user = "postgres"
     password = "Master100"
-    host = "127.0.0.1"
+    host = "localhost"
     port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy
