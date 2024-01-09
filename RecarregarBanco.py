@@ -15,7 +15,7 @@ def obterHoraAtual():
     return hora_str
 
 def FilaTags():
-    xemp = empresaConfigurada
+    xemp = empresaConfigurada.EmpresaEscolhida()
     xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
     conn2 = ConexaoPostgreMPL.conexao()
@@ -70,7 +70,7 @@ def FilaTags():
 
 
 def LerEPC():
-    xemp = empresaConfigurada
+    xemp = empresaConfigurada.EmpresaEscolhida()
     xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
 
@@ -84,7 +84,7 @@ def LerEPC():
 
     return consulta
 def avaliacaoFila():
-    xemp = empresaConfigurada
+    xemp = empresaConfigurada.EmpresaEscolhida()
     xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
