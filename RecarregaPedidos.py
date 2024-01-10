@@ -7,6 +7,9 @@ import ConexaoCSW
 import datetime
 from psycopg2 import sql
 
+import empresaConfigurada
+
+
 # Recarga de fila de Pedidos
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
@@ -76,9 +79,10 @@ def SeparacoPedidos():
     return tamanho, dataHora
 
 def avaliacaoPedidos():
+    emp = empresaConfigurada.EmpresaEscolhida()
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido||'-'||codsequencia   as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
-                                   " WHERE codEmpresa =1 and situacaoSugestao =2",conn)
+                                   " WHERE codEmpresa = "+emp+ "and situacaoSugestao =2",conn)
 
 
     conn2 = ConexaoPostgreMPL.conexao()
@@ -226,10 +230,11 @@ def AtualizarPedidosConferidos():
     return tamanho, datahora
 
 def avaliacaoReposicao():
+    emp = empresaConfigurada.EmpresaEscolhida()
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
-        'WHERE br.codEmpresa = 1 and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
+        'WHERE br.codEmpresa = 1'+emp+'and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
 
     conn2 = ConexaoPostgreMPL.conexao()
 
