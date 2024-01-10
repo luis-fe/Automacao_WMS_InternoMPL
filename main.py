@@ -12,6 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import os
 from datetime import datetime, time
 import Ritmo
+import TagsDisponivelGarantia
 import TratamentoErro
 import Usuarios
 import pandas as pd
@@ -146,10 +147,5 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #try:
-        # coloque o código que você deseja executar continuamente aqui
-    tamnho1, datahora1 = RecarregarBanco.FilaTags()
-    print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
-   # except:
-    #    print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
+    TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
     app.run(host='0.0.0.0', port=port)
