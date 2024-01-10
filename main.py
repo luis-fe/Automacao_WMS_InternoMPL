@@ -10,7 +10,7 @@ from flask_cors import CORS
 from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
-from datetime import datetime, time
+import datetime
 import Ritmo
 import TagsDisponivelGarantia
 import TratamentoErro
@@ -161,5 +161,5 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-
+    my_task()
     app.run(host='0.0.0.0', port=port)
