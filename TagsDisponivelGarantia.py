@@ -18,6 +18,6 @@ def BuscarTagsGarantia():
 def SalvarTagsNoBancoPostgre():
     consulta = BuscarTagsGarantia()
 
-    ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta.size,'filareposicaoof', 'replace')
+    ConexaoPostgreMPL.Funcao_InserirOFF(consulta,consulta.size,'filareposicaoof', 'replace')
 
     print('Tags filareposicaoOF atualizadas com sucesso')
