@@ -20,7 +20,24 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)
 port = int(os.environ.get('PORT', 9000))
+
+
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%H')
+    return hora_str
+
 def my_task():
+    hora = obterHoraAtual()
+
+    if hora in ['09','10', '11', '12', '13', '14', '15', '16']:
+        my_task2()
+    else:
+        print('Aguardando a Data e Hora correto '+hora)
+
+
+def my_task2():
     print('\n ###Começando a Automacao  do WMS ### ')
     print(f'\n1 - Iniciando a Fila das Tags para Repor:')
 
@@ -71,6 +88,8 @@ def my_task():
         print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
     except:
         print('9.1.1 Falha na automacao - Tratamento de Erros')
+    print('\n 10 - Importando Tags da Reposicao off')
+    TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
 
 
 
@@ -134,18 +153,13 @@ def check_user_password():
 
 scheduler = BackgroundScheduler(timezone=pytz.timezone('America/Sao_Paulo'))
 
-# Define o horário de início do agendamento (8:00 AM)
-start_time = datetime.combine(datetime.today(), time(hour=8, minute=0, second=0))
-
-# Define o horário de término do agendamento (5:30 PM)
-end_time = datetime.combine(datetime.today(), time(hour=17, minute=30, second=0))
 
 
-scheduler.add_job(func=my_task, trigger='interval', seconds=270, start_date=start_time, end_date=end_time)
+scheduler.add_job(func=my_task, trigger='interval', seconds=300)
 scheduler.start()
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
+
     app.run(host='0.0.0.0', port=port)
