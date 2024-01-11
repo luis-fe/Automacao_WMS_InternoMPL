@@ -171,6 +171,8 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     try:
+            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
             # coloque o código que você deseja executar continuamente aqui
             tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
             print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
