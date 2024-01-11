@@ -15,7 +15,8 @@ import Ritmo
 import TagsDisponivelGarantia
 import TratamentoErro
 import Usuarios
-import pandas as pd
+import subprocess
+import subprocess
 
 app = Flask(__name__)
 CORS(app)
@@ -27,6 +28,9 @@ def obterHoraAtual():
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%H')
     return hora_str
+def restart_server():
+    print("Reiniciando o aplicativo...")
+    subprocess.call(["python", "main.py"])
 
 def my_task():
     hora = obterHoraAtual()
@@ -89,7 +93,12 @@ def my_task2():
     except:
         print('9.1.1 Falha na automacao - Tratamento de Erros')
     print('\n 10 - Importando Tags da Reposicao off')
-    TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
+    try:
+        TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 
 
