@@ -171,7 +171,10 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     try:
-        TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
+            # coloque o código que você deseja executar continuamente aqui
+            tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
+            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
+
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
