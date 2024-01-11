@@ -176,5 +176,10 @@ if __name__ == '__main__':
         print(f"Erro detectado: {str(e)}")
         restart_server()
 
-    my_task()
+    try:
+        my_task()
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+
     app.run(host='0.0.0.0', port=port)
