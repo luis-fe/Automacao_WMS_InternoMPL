@@ -31,7 +31,7 @@ def obterHoraAtual():
 def my_task():
     hora = obterHoraAtual()
 
-    if hora in ['09','10', '11', '12', '13', '14', '15', '16']:
+    if hora in ['08','09','10', '11', '12', '13', '14', '15', '16']:
         my_task2()
     else:
         print('Aguardando a Data e Hora correto '+hora)
