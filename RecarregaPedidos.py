@@ -234,7 +234,7 @@ def avaliacaoReposicao():
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
-        'WHERE br.codEmpresa = 1'+emp+'and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
+        'WHERE br.codEmpresa = '+emp+' and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
 
     conn2 = ConexaoPostgreMPL.conexao()
 
