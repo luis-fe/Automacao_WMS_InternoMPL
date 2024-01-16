@@ -37,7 +37,7 @@ def FilaTags():
     # CRIANDO O DATAFRAME DO QUE JA FOI REPOSTO E USANDO MERGE
        # Verificando as tag's que ja foram repostas
     TagsRepostas = pd.read_sql('select "codbarrastag" as codbarrastag, "usuario" as usuario_  from "Reposicao"."tagsreposicao" tr '
-                               ' union select "codbarrastag" as codbarrastag, "usuario" as usuario_ from "Reposicao".tagsreposicao_ inventario i ',conn2)
+                               ' union select "codbarrastag" as codbarrastag, "usuario" as usuario_ from "Reposicao"."Reposicao".tagsreposicao_inventario ti ',conn2)
     df_tags = pd.merge(df_tags, TagsRepostas, on='codbarrastag', how='left')
     df_tags = df_tags.loc[df_tags['usuario_'].isnull()]
     df_tags.drop('usuario_', axis=1, inplace=True)
