@@ -35,7 +35,7 @@ def restart_server():
 def my_task():
     hora = obterHoraAtual()
 
-    if hora in ['08','09','10', '11', '12', '13', '14', '15', '16']:
+    if hora in ['07','08','09','10', '11', '12', '13', '14', '15', '16','17']:
         my_task2()
     else:
         print('Aguardando a Data e Hora correto '+hora)
