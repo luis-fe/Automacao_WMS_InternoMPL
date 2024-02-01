@@ -14,7 +14,7 @@ def BuscarTagsGarantia():
                            " (select s.corbase||'-'||s.nomecorbase  from tcp.SortimentosProduto s WHERE s.codempresa = 1 and s.codproduto = p.codEngenharia and s.codsortimento = p.codSortimento)"
                            ' as cor, (select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = p.seqTamanho ) as tamanho, p.numeroOP as numeroop'
                            ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = '+emp+' and '
-                        ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = '+emp+' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 437, 429 ) and situacao = 3) ', conn)
+                        ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = '+emp+' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 437, 429, 365 ) and situacao = 3) ', conn)
     conn.close()
     return consulta
 
