@@ -21,10 +21,10 @@ def BuscandoOPCSW(empresa):
 
 def IncrementadoDadosPostgre(empresa):
         dados = BuscandoOPCSW(empresa)
-
+        print(dados['numeroop'].size)
     #try:
-        ConexaoPostgreMPL.Funcao_InserirOFF(dados,dados['numeroop'].size,'ordemprod','replace')
-        print('OPS INSERIDAS COM SUCESSO')
+        #ConexaoPostgreMPL.Funcao_InserirOFF(dados,dados['numeroop'].size,'ordemprod','replace')
+        #print('OPS INSERIDAS COM SUCESSO')
     #except:
-        print('FALHA AO TENTAR INSERIR OS DADOS')
+       # print('FALHA AO TENTAR INSERIR OS DADOS')
 
