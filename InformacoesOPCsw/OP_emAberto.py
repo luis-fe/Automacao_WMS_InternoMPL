@@ -6,7 +6,7 @@ import pandas as pd
 def BuscandoOPCSW(empresa):
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
 
-    em_aberto = ' (select o.numeroop from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa
+    em_aberto = ' (select o.numeroop from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+' )'
 
     get = pd.read_sql('SELECT op.numeroop,  '
                       '(SELECT i.codItem  from cgi.Item2 i WHERE i.Empresa = 1 and i.codseqtamanho = op.seqTamanho '
