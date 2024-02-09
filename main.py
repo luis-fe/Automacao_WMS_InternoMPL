@@ -171,6 +171,8 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    OP_emAberto.IncrementadoDadosPostgre('1')
+
     try:
             tamnho1, datahora1 = RecarregarBanco.FilaTags()
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
