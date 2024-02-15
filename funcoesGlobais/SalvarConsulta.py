@@ -14,4 +14,5 @@ def obterHoraAtual():
 
 def salvar(sql, classe,datahoraInicio):
     datahora = obterHoraAtual()
+    print(datahoraInicio)
     print(datahora)

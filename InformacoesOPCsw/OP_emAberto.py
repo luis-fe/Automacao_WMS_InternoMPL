@@ -2,8 +2,16 @@ import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 from funcoesGlobais import SalvarConsulta
+import datetime
+import pytz
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    agora = agora.strftime('%d/%m/%Y %H:%M:%S')
+    return agora
 
 def BuscandoOPCSW(empresa):
+    inicio = obterHoraAtual()
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
 
     em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'
@@ -16,7 +24,7 @@ def BuscandoOPCSW(empresa):
 
     conn.close()# Fechado a conexao com o CSW
 
-    SalvarConsulta.salvar('sql','','')
+    SalvarConsulta.salvar('sql tco.OrdemProdTamanhos ot','off.ordemprod',inicio)
     return get
 
 def IncrementadoDadosPostgre(empresa):
