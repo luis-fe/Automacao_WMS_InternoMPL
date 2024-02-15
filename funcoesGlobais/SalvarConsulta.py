@@ -59,3 +59,4 @@ def UltimaAtualizacao(classe, dataInicial):
 
     print(str(diferenca_total_segundos))
     print('data final '+ str(data2_obj))
+    print('data inicial '+ str(data1_obj))
