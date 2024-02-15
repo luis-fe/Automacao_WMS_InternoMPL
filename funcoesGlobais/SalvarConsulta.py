@@ -4,15 +4,14 @@ import pandas as pd
 
 import ConexaoPostgreMPL
 import locale
-import datetime
-import pytz
 from datetime import datetime
+import pytz
 
 
 # Funcao Para obter a Data e Hora
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
-    agora = datetime.datetime.now(fuso_horario)
+    agora = datetime.now(fuso_horario)
     agora = agora.strftime('%d/%m/%Y %H:%M:%S')
     return agora
 
