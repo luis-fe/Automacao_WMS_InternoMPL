@@ -5,6 +5,9 @@ import ConexaoPostgreMPL
 import locale
 import datetime
 import pytz
+
+
+# Funcao Para obter a Data e Hora
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
@@ -13,6 +16,16 @@ def obterHoraAtual():
 
 
 def salvar(sql, classe,datahoraInicio):
-    datahora = obterHoraAtual()
-    print(datahoraInicio)
-    print(datahora)
+    dataHora = obterHoraAtual()
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = 'insert into "Reposicao".automacao_csw.atualizacoes (sql, datahora_final, datahora_inicio, classe) ' \
+          'values (%s , %s , %s , %s)'
+
+    cursor = conn.cursor()
+
+    cursor.execute(consulta,(sql,dataHora, datahoraInicio, classe ))
+    conn.commit()
+    cursor.close()
+
+    conn.close()
