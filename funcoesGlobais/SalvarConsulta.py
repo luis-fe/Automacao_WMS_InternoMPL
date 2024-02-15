@@ -52,4 +52,7 @@ def UltimaAtualizacao(classe, dataInicial):
     # Obtém a diferença em dias como um número inteiro
     diferenca_em_dias = diferenca.days
 
-    print(str(diferenca_em_dias))
+    # Obtém a diferença total em segundos
+    diferenca_total_segundos = diferenca.total_seconds()
+
+    print(str(diferenca_total_segundos))
