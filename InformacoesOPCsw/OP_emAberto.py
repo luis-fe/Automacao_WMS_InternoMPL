@@ -1,7 +1,7 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
-
+from funcoesGlobais import SalvarConsulta
 
 def BuscandoOPCSW(empresa):
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
@@ -13,8 +13,10 @@ def BuscandoOPCSW(empresa):
                       "FROM tco.OrdemProdTamanhos ot "
                       "having ot.codEmpresa = " + empresa + " and ot.numeroOP IN " + em_aberto, conn)
 
+
     conn.close()# Fechado a conexao com o CSW
 
+    SalvarConsulta.salvar('sql','','')
     return get
 
 def IncrementadoDadosPostgre(empresa):
