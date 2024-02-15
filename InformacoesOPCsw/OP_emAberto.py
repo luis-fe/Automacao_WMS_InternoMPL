@@ -6,14 +6,12 @@ import pandas as pd
 def BuscandoOPCSW(empresa):
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
 
-    em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+' codfaseatual in (441, 448, 449) )'
+    em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'
 
-    get = pd.read_sql('SELECT op.numeroop as numeroop,  '
-                      '(SELECT i.codItem  from cgi.Item2 i WHERE i.Empresa = 1 and i.codseqtamanho = op.seqTamanho '
-                      "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
-                      "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
-                      "FROM tco.OrdemProdTamanhos op "
-                      "WHERE op.codEmpresa = " + empresa + " and op.numeroOP IN " + em_aberto, conn)
+    get = pd.read_sql('SELECT op.numeroop as numeroop, codItem as codreduzido, '
+                      ' case WHEN ot.qtdePecas1Qualidade is null then ot.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs '
+                      "FROM tco.OrdemProdTamanhos ot "
+                      "having ot.codEmpresa = " + empresa + " and ot.numeroOP IN " + em_aberto, conn)
 
     conn.close()# Fechado a conexao com o CSW
 
