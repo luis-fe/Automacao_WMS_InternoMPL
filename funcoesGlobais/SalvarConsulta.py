@@ -44,8 +44,8 @@ def UltimaAtualizacao(classe, dataInicial):
     datafinal = consulta['ultimo'][0]
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(dataInicial, "%d/%m/%Y")
-    data2_obj = datetime.strptime(datafinal, "%d/%m/%Y")
+    data1_obj = datetime.strptime(dataInicial, "%d/%m/%Y %H:%M:%S")
+    data2_obj = datetime.strptime(datafinal, "%d/%m/%Y %H:%M:%S")
 
     # Calcula a diferença entre as datas
     diferenca = data2_obj - data1_obj
