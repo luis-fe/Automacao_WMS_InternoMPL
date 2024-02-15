@@ -12,7 +12,7 @@ def obterHoraAtual():
 
 def BuscandoOPCSW(empresa):
     inicio = obterHoraAtual()
-    SalvarConsulta.UltimaAtualizacao('off.ordemprod',inicio)
+
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
 
     em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'
@@ -29,10 +29,19 @@ def BuscandoOPCSW(empresa):
     return get
 
 def IncrementadoDadosPostgre(empresa):
-    dados = BuscandoOPCSW(empresa)
-    try:
-        ConexaoPostgreMPL.Funcao_InserirOFF(dados,dados['numeroop'].size,'ordemprod','replace')
-        print('OPS INSERIDAS COM SUCESSO')
-    except:
-        print('FALHA AO TENTAR INSERIR OS DADOS')
+    inicio = obterHoraAtual()
+    diferencaTempo = SalvarConsulta.UltimaAtualizacao('off.ordemprod',inicio)
+
+    if diferencaTempo >= 600:
+
+        dados = BuscandoOPCSW(empresa)
+
+
+        try:
+            ConexaoPostgreMPL.Funcao_InserirOFF(dados,dados['numeroop'].size,'ordemprod','replace')
+            print('OPS INSERIDAS COM SUCESSO')
+        except:
+            print('FALHA AO TENTAR INSERIR OS DADOS')
+    else:
+        print('A Comunicacao com a Classe ordemprod do WMS ja foi realizado a 10 min, nao precisa atualizar.')
 
