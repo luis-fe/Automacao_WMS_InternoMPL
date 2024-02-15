@@ -8,7 +8,7 @@ import pytz
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
-    agora = agora.strftime('%d/%m/%Y %H%M%S')
+    agora = agora.strftime('%d/%m/%Y %H:%M:%S')
     return agora
 
 
