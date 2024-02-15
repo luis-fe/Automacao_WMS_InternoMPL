@@ -12,6 +12,7 @@ def obterHoraAtual():
 
 def BuscandoOPCSW(empresa):
     inicio = obterHoraAtual()
+    SalvarConsulta.UltimaAtualizacao('off.ordemprod',inicio)
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
 
     em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'

@@ -1,10 +1,12 @@
 ### Esse arquivo contem as funcoes de salvar as utimas consulta no banco de dados do POSTGRE WMS, com o
 #objetivo especifico de controlar as atualizacoes
+import pandas as pd
 
 import ConexaoPostgreMPL
 import locale
 import datetime
 import pytz
+from datetime import datetime
 
 
 # Funcao Para obter a Data e Hora
@@ -29,3 +31,26 @@ def salvar(sql, classe,datahoraInicio):
     cursor.close()
 
     conn.close()
+
+# Funcao que retorna a utima atualizacao
+def UltimaAtualizacao(classe, dataInicial):
+
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('Select max(datahora_final) as ultimo from "Reposicao".automacao_csw.atualizacoes where classe = %s ', conn, params=(classe,))
+
+    conn.close()
+
+    datafinal = consulta['ultimo'][0]
+
+    # Converte as strings para objetos datetime
+    data1_obj = datetime.strptime(dataInicial, "%d/%m/%Y")
+    data2_obj = datetime.strptime(datafinal, "%d/%m/%Y")
+
+    # Calcula a diferença entre as datas
+    diferenca = data2_obj - data1_obj
+
+    # Obtém a diferença em dias como um número inteiro
+    diferenca_em_dias = diferenca.days
+
+    print(str(diferenca_em_dias))
