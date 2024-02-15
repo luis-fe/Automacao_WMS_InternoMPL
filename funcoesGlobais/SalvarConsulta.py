@@ -47,7 +47,7 @@ def UltimaAtualizacao(classe, dataInicial):
     data2_obj = datetime.strptime(datafinal, "%d/%m/%Y %H:%M:%S")
 
     # Calcula a diferença entre as datas
-    diferenca = data2_obj - data1_obj
+    diferenca = data1_obj - data2_obj
 
     # Obtém a diferença em dias como um número inteiro
     diferenca_em_dias = diferenca.days
