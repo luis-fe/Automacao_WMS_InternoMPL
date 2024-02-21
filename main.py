@@ -42,7 +42,7 @@ def my_task():
 
 
 def my_task2():
-    OP_emAberto.IncrementadoDadosPostgre('1')
+    #OP_emAberto.IncrementadoDadosPostgre('1')
     print('\n ###Começando a Automacao  do WMS ### ')
     print(f'\n1 - Iniciando a Fila das Tags para Repor:')
 
