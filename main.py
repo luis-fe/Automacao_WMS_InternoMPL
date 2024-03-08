@@ -1,6 +1,7 @@
 import pytz
 
 import controle
+import empresaConfigurada
 from InformacoesOPCsw import OP_emAberto
 import CalculoEnderecos
 import CalculoNecessidadesEndereco
@@ -50,8 +51,25 @@ def my_task2():
 
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho1, datahora1 = RecarregarBanco.FilaTags()
-        print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
+        limite = 15 * 60  # (limite de 60 minutos , convertido para segundos)
+        empresa = empresaConfigurada.EmpresaEscolhida()
+        if tempo > limite and empresa == '1':
+
+            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            controle.salvar('fila Tags Reposicao','automacao',datainicio)
+
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+
+        elif empresa == '4':
+            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+        else:
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
     except:
         print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
 
