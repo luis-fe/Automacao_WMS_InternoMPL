@@ -204,6 +204,32 @@ if __name__ == '__main__':
     #OP_emAberto.IncrementadoDadosPostgre('1')
 
     try:
+        # coloque o código que você deseja executar continuamente aqui
+
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
+        limite = 15 * 60  # (limite de 60 minutos , convertido para segundos)
+        empresa = empresaConfigurada.EmpresaEscolhida()
+        if tempo > limite and empresa == '1':
+
+            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            controle.salvar('fila Tags Reposicao','automacao',datainicio)
+
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+
+        elif empresa == '4':
+            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+        else:
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+
+    try:
         my_task()
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
