@@ -138,21 +138,30 @@ def my_task2():
 
         else:
             print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+    print('\n 11 - Importando as Ordem de Producao')
+
+    try:
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'ordem de producao')
+        limite = 10 * 60  # (limite de 10 minutos , convertido para segundos)
+        if tempo > limite:
+            OP_emAberto.IncrementadoDadosPostgre('1')
+            controle.salvar('ordem de producao', client_ip, datainicio)
+
+        else:
+
+            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
-
-
-    #print('\n 10- Calculando Necessidade de Enderecos')
-    '''''
-    try:
-        tamanho10 , inseridos10 = CalculoEnderecos.Calculo('5')
-        print(f'10.1 Sucesso -Atualizdo novos  {tamanho10} enderecos e inseridos Duplicados {inseridos10}')
-    except:
-        print('10.1.1 Falha na automacao - Calculo dos Enderecos')
-    '''''
     print('Fim do Ciclo')
 
 def token_required(f):
@@ -213,7 +222,8 @@ scheduler.start()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    #OP_emAberto.IncrementadoDadosPostgre('1')
+
+
 
     try:
         # coloque o código que você deseja executar continuamente aqui
