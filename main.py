@@ -204,17 +204,6 @@ if __name__ == '__main__':
     #OP_emAberto.IncrementadoDadosPostgre('1')
 
     try:
-            tamnho1, datahora1 = RecarregarBanco.FilaTags()
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
-            # coloque o código que você deseja executar continuamente aqui
-            tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
-            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
-
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-
-    try:
         my_task()
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
