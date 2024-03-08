@@ -55,7 +55,7 @@ def my_task2():
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
-        limite = 15 * 60  # (limite de 60 minutos , convertido para segundos)
+        limite = 20 * 60  # (limite de 60 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
         if tempo > limite and empresa == '1':
 
@@ -209,7 +209,7 @@ if __name__ == '__main__':
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
-        limite = 15 * 60  # (limite de 60 minutos , convertido para segundos)
+        limite = 20 * 60  # (limite de 20 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
         if tempo > limite and empresa == '1':
 
