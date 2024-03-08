@@ -102,8 +102,20 @@ def my_task2():
     print('\n 7- Limpando as saidas de Tags Repostas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
-        tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
-        print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'avaliacaoReposicao')
+        limite = 5 * 60  # (limite de 60 minutos , convertido para segundos)
+        empresa = empresaConfigurada.EmpresaEscolhida()
+        if tempo > limite and empresa == '1':
+
+            tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
+            controle.salvar('avaliacaoReposicao',client_ip,datainicio)
+
+            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
+        else:
+            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nCongelado')
+
     except:
         print(f'7.1.1 falha na automacao - Limpando Saida da Reposicao')
 
