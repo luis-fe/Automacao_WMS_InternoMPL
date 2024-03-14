@@ -14,7 +14,6 @@ def obterHoraAtual():
     agora = agora.strftime('%d/%m/%Y %H:%M:%S.%f')
     return agora
 
-
 def salvar(rotina, ip,datahoraInicio):
     datahorafinal = obterHoraAtual()
 
