@@ -33,7 +33,7 @@ def SubstitutosSkuOP():
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
-    consulta = pd.merge(consulta,ultimobackup, on=['numeroop, componente'],how='left')
+    consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
     consulta['considera'].fillna('-',inplace=True)
 
     #Carregando dados no Wms
