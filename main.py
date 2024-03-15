@@ -243,7 +243,7 @@ if __name__ == '__main__':
 
 
 
-   # try:
+    try:
         # coloque o código que você deseja executar continuamente aqui
 
         client_ip = 'automacao'
@@ -285,7 +285,7 @@ if __name__ == '__main__':
             print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 
-'''''
+
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
@@ -295,6 +295,6 @@ if __name__ == '__main__':
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
-'''''
+
 
 app.run(host='0.0.0.0', port=port)
