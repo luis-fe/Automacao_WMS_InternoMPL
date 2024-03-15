@@ -55,3 +55,17 @@ def ConsultaSubstitutosFlegadoSim():
     conn.close()
 
     return consulta
+
+
+#22- Sql Obter o compontente de cadas sku nas engenharias , relativo as 10Mil primeiras OP : velocidade 36 segundos (lento)
+def ComponentesPrincipalPorSKU():
+    conn = ConexaoCSW.Conexao()
+
+    # Consultando Sql Obter os skus x compontente principal para poder "ligar" ao calculos
+    consulta = pd.read_sql(BuscasAvancadas.ComponentesPrincipaisEngenharia(),conn)
+
+    conn.close()
+    #Carregando dados no Wms
+    ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['CodComponente'].size,'ComponentesPrincipalPorSKU','replace')
+
+    return consulta
