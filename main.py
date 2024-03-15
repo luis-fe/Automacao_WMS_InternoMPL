@@ -274,8 +274,10 @@ if __name__ == '__main__':
 
         print('ETAPA 2: SUBSTITUTOS DAS OPS')
         if tempo > limite:
+            print('iniciando o salvamento')
             MateriaisSubstitutosPorSku.SubstitutosSkuOP()
             controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
+            print('salvo com sucesso !')
 
         else:
 
