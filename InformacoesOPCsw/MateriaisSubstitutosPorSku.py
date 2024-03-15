@@ -18,15 +18,15 @@ def SubstitutosSkuOP():
     # acrescentando as categorias
     consulta['categoria'] = '-'
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('ENTRETELA', row['descricao'], 'ENTRETELA', row['categoria']), axis=1)
+        lambda row: Categoria('ENTRETELA', row['nomecompontente'], 'ENTRETELA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('RIBANA', row['descricao'], 'RIBANA', row['categoria']), axis=1)
+        lambda row: Categoria('RIBANA', row['nomecompontente'], 'RIBANA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('ENTRETELA', row['descricao'], 'ENTRETELA', row['categoria']), axis=1)
+        lambda row: Categoria('ENTRETELA', row['nomecompontente'], 'ENTRETELA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('GOLA', row['descricao'], 'GOLAS', row['categoria']), axis=1)
+        lambda row: Categoria('GOLA', row['nomecompontente'], 'GOLAS', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('KIT GOLA', row['descricao'], 'KIT GOLA/PUNHO', row['categoria']), axis=1)
+        lambda row: Categoria('KIT GOLA', row['nomecompontente'], 'KIT GOLA/PUNHO', row['categoria']), axis=1)
 
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
     return consulta
