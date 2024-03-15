@@ -1,7 +1,6 @@
 ### Esse arquivo contem as funcoes de salvar as utimas consulta no banco de dados do POSTGRE , com o
 #objetivo especifico de controlar as requisicoes
 import ConexaoPostgreMPL
-import locale
 from datetime import datetime
 import pytz
 import pandas as pd
