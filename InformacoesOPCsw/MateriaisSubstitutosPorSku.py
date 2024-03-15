@@ -9,10 +9,8 @@ def SubstitutosSkuOP():
 
     # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
     consulta = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
-    print(consulta)
 
-    #Carregando dados no Wms
-    ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
+
 
     conn.close()
     # acrescentando as categorias
@@ -29,6 +27,8 @@ def SubstitutosSkuOP():
         lambda row: Categoria('KIT GOLA', row['nomecompontente'], 'KIT GOLA/PUNHO', row['categoria']), axis=1)
 
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
+    #Carregando dados no Wms
+    ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
     return consulta
 def Categoria(contem, valorReferencia, valorNovo, categoria):
     if contem in valorReferencia and categoria == '-':
