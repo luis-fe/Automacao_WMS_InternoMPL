@@ -31,6 +31,11 @@ def SubstitutosSkuOP():
         lambda row: Categoria('TECIDO', row['nomecompontente'], 'TECIDO PLANO', row['categoria']), axis=1)
 
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
+
+    ultimobackup = ConsultaSubstitutosFlegadoSim()
+    consulta = pd.merge(consulta,ultimobackup, on=['numeroop, componente'],how='left')
+    consulta['considera'].fillna('-',inplace=True)
+
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
     return consulta
@@ -40,3 +45,13 @@ def Categoria(contem, valorReferencia, valorNovo, categoria):
     else:
         return categoria
 
+def ConsultaSubstitutosFlegadoSim():
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select numeroop, componente, considera from "SubstitutosSkuOP" '
+                           'where considera = %s',conn, params=('sim'))
+
+
+    conn.close()
+
+    return consulta
