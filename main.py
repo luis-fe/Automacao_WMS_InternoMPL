@@ -270,6 +270,8 @@ if __name__ == '__main__':
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
         limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
+
+        print('ETAPA 2: SUBSTITUTOS DAS OPS')
         if tempo > limite:
             MateriaisSubstitutosPorSku.SubstitutosSkuOP()
             controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
