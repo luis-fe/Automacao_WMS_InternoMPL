@@ -266,6 +266,8 @@ if __name__ == '__main__':
         else:
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
 
+        print('\n 12 - Salvando as OPs que tiveram substitutos')
+
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
