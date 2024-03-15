@@ -100,9 +100,13 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
     utimaAtualizacao = consulta['ultimaData'][0]
     print(len(utimaAtualizacao))
 
-    if len(utimaAtualizacao) < 23 and utimaAtualizacao != None:
-        print(utimaAtualizacao)
-        utimaAtualizacao = utimaAtualizacao + '.001'
+    if utimaAtualizacao != None:
+
+        if len(utimaAtualizacao) < 23:
+            print(utimaAtualizacao)
+            utimaAtualizacao = utimaAtualizacao + '.001'
+        else:
+            utimaAtualizacao = utimaAtualizacao
 
     else:
         print('segue o baile')
