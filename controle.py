@@ -56,8 +56,8 @@ def UltimaAtualizacao(classe, dataInicial):
     datafinal = consulta['ultimo'][0]
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(dataInicial, "%d/%m/%Y %H:%M:%S")
-    data2_obj = datetime.strptime(datafinal, "%d/%m/%Y %H:%M:%S")
+    data1_obj = datetime.strptime(dataInicial, "%d/%m/%Y %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datafinal, "%d/%m/%Y %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -103,8 +103,8 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
 
         print(utimaAtualizacao)
         # Converte as strings para objetos datetime
-        data1_obj = datetime.strptime(dataHoraAtual, "%d/%m/%Y %H:%M:%S")
-        data2_obj = datetime.strptime(utimaAtualizacao, "%d/%m/%Y %H:%M:%S")
+        data1_obj = datetime.strptime(dataHoraAtual, "%d/%m/%Y %H:%M:%S.%f")
+        data2_obj = datetime.strptime(utimaAtualizacao, "%d/%m/%Y %H:%M:%S.%f")
 
         # Calcula a diferença entre as datas
         diferenca = data1_obj - data2_obj
@@ -125,6 +125,6 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
 
 
 def conversaoData(data):
-    data1_obj = datetime.strptime(data, "%d/%m/%Y %H:%M:%S")
+    data1_obj = datetime.strptime(data, "%d/%m/%Y %H:%M:%S.%f")
 
     return data1_obj
