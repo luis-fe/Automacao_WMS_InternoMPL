@@ -1,5 +1,4 @@
 import pytz
-
 import controle
 import empresaConfigurada
 from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku
