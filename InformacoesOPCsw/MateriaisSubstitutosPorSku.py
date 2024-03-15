@@ -15,7 +15,23 @@ def SubstitutosSkuOP():
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
 
     conn.close()
+    consulta['categoria'] = '-'
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('ENTRETELA', row['descricao'], 'ENTRETELA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('RIBANA', row['descricao'], 'RIBANA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('ENTRETELA', row['descricao'], 'ENTRETELA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('GOLA', row['descricao'], 'GOLAS', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('KIT GOLA', row['descricao'], 'KIT GOLA/PUNHO', row['categoria']), axis=1)
 
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
     return consulta
+def Categoria(contem, valorReferencia, valorNovo, categoria):
+    if contem in valorReferencia and categoria == '-':
+        return valorNovo
+    else:
+        return categoria
 
