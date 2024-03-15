@@ -100,7 +100,7 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
     utimaAtualizacao = consulta['ultimaData'][0]
     print(len(utimaAtualizacao))
 
-    if len(utimaAtualizacao) < 23 or utimaAtualizacao != None:
+    if len(utimaAtualizacao) != 23 or utimaAtualizacao != None:
         print(utimaAtualizacao)
         utimaAtualizacao = utimaAtualizacao + '.001'
 
@@ -110,7 +110,6 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
 
     if utimaAtualizacao != None:
 
-        print(utimaAtualizacao)
         # Converte as strings para objetos datetime
         data1_obj = datetime.strptime(dataHoraAtual, "%d/%m/%Y %H:%M:%S.%f")
         data2_obj = datetime.strptime(utimaAtualizacao, "%d/%m/%Y %H:%M:%S.%f")
