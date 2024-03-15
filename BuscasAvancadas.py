@@ -214,7 +214,10 @@ def RegistroSubstituto():
                " (SELECT op.codProduto from tco.OrdemProd op WHERE op.codempresa = 1 and op.numeroop = r.numOPConfec ) as codproduto," \
                " r.dtBaixa as databaixa_req, s.codItemPrincipal as componente, ri.nomeMaterial as nomecompontente, s.codMaterial as subst,"\
                 " (select ri2.nomeMaterial from tcq.RequisicaoItem ri2 where s.codEmpresa = ri2.codEmpresa and s.codRequisicao = ri2.codRequisicao  and ri2.codMaterial = s.codMaterial)"\
-                " as nomesub"\
+                " as nomesub," \
+               " (select ri2.codmaterialedt from tcq.RequisicaoItem ri2 where s.codEmpresa = ri2.codEmpresa and s.codRequisicao = ri2.codRequisicao  and ri2.codMaterial = s.codMaterial)"\
+                 " as coodigoSubs, "\
+               "(select ri2.codmaterialedt from tcq.RequisicaoItem ri2 where s.codEmpresa = ri2.codEmpresa and s.codRequisicao = ri2.codRequisicao  and ri2.codMaterial = s.codItemPrincipal) as coodigoPrincipal"\
                 " FROM TCQ.Requisicao R"\
                 " inner join tcq.RequisicaoItemSubst s on s.codEmpresa = r.codEmpresa and s.codRequisicao = r.numero"\
                 " left join tcq.RequisicaoItem ri on s.codEmpresa = ri.codEmpresa and s.codRequisicao = ri.codRequisicao  and ri.codMaterial = s.codItemPrincipal "\
