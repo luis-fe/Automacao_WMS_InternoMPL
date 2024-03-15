@@ -9,6 +9,7 @@ def SubstitutosSkuOP():
 
     # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
     consulta = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+    print(consulta)
 
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
