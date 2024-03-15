@@ -25,6 +25,10 @@ def SubstitutosSkuOP():
         lambda row: Categoria('GOLA', row['nomecompontente'], 'GOLAS', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('KIT GOLA', row['nomecompontente'], 'KIT GOLA/PUNHO', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('MALHA', row['nomecompontente'], 'MALHA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('TECIDO', row['nomecompontente'], 'TECIDO PLANO', row['categoria']), axis=1)
 
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
     #Carregando dados no Wms
