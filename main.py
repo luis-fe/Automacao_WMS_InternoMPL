@@ -266,6 +266,20 @@ if __name__ == '__main__':
         else:
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
 
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
+        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+            MateriaisSubstitutosPorSku.SubstitutosSkuOP()
+            controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
+
+        else:
+
+            print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+
+
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
