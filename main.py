@@ -273,6 +273,7 @@ if __name__ == '__main__':
         limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
 
         print('ETAPA 2: SUBSTITUTOS DAS OPS')
+        print(tempo)
         if tempo > limite:
             print('iniciando o salvamento')
             MateriaisSubstitutosPorSku.SubstitutosSkuOP()
