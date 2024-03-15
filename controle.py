@@ -99,6 +99,14 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
     conn.close()
     utimaAtualizacao = consulta['ultimaData'][0]
 
+    if len(utimaAtualizacao) <23:
+
+        utimaAtualizacao = utimaAtualizacao + '.000'
+
+    else:
+        print('segue o baile')
+
+
     if utimaAtualizacao != None:
 
         print(utimaAtualizacao)
