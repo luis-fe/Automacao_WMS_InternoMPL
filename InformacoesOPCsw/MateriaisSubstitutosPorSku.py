@@ -15,6 +15,7 @@ def SubstitutosSkuOP():
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
 
     conn.close()
+    # acrescentando as categorias
     consulta['categoria'] = '-'
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('ENTRETELA', row['descricao'], 'ENTRETELA', row['categoria']), axis=1)
