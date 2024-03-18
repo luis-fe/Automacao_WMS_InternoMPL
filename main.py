@@ -313,7 +313,8 @@ if __name__ == '__main__':
         limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
         if tempo > limite:
             #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
-            controle.salvar('ComponentesPrincipalPorSKU', client_ip, datainicio)
+            controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
+
 
         else:
 
