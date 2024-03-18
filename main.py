@@ -188,7 +188,7 @@ def my_task2():
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
         limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
         if tempo > limite:
-            MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
+            #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
             controle.salvar('ComponentesPrincipalPorSKU', client_ip, datainicio)
 
         else:
@@ -311,7 +311,7 @@ if __name__ == '__main__':
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
         limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
         if tempo > limite:
-            MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
+            #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
             controle.salvar('ComponentesPrincipalPorSKU', client_ip, datainicio)
 
         else:
