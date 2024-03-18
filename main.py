@@ -314,6 +314,8 @@ if __name__ == '__main__':
         if tempo > limite:
             #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
             controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
+            controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
+
 
 
         else:
