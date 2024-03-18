@@ -189,7 +189,8 @@ def my_task2():
         limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
         if tempo > limite:
             #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
-            controle.salvar('ComponentesPrincipalPorSKU', client_ip, datainicio)
+            controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
+            #controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
 
         else:
 
