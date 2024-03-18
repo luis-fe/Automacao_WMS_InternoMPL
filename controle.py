@@ -125,7 +125,6 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
         # Obtém a diferença total em segundos
         diferenca_total_segundos = diferenca.total_seconds()
 
-        print(f'\n a data e hora atual é {data1_obj} a data e hora da ultima atualizacao {data2_obj} \ne a diferenca em segundos {diferenca_total_segundos}')
         return diferenca_total_segundos
 
 

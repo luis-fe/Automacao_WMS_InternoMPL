@@ -264,29 +264,34 @@ scheduler.start()
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-
+    print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
 
     try:
+
+        print('\n 1- INCREMENTANDO NO BANCO DE DADOS AS TAGS PRONTAS PARA O PROCESSO DE REPOSICAO')
         # coloque o código que você deseja executar continuamente aqui
 
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
-        limite = 5 * 60  # (limite de 20 minutos , convertido para segundos)
+        tempoMin = 10
+        limite = tempoMin * 60  # (limite de 10 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
-        if tempo > limite and empresa == '1':
 
+        if tempo > limite and empresa == '1':
+            print('\n 1- Inicio do Processo de Capturar e salvar')
             tamnho1, datahora1 = RecarregarBanco.FilaTags()
             controle.salvar('fila Tags Reposicao','automacao',datainicio)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 
         elif empresa == '4':
+            print('\n 1- Inicio do Processo de Capturar e salvar')
             tamnho1, datahora1 = RecarregarBanco.FilaTags()
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
         else:
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! a ultima atualizacao ocorreu a {tempo} , com {tempoMin} minutos de antecendencia antes do limite planejado')
 
         print('\n 12 - Salvando as OPs que tiveram substitutos')
 
