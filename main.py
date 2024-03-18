@@ -187,10 +187,11 @@ def my_task2():
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
         limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
-        if tempo > limite:
-            #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
+        situacaoAutomacao = controle.distinctStatus('ComponentesPrincipalPorSKU')
+        if tempo > limite and situacaoAutomacao == 'nao iniciado':
             controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
-            #controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
+            MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
+            controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
 
         else:
 
@@ -311,9 +312,10 @@ if __name__ == '__main__':
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
         limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
-        if tempo > limite:
-            #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
+        situacaoAutomacao = controle.distinctStatus('ComponentesPrincipalPorSKU')
+        if tempo > limite and situacaoAutomacao == 'nao iniciado':
             controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
+            MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
             controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
 
 

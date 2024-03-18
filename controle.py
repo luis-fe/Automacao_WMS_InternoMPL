@@ -200,3 +200,17 @@ def salvarStatus(rotina, ip,datahoraInicio):
     cursor.close()
 
     conn.close()
+
+def distinctStatus(rotina):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql('select distinct status from "Reposicao".configuracoes.controle_requisicao_csw'
+               ' where rotina = %s ',conn,params=(rotina,))
+
+
+    conn.close()
+
+    if not consulta.empty:
+        return 'em andamento'
+    else:
+        return 'nao iniciado'
+
