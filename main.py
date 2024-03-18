@@ -182,28 +182,28 @@ def my_task2():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
     print('\n 13 - Salvando as OPs que tiveram substitutos - PARTE 2 ComponentesPrincipalPorSKU')
-    try:
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
-        limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
-        situacaoAutomacao = controle.distinctStatus('ComponentesPrincipalPorSKU')
-        if tempo > limite and situacaoAutomacao == 'nao iniciado':
+    #try:
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
+    limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
+    situacaoAutomacao = controle.distinctStatus('ComponentesPrincipalPorSKU')
+    if tempo > limite and situacaoAutomacao == 'nao iniciado':
             controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
             MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
             controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
 
-        else:
+    else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos ComponentesPrincipalPorSKU   EM MENOS DE 1 HORA - 60 MINUTOS')
 
-
+'''
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
-
-    print('Fim do Ciclo')
+'''
+print('Fim do Ciclo')
 
 def token_required(f):
     @wraps(f)
