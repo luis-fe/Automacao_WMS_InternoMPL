@@ -227,13 +227,10 @@ def RegistroSubstituto():
 #22- Sql Obter o compontente de cadas sku nas engenharias , relativo as 10Mil primeiras OP : velocidade 36 segundos (lento)
 
 def ComponentesPrincipaisEngenharia():
-    consulta = 'SELECT c.codProduto, cv.codSortimento , cv.seqTamanho, c.CodComponente, c.codAplicacao,'\
-                " (SELECT i.codItem  FROM cgi.item2 i WHERE i.Empresa = 1 and i.codSortimento  > 0 and i.codsortimento = cv.codSortimento and cv.seqTamanho = i.codSeqTamanho "\
-                " and '0'||codItemPai||'-0' = cv.codProduto) as codreduzido "\
-                ' FROM tcp.CompVarSorGraTam cv '\
-                ' right join tcp.ComponentesVariaveis c on cv.codEmpresa = c.codEmpresa and c.codproduto = cv.codproduto and c.codSequencia = cv.sequencia '\
-                ' WHERE c.codEmpresa = 1 '\
-                ' and c.codProduto in ( '\
-                ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
-                ' order by numeroOP desc )'
+    consulta = 'SELECT c.CodComponente as codItemPrincipal , c.codSortimento, c.codProduto as codProduto FROM tcp.ComponentesVariaveis c' \
+     'WHERE c.codEmpresa = 1 and c.codProduto in ('\
+' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
+  ' order by numeroOP desc) and c.CodComponente in ('\
+                ' SELECT s.codItemPrincipal from tcq.RequisicaoItemSubst s WHERE s.codempresa = 1'\
+                " ) and c.codproduto like '01%'"
     return consulta

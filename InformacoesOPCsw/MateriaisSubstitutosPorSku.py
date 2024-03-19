@@ -9,6 +9,9 @@ def SubstitutosSkuOP():
 
     # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
     consulta = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+    consulta2 = ComponentesPrincipalPorSKU()
+
+    consulta = pd.merge(consulta,consulta2,on=['codProduto', 'codItemPrincipal'], how='left')
 
 
 
@@ -65,7 +68,11 @@ def ComponentesPrincipalPorSKU():
     consulta = pd.read_sql(BuscasAvancadas.ComponentesPrincipaisEngenharia(),conn)
 
     conn.close()
-    #Carregando dados no Wms
-    ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['CodComponente'].size,'ComponentesPrincipalPorSKU','replace')
+
+    # Dividir os valores da coluna 2 por ";"
+    consulta['codSortimento'] = consulta['codSortimento'].str.split(';')
+
+    # Usar explode para expandir os valores em múltiplas linhas
+    consulta = consulta.explode('codSortimento')
 
     return consulta

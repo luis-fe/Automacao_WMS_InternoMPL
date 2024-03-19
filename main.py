@@ -181,28 +181,6 @@ def my_task2():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
-    print('\n 13 - Salvando as OPs que tiveram substitutos - PARTE 2 ComponentesPrincipalPorSKU')
-    #try:
-    client_ip = 'automacao'
-    datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
-    limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
-    situacaoAutomacao = controle.distinctStatus('ComponentesPrincipalPorSKU')
-    if tempo > limite and situacaoAutomacao == 'nao iniciado':
-            # controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
-           # MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
-           # controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
-        print('tesgt')
-    else:
-
-            print('JA EXISTE UMA ATUALIZACAO Dos ComponentesPrincipalPorSKU   EM MENOS DE 1 HORA - 60 MINUTOS')
-
-'''
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
-'''
 print('Fim do Ciclo')
 
 def token_required(f):
@@ -292,6 +270,19 @@ if __name__ == '__main__':
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
         else:
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! a ultima atualizacao ocorreu a {tempo} , com {tempoMin} minutos de antecendencia antes do limite planejado')
+
+
+
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+
+    try:
+        my_task()
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
 
 
 app.run(host='0.0.0.0', port=port)
