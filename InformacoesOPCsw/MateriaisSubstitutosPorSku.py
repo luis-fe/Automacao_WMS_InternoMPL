@@ -11,7 +11,7 @@ def SubstitutosSkuOP():
     consulta = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
     consulta2 = ComponentesPrincipalPorSKU()
 
-    consulta = pd.merge(consulta,consulta2,on=['codProduto', 'codItemPrincipal'], how='left')
+    consulta = pd.merge(consulta,consulta2,on=['codproduto', 'componente'], how='left')
 
 
 
