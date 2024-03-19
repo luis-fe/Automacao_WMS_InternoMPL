@@ -9,19 +9,28 @@ def SubstitutosSkuOP():
 
     # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
     consulta = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+
+    #Acrescentando as cores aos compontentes variaveis
     consulta2 = ComponentesPrincipalPorSKU()
-
+    consulta2['tipo'] = 'Variavel'
     consulta = pd.merge(consulta,consulta2,on=['codproduto', 'componente'], how='left')
+    consulta['tipo'].fillna('Padrao',inplace=True)
 
-    consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
-    consultaCor['codSortimento']=consultaCor['codSortimento'].astype(str)
-    consulta = pd.merge(consulta,consultaCor,on=['numeroop', 'codSortimento'], how='left')
 
+    #Acrescentando as cores aos compontentes padroes
     consulta3 = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
     consulta3['tipo'] = 'Padrao'
-    consulta = pd.merge(consulta,consulta3,on=['codproduto', 'componente'], how='left')
+    consulta = pd.merge(consulta,consulta3,on=['codproduto', 'componente','tipo'], how='left')
 
+    #Acrescentando as cores aos componentes variaveis
+    consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
 
+    consultaCor1 = consultaCor
+    consultaCor1['tipo'] = 'Variavel'
+    consultaCor1['codSortimento']=consultaCor1['codSortimento'].astype(str)
+    consulta = pd.merge(consulta,consultaCor1,on=['numeroop', 'codSortimento','tipo'], how='left')
+
+    #Acrescentando as cores aos componentes padroes
 
 
     conn.close()
