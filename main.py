@@ -293,41 +293,6 @@ if __name__ == '__main__':
         else:
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! a ultima atualizacao ocorreu a {tempo} , com {tempoMin} minutos de antecendencia antes do limite planejado')
 
-        print('\n 12 - Salvando as OPs que tiveram substitutos')
-
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
-        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
-
-        print('ETAPA 2: SUBSTITUTOS DAS OPS')
-        print(f'ultima atualizacao {tempo} e o limite {limite}')
-        if tempo > limite:
-            print('iniciando o salvamento')
-            MateriaisSubstitutosPorSku.SubstitutosSkuOP()
-            controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
-            print('salvo com sucesso !')
-
-        else:
-
-            print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
-        print('\n 13 - Salvando as OPs que tiveram substitutos - PARTE 2 ComponentesPrincipalPorSKU')
-
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'ComponentesPrincipalPorSKU')
-        limite = 90 * 60  # (limite de 90 minutos , convertido para segundos)
-        situacaoAutomacao = controle.distinctStatus('ComponentesPrincipalPorSKU')
-        if tempo > limite and situacaoAutomacao == 'nao iniciado':
-            #controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
-            #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
-            #controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
-            print('teste')
-
-
-        else:
-
-            print('JA EXISTE UMA ATUALIZACAO Dos ComponentesPrincipalPorSKU   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 
 
