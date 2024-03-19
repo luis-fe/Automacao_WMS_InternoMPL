@@ -13,6 +13,10 @@ def SubstitutosSkuOP():
 
     consulta = pd.merge(consulta,consulta2,on=['codproduto', 'componente'], how='left')
 
+    consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
+    consulta = pd.merge(consulta,consultaCor,on=['numeroop', 'codSortimento'], how='left')
+
+
 
 
     conn.close()
