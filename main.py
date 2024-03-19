@@ -322,7 +322,7 @@ if __name__ == '__main__':
             #controle.InserindoStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
             #MateriaisSubstitutosPorSku.ComponentesPrincipalPorSKU()
             #controle.salvarStatus('ComponentesPrincipalPorSKU', client_ip, datainicio)
-
+            print('teste')
 
 
         else:
