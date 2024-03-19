@@ -182,7 +182,6 @@ def my_task2():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 print('Fim do Ciclo')
-
 def token_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
