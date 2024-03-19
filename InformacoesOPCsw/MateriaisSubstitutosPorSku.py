@@ -18,6 +18,7 @@ def SubstitutosSkuOP():
     consulta = pd.merge(consulta,consultaCor,on=['numeroop', 'codSortimento'], how='left')
 
     consulta3 = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
+    consulta3['tipo'] = 'Padrao'
     consulta = pd.merge(consulta,consulta3,on=['codproduto', 'componente'], how='left')
 
 

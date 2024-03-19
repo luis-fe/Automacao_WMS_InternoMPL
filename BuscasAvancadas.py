@@ -249,7 +249,7 @@ def ConsultaCOr():
 
 
 def ComponentesPadraoEng():
-    consulta = "SELECT c.CodComponente as componente, c.codProduto as codproduto, 'padrao' as tipo  FROM tcp.ComponentesPadroes  c"\
+    consulta = "SELECT c.CodComponente as componente, c.codProduto as codproduto  FROM tcp.ComponentesPadroes  c"\
      ' WHERE c.codEmpresa = 1 and c.codProduto in ('\
  ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
    ' order by numeroOP desc) and c.CodComponente in ('\
