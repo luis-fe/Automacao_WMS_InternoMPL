@@ -254,6 +254,6 @@ def ComponentesPadraoEng():
  ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
    ' order by numeroOP desc) and c.CodComponente in ('\
                  ' SELECT s.codItemPrincipal from tcq.RequisicaoItemSubst s WHERE s.codempresa = 1'\
-                 " ) and c.codproduto like '01%''"
+                 " ) and c.codproduto like '01%'"
 
     return consulta
