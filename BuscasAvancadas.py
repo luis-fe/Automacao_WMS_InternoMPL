@@ -227,7 +227,7 @@ def RegistroSubstituto():
 #22- Sql Obter o compontente de cadas sku nas engenharias , relativo as 10Mil primeiras OP : velocidade 36 segundos (lento)
 
 def ComponentesPrincipaisEngenharia():
-    consulta = 'SELECT c.CodComponente as componente , c.codSortimento, c.codProduto as codproduto FROM tcp.ComponentesVariaveis c' \
+    consulta = 'SELECT c.CodComponente as componente , c.codSortimento, c.codProduto as codproduto, aplicacao FROM tcp.ComponentesVariaveis c' \
      ' WHERE c.codEmpresa = 1 and c.codProduto in ('\
 ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
   ' order by numeroOP desc) and c.CodComponente in ('\
