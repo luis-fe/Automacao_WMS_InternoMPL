@@ -17,6 +17,9 @@ def SubstitutosSkuOP():
     consultaCor['codSortimento']=consultaCor['codSortimento'].astype(str)
     consulta = pd.merge(consulta,consultaCor,on=['numeroop', 'codSortimento'], how='left')
 
+    consulta3 = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
+    consulta = pd.merge(consulta,consulta3,on=['codproduto', 'componente'], how='left')
+
 
 
 
@@ -43,6 +46,7 @@ def SubstitutosSkuOP():
     ultimobackup = ConsultaSubstitutosFlegadoSim()
     consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
     consulta['considera'].fillna('-',inplace=True)
+    consulta['tipo'].fillna('variavel',inplace=True)
 
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')

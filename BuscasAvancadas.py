@@ -246,3 +246,14 @@ def ConsultaCOr():
                 " WHERE op.codEmpresa = 1 and op.codproduto like '0%'"\
                 " order by numeroOP desc"
     return consulta
+
+
+def ComponentesPadraoEng():
+    consulta = "SELECT c.CodComponente as componente, c.codProduto, 'padrao' as tipo as codproduto FROM tcp.ComponentesPadroes  c"\
+     ' WHERE c.codEmpresa = 1 and c.codProduto in ('\
+ ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
+   ' order by numeroOP desc) and c.CodComponente in ('\
+                 ' SELECT s.codItemPrincipal from tcq.RequisicaoItemSubst s WHERE s.codempresa = 1'\
+                 " ) and c.codproduto like '01%''"
+
+    return consulta
