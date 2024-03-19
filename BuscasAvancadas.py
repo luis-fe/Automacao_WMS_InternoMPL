@@ -228,7 +228,7 @@ def RegistroSubstituto():
 
 def ComponentesPrincipaisEngenharia():
     consulta = 'SELECT c.CodComponente as codItemPrincipal , c.codSortimento, c.codProduto as codProduto FROM tcp.ComponentesVariaveis c' \
-     'WHERE c.codEmpresa = 1 and c.codProduto in ('\
+     ' WHERE c.codEmpresa = 1 and c.codProduto in ('\
 ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
   ' order by numeroOP desc) and c.CodComponente in ('\
                 ' SELECT s.codItemPrincipal from tcq.RequisicaoItemSubst s WHERE s.codempresa = 1'\
