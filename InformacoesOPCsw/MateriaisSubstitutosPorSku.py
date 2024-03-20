@@ -27,13 +27,14 @@ def SubstitutosSkuOP():
     consultaPad = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
     consultaPad['tipo'] = 'Padrao'
     consultaSubstitudosPad = consultaSubstitudos
-    consultaSubstitudosPad.drop('aplicacao', axis=1, inplace=True)
+    consultaSubstitudosPad.drop(['aplicacao','cor','codsortimento'], axis=1, inplace=True)
     consultaSubstitudosPad = consultaSubstitudosPad[consultaSubstitudosPad['tipo'] == 'Padrao']
 
     #Acrescentando as cores aos componentes padroes
     consultaCor['tipo'] = 'Padrao'
     consultaSubstitudosPad = pd.merge(consultaSubstitudosPad,consultaCor,on=['numeroop','tipo'], how='left')
 
+    consultaSubstitudos = consultaSubstitudos[consultaSubstitudos['tipo']=='Variavel']
     consulta = pd.concat([consultaSubstitudos, consultaSubstitudosPad], ignore_index=True)
 
     conn.close()
