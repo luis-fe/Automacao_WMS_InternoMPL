@@ -8,36 +8,32 @@ def SubstitutosSkuOP():
     conn = ConexaoCSW.Conexao()
 
     # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
-    consulta = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+    consultaSubstitudos = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
 
-    #Acrescentando as cores aos compontentes variaveis
-    consulta2 = ComponentesPrincipalPorSKU()
-    consulta2['tipo'] = 'Variavel'
-    consulta = pd.merge(consulta,consulta2,on=['codproduto', 'componente'], how='left')
-    consulta['tipo'].fillna('Padrao',inplace=True)
-
-
-    #Acrescentando as cores aos compontentes padroes
-    consulta3 = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
-    consulta3['tipo'] = 'Padrao'
+    #Acrescentando o codigoSortimento aos compontentes variaveis
+    consultaSortVar = ComponentesPrincipalPorSKU()
+    consultaSortVar['tipo'] = 'Variavel'
+    consultaSubstitudos = pd.merge(consultaSubstitudos,consultaSortVar,on=['codproduto', 'componente'], how='left')
+    consultaSubstitudos['tipo'].fillna('Padrao',inplace=True)#Caso vazio, marcar como componente padrao
 
     #Acrescentando as cores aos componentes variaveis
     consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
+    consultaCor['tipo'] = 'Variavel'
+    consultaCor['codSortimento']=consultaCor['codSortimento'].astype(str)
+    consultaSubstitudos = pd.merge(consultaSubstitudos,consultaCor,on=['numeroop', 'codSortimento','tipo'], how='left')
 
-    consultaCor1 = consultaCor
-    consultaCor1['tipo'] = 'Variavel'
-    consultaCor1['codSortimento']=consultaCor1['codSortimento'].astype(str)
-    consultaVar = consulta[consulta['tipo']== 'Variavel']
-    consultaVar = pd.merge(consultaVar,consultaCor1,on=['numeroop', 'codSortimento','tipo'], how='left')
+
+    #Levantamento dos compontentes padroes
+    consultaPad = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
+    consultaPad['tipo'] = 'Padrao'
+    consultaSubstitudosPad = consultaSubstitudos.drop('aplicacao', axis=1, inplace=True)
+    consultaSubstitudosPad = consultaSubstitudosPad[consultaSubstitudosPad['tipo'] == 'Padrao']
 
     #Acrescentando as cores aos componentes padroes
-    consultaPad = consulta[consulta['tipo']!= 'Variavel']
-    consultaPad = pd.merge(consultaPad,consulta3,on=['codproduto', 'componente','tipo'], how='left')
-    consultaPad = pd.merge(consultaPad,consultaCor1,on=['numeroop','tipo'], how='left')
+    consultaCor['tipo'] = 'Padrao'
+    consultaSubstitudosPad = pd.merge(consultaSubstitudosPad,consultaCor,on=['numeroop','tipo'], how='left')
 
-    consulta = pd.concat([consultaVar, consultaPad], ignore_index=True)
-
-
+    consulta = pd.concat([consultaSubstitudos, consultaSubstitudosPad], ignore_index=True)
 
     conn.close()
     # acrescentando as categorias
