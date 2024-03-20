@@ -16,6 +16,12 @@ def BuscarTagsGarantia():
                            ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = '+emp+' and '
                         ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = '+emp+' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 437, 429, 365 ) and situacao = 3) ', conn)
     conn.close()
+
+
+    restringe = BuscaResticaoSubstitutos()
+    consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+
+
     return consulta
 
 def SalvarTagsNoBancoPostgre():
@@ -24,3 +30,13 @@ def SalvarTagsNoBancoPostgre():
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta,consulta.size,'filareposicaoof', 'replace')
 
     print('Tags filareposicaoOF atualizadas com sucesso')
+
+def BuscaResticaoSubstitutos():
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select numeroop , cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP" '
+                           "sso where sso.considera = 'sim'",conn)
+
+    conn.close()
+
+    return consulta
