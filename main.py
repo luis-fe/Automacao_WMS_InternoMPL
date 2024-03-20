@@ -280,15 +280,15 @@ if __name__ == '__main__':
     print('\n 12 - Salvando as OPs que tiveram substitutos')
 
     #try:
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
-        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
-        if tempo > limite:
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
+    limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
             MateriaisSubstitutosPorSku.SubstitutosSkuOP()
             controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
 
-        else:
+    else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
 
