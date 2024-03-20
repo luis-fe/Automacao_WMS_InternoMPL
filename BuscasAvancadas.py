@@ -243,7 +243,7 @@ def ConsultaCOr():
     consulta = " SELECT top 80000 " \
                 " op.numeroOP as numeroop , op.codSortimento, s.corbase||'-'||s.nomeCorBase as cor  FROM tco.OrdemProdGrades op"\
                 " inner join tcp.SortimentosProduto s on s.codEmpresa = op.codEmpresa and s.codProduto = op.codProduto and s.codSortimento = op.codSortimento "\
-                " WHERE op.codEmpresa = 1 and op.codproduto like '0%'"\
+                " WHERE op.codEmpresa = 1 and op.codproduto like '%-0'"\
                 " order by numeroOP desc"
     return consulta
 
