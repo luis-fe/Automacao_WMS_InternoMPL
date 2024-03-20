@@ -20,7 +20,6 @@ def SubstitutosSkuOP():
     #Acrescentando as cores aos compontentes padroes
     consulta3 = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
     consulta3['tipo'] = 'Padrao'
-    consulta = pd.merge(consulta,consulta3,on=['codproduto', 'componente','tipo'], how='left')
 
     #Acrescentando as cores aos componentes variaveis
     consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
@@ -28,9 +27,16 @@ def SubstitutosSkuOP():
     consultaCor1 = consultaCor
     consultaCor1['tipo'] = 'Variavel'
     consultaCor1['codSortimento']=consultaCor1['codSortimento'].astype(str)
-    consulta = pd.merge(consulta,consultaCor1,on=['numeroop', 'codSortimento','tipo'], how='left')
+    consultaVar = consulta[consulta['tipo']== 'Variavel']
+    consultaVar = pd.merge(consultaVar,consultaCor1,on=['numeroop', 'codSortimento','tipo'], how='left')
 
     #Acrescentando as cores aos componentes padroes
+    consultaPad = consulta[consulta['tipo']!= 'Variavel']
+    consultaPad = pd.merge(consultaPad,consulta3,on=['codproduto', 'componente','tipo'], how='left')
+    consultaPad = pd.merge(consultaPad,consultaCor1,on=['numeroop','tipo'], how='left')
+
+    consulta = pd.concat([consultaVar, consultaPad], ignore_index=True)
+
 
 
     conn.close()
