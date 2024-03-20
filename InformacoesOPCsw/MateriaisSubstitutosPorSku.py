@@ -41,6 +41,8 @@ def SubstitutosSkuOP():
     consulta = pd.concat([consultaSubstitudos, consultaSubstitudosPad], ignore_index=True)
 
     conn.close()
+    consulta['aplicacaoPad'].fillna('-',inplace=True)
+    consulta['aplicacao'] = consulta.apply(lambda row : row['aplicacaoPad'] if row['aplicacaoPad']!='-' else row['aplicacao'], axis=True )
     # acrescentando as categorias
     consulta['categoria'] = '-'
     consulta['categoria'] = consulta.apply(
