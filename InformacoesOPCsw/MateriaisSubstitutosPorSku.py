@@ -28,6 +28,7 @@ def SubstitutosSkuOP():
     consultaPad['tipo'] = 'Padrao'
     consultaSubstitudosPad = consultaSubstitudos
     consultaSubstitudosPad = consultaSubstitudosPad[consultaSubstitudosPad['tipo'] == 'Padrao']
+    consultaSubstitudosPad.drop(['codSortimento', 'cor'], axis=1, inplace=True)
 
     consultaSubstitudosPad = pd.merge(consultaSubstitudosPad,consultaPad,on=['codproduto','componente','tipo'], how='left')
 
