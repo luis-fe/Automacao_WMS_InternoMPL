@@ -69,6 +69,9 @@ def SubstitutosSkuOP():
     consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
     consulta['considera'].fillna('-',inplace=True)
     consulta['tipo'].fillna('variavel',inplace=True)
+    consulta['cor'].fillna('-',inplace=True)
+
+    consulta = consulta[consulta['cor'] != '-']
 
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
