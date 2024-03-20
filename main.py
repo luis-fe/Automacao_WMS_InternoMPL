@@ -279,7 +279,7 @@ if __name__ == '__main__':
 
     print('\n 12 - Salvando as OPs que tiveram substitutos')
 
-    try:
+    #try:
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
@@ -292,9 +292,9 @@ if __name__ == '__main__':
 
             print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
 
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
+    #except Exception as e:
+     #   print(f"Erro detectado: {str(e)}")
+      #  restart_server()
 
     try:
         my_task()
