@@ -63,6 +63,10 @@ def SubstitutosSkuOP():
         lambda row: Categoria('BOTAO', row['nomecompontente'], 'BOTAO PLANO', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('MOLET', row['nomecompontente'], 'MOLETOM', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('ETIQUETA', row['nomecompontente'], 'ETIQUETAS', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('CADARC', row['nomecompontente'], 'CADARC', row['categoria']), axis=1)
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
