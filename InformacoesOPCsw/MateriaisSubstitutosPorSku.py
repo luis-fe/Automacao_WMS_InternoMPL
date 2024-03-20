@@ -50,7 +50,10 @@ def SubstitutosSkuOP():
         lambda row: Categoria('MALHA', row['nomecompontente'], 'MALHA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('TECIDO', row['nomecompontente'], 'TECIDO PLANO', row['categoria']), axis=1)
-
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('BOTAO', row['nomecompontente'], 'BOTAO PLANO', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('MOLET', row['nomecompontente'], 'MOLETOM', row['categoria']), axis=1)
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
