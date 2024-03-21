@@ -21,6 +21,8 @@ def BuscarTagsGarantia():
     restringe = BuscaResticaoSubstitutos()
     consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
 
+    consulta['resticao'].fillna('-',inplace=True)
+
 
     return consulta
 
