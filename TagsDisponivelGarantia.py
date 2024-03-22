@@ -24,9 +24,9 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
     print(restringe['numeroop'][0])
 
     if restringe['numeroop'][0] != 'vazio':
-        consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+        consulta.fillna('-',inplace=True)
+        consulta = pd.merge(consulta, restringe, on=['numeroop', 'cor'], how='left')
         print('passou aqui')
-
         consulta['resticao'].fillna('-', inplace=True)
     else:
         consulta['resticao'] = '-'
