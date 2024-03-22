@@ -20,12 +20,13 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
     etapa1 = controle.salvarStatus_Etapa1(rotina, ip,datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
 
     restringe = BuscaResticaoSubstitutos()
-    print(restringe)
+    print(consulta)
     print(restringe['numeroop'][0])
 
     if restringe['numeroop'][0] != 'vazio':
-        print('passou aqui')
         consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+        print('passou aqui')
+
         consulta['resticao'].fillna('-', inplace=True)
     else:
         consulta['resticao'] = '-'
