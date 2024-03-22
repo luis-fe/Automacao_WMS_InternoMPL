@@ -26,11 +26,14 @@ def FilaTags(datainico, rotina):
         "(SELECT i2.descricao  FROM tcp.SortimentosProduto  i2 WHERE i2.codEmpresa = 1 and  i2.codProduto  = t.codEngenharia  and t.codSortimento  = i2.codSortimento) as cor,"
         " (SELECT tam.descricao  FROM cgi.Item2  i2 join tcp.Tamanhos tam on tam.codEmpresa = i2.Empresa and tam.sequencia = i2.codSeqTamanho  WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as tamanho, codEmpresa as codempresa "
         " from tcr.TagBarrasProduto t WHERE codEmpresa in ("+xemp+") and codNaturezaAtual in (5, 7 ,54) and situacao in (3, 8)", conn)
-    controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from tcr.TagBarrasProduto t')
+    etapa1 = controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from tcr.TagBarrasProduto t')
 
     df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
                               'from tco.MovimentacaoOPFase WHERE codEmpresa = '+xemp+ "and codFase = 236  "
                               'order by numeroOP desc ',conn)
+
+    controle.salvarStatus_Etapa2(rotina,'automacao', etapa1,'from tcr.TagBarrasProduto t')
+
 
     df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
     df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
