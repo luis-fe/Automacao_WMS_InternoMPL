@@ -17,10 +17,11 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
                            ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = '+emp+' and '
                         ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = '+emp+' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 437, 429, 365 ) and situacao = 3) ', conn)
     conn.close()
-    controle.salvarStatus_Etapa1(rotina, ip,datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
+    etapa1 = controle.salvarStatus_Etapa1(rotina, ip,datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
 
     restringe = BuscaResticaoSubstitutos()
     consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+    etapa2 = controle.salvarStatus_Etapa1(rotina, ip, etapa1, 'Adicionando os substitutos selecionados no wms')
 
     consulta['resticao'].fillna('-',inplace=True)
 
