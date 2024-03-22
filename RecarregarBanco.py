@@ -32,24 +32,31 @@ def FilaTags(datainico, rotina):
                               'from tco.MovimentacaoOPFase WHERE codEmpresa = '+xemp+ "and codFase = 236  "
                               'order by numeroOP desc ',conn)
 
-    controle.salvarStatus_Etapa2(rotina,'automacao', etapa1,'from tcr.TagBarrasProduto t')
+    etapa2 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa1,'from tco.MovimentacaoOPFase ')
 
 
     df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
     df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
     df_tags['codnaturezaatual'] = df_tags['codnaturezaatual'].astype(str)
     df_tags['totalop'] = df_tags['totalop'].astype(int)
+
     # CRIANDO O DATAFRAME DO QUE JA FOI REPOSTO E USANDO MERGE
        # Verificando as tag's que ja foram repostas
     TagsRepostas = pd.read_sql('select "codbarrastag" as codbarrastag, "usuario" as usuario_  from "Reposicao"."tagsreposicao" tr '
                                ' union select "codbarrastag" as codbarrastag, "usuario" as usuario_ from "Reposicao"."Reposicao".tagsreposicao_inventario ti ',conn2)
+
     df_tags = pd.merge(df_tags, TagsRepostas, on='codbarrastag', how='left')
     df_tags = df_tags.loc[df_tags['usuario_'].isnull()]
     df_tags.drop('usuario_', axis=1, inplace=True)
+    etapa3 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa2,'WMS: "Reposicao"."tagsreposicao"   ')
+
+
         # Verificando as tag's que ja estam na fila
     ESTOQUE = pd.read_sql('select "usuario", "codbarrastag" as codbarrastag, "Situacao" as sti_aterior  from "Reposicao"."filareposicaoportag" ',conn2)
     df_tags = pd.merge(df_tags,ESTOQUE,on='codbarrastag',how='left')
     df_tags['Situacao'] = df_tags.apply(lambda row: 'Reposto' if not pd.isnull(row['usuario']) else 'Reposição não Iniciada', axis=1)
+    etapa4 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa3,'WMS: "Reposicao"."filareposicaoportag"   ')
+
     epc = LerEPC()
     df_tags = pd.merge(df_tags, epc, on='codbarrastag', how='left')
     df_tags.rename(columns={'codbarrastag': 'codbarrastag','codEngenharia':'engenharia'
