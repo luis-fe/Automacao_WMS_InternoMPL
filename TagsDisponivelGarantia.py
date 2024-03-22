@@ -53,7 +53,7 @@ def BuscaResticaoSubstitutos():
 
     if consulta.empty:
 
-        return pd.DataFrame[{'numeroop':'vazio'}]
+        return pd.DataFrame([{'numeroop':'vazio'}])
 
     else:
 
