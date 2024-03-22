@@ -64,6 +64,7 @@ def FilaTags():
     df_tags = pd.merge(df_tags,restringe,on=['numeroop','cor'],how='left')
 
     df_tags['resticao'].fillna('-',inplace=True)
+    df_tags['considera'].fillna('-',inplace=True)
 
     #try:
     tamanho2 = 1000
