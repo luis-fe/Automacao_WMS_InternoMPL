@@ -158,7 +158,7 @@ def InserindoStatus(rotina, ip,datahoraInicio):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = 'insert into "Reposicao".configuracoes.controle_requisicao_csw (rotina, fim, inicio, ip_origem,status, "tempo_procedimento(s)" ' \
+    consulta = 'insert into "Reposicao".configuracoes.controle_requisicao_csw (rotina, fim, inicio, ip_origem, status, "tempo_processamento(s)" ' \
           'values (%s , %s , %s , %s, %s , %s )'
 
     cursor = conn.cursor()
