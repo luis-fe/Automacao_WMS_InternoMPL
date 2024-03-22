@@ -58,8 +58,9 @@ def my_task2():
         empresa = empresaConfigurada.EmpresaEscolhida()
         if tempo > limite and empresa == '1':
 
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio,rotina)
-            controle.salvar('fila Tags Reposicao','automacao',datainicio)
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
+            controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 

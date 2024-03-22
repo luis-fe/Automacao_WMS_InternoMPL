@@ -158,12 +158,12 @@ def InserindoStatus(rotina, ip,datahoraInicio):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = 'insert into "Reposicao".configuracoes.controle_requisicao_csw (rotina, fim, inicio, ip_origem,status) ' \
-          'values (%s , %s , %s , %s, %s )'
+    consulta = 'insert into "Reposicao".configuracoes.controle_requisicao_csw (rotina, fim, inicio, ip_origem,status, "tempo_procedimento(s)" ' \
+          'values (%s , %s , %s , %s, %s , %s )'
 
     cursor = conn.cursor()
 
-    cursor.execute(consulta,(rotina,datahorafinal, datahoraInicio, ip,'em andamento' ))
+    cursor.execute(consulta,(rotina,datahorafinal, datahoraInicio, ip,'em andamento', tempoProcessamento ))
     conn.commit()
     cursor.close()
 
@@ -233,13 +233,15 @@ def salvarStatus_Etapa1(rotina, ip,datahoraInicio,etapa):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa1 = %s, "etapa1_tempo" = %s ' \
+    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa1 = %s, "etapa1_tempo" = %s, "tempo_processamento(s)" = %s ' \
                ' where  rotina = %s and inicio = %s and ip_origem = %s '
 
     cursor = conn.cursor()
 
-    cursor.execute(consulta,(etapa, tempoProcessamento,rotina,datahoraInicio, ip,  ))
+    cursor.execute(consulta,(etapa, tempoProcessamento,tempoProcessamento,rotina,datahoraInicio, ip,  ))
     conn.commit()
     cursor.close()
 
     conn.close()
+
+    return datahorafinal
