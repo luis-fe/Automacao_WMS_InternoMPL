@@ -21,7 +21,7 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
 
     restringe = BuscaResticaoSubstitutos()
     consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
-    etapa2 = controle.salvarStatus_Etapa1(rotina, ip, etapa1, 'Adicionando os substitutos selecionados no wms')
+    etapa2 = controle.salvarStatus_Etapa2(rotina, ip, etapa1, 'Adicionando os substitutos selecionados no wms')
 
     consulta['resticao'].fillna('-',inplace=True)
 
