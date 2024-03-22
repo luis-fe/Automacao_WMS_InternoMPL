@@ -20,10 +20,16 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
     etapa1 = controle.salvarStatus_Etapa1(rotina, ip,datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
 
     restringe = BuscaResticaoSubstitutos()
-    consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+    if restringe['numeroop'][0] != 'vazio':
+        consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+        consulta['resticao'].fillna('-', inplace=True)
+    else:
+        consulta['resticao'] = '-'
+        consulta['considera'] = '-'
+
+
     etapa2 = controle.salvarStatus_Etapa2(rotina, ip, etapa1, 'Adicionando os substitutos selecionados no wms')
 
-    consulta['resticao'].fillna('-',inplace=True)
 
 
     return consulta, etapa2
@@ -45,4 +51,10 @@ def BuscaResticaoSubstitutos():
 
     conn.close()
 
-    return consulta
+    if consulta.empty:
+
+        return pd.DataFrame[{'numeroop':'vazio'}]
+
+    else:
+
+        return consulta
