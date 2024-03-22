@@ -163,7 +163,7 @@ def InserindoStatus(rotina, ip,datahoraInicio):
 
     cursor = conn.cursor()
 
-    cursor.execute(consulta,(rotina,'-', datahoraInicio, ip,'em andamento' ))
+    cursor.execute(consulta,(rotina,datahorafinal, datahoraInicio, ip,'em andamento' ))
     conn.commit()
     cursor.close()
 

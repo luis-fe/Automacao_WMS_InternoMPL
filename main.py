@@ -258,8 +258,9 @@ if __name__ == '__main__':
 
         if tempo > limite and empresa == '1':
             print('\n 1- Inicio do Processo de Capturar e salvar')
+            controle.InserindoStatus(rotina,client_ip,datainicio)
             tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
-            controle.salvar('fila Tags Reposicao','automacao',datainicio)
+            controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 
