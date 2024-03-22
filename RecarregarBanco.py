@@ -59,6 +59,12 @@ def FilaTags():
     tamanho = df_tags['codbarrastag'].size
     dataHora = obterHoraAtual()
     df_tags['DataHora'] = dataHora
+
+    restringe = BuscaResticaoSubstitutos()
+    consulta = pd.merge(df_tags,restringe,on=['numeroop','cor'],how='left')
+
+    consulta['resticao'].fillna('-',inplace=True)
+
     #try:
     tamanho2 = 1000
     ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
@@ -116,3 +122,14 @@ def avaliacaoFila():
 
     dataHora = obterHoraAtual()
     return tagWms['codbarrastag'].size, dataHora
+
+def BuscaResticaoSubstitutos():
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql("select numeroop , codproduto||'||'||numeroop  as resticao,  "
+                            'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
+                           "sso where sso.considera = 'sim'",conn)
+
+    conn.close()
+
+    return consulta
