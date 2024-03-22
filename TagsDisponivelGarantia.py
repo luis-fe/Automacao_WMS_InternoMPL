@@ -20,6 +20,7 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
     etapa1 = controle.salvarStatus_Etapa1(rotina, ip,datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
 
     restringe = BuscaResticaoSubstitutos()
+    print(restringe)
     if restringe['numeroop'][0] != 'vazio':
         consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
         consulta['resticao'].fillna('-', inplace=True)
@@ -47,7 +48,7 @@ def BuscaResticaoSubstitutos():
 
     consulta = pd.read_sql("select numeroop , codproduto||'||'||numeroop  as resticao,  "
                             'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
-                           "sso where sso.considera = 'sim'",conn)
+                           "sso where sso.considera = 'sim' ",conn)
 
     conn.close()
 
