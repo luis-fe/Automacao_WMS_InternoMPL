@@ -50,7 +50,7 @@ def my_task2():
 
     try:
         # coloque o código que você deseja executar continuamente aqui
-
+        rotina = 'fila Tags Reposicao'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
@@ -58,13 +58,13 @@ def my_task2():
         empresa = empresaConfigurada.EmpresaEscolhida()
         if tempo > limite and empresa == '1':
 
-            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio,rotina)
             controle.salvar('fila Tags Reposicao','automacao',datainicio)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 
         elif empresa == '4':
-            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
         else:
@@ -247,6 +247,7 @@ if __name__ == '__main__':
 
         print('\n 1- INCREMENTANDO NO BANCO DE DADOS AS TAGS PRONTAS PARA O PROCESSO DE REPOSICAO')
         # coloque o código que você deseja executar continuamente aqui
+        rotina = 'fila Tags Reposicao'
 
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
@@ -257,14 +258,14 @@ if __name__ == '__main__':
 
         if tempo > limite and empresa == '1':
             print('\n 1- Inicio do Processo de Capturar e salvar')
-            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
             controle.salvar('fila Tags Reposicao','automacao',datainicio)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 
         elif empresa == '4':
             print('\n 1- Inicio do Processo de Capturar e salvar')
-            tamnho1, datahora1 = RecarregarBanco.FilaTags()
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
         else:

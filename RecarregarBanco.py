@@ -6,6 +6,7 @@ from psycopg2 import sql
 import pytz
 import ConexaoCSW
 import ConexaoPostgreMPL
+import controle
 import empresaConfigurada
 
 def obterHoraAtual():
@@ -14,7 +15,7 @@ def obterHoraAtual():
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
 
-def FilaTags():
+def FilaTags(datainico, rotina):
     xemp = empresaConfigurada.EmpresaEscolhida()
     xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
@@ -25,6 +26,7 @@ def FilaTags():
         "(SELECT i2.descricao  FROM tcp.SortimentosProduto  i2 WHERE i2.codEmpresa = 1 and  i2.codProduto  = t.codEngenharia  and t.codSortimento  = i2.codSortimento) as cor,"
         " (SELECT tam.descricao  FROM cgi.Item2  i2 join tcp.Tamanhos tam on tam.codEmpresa = i2.Empresa and tam.sequencia = i2.codSeqTamanho  WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as tamanho, codEmpresa as codempresa "
         " from tcr.TagBarrasProduto t WHERE codEmpresa in ("+xemp+") and codNaturezaAtual in (5, 7 ,54) and situacao in (3, 8)", conn)
+    controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from tcr.TagBarrasProduto t')
 
     df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
                               'from tco.MovimentacaoOPFase WHERE codEmpresa = '+xemp+ "and codFase = 236  "
