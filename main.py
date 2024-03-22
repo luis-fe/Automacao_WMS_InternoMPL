@@ -127,14 +127,15 @@ def my_task2():
         print('9.1.1 Falha na automacao - Tratamento de Erros')
     print('\n 10 - Importando Tags da Reposicao off')
     try:
+        rotina = 'atualiza tag off'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'atualiza tag off')
         limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
-
-            TagsDisponivelGarantia.SalvarTagsNoBancoPostgre()
-            controle.salvar('atualiza tag off',client_ip,datainicio)
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            TagsDisponivelGarantia.SalvarTagsNoBancoPostgre(rotina, client_ip,datainicio)
+            controle.salvarStatus('atualiza tag off',client_ip,datainicio)
 
         else:
             print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
@@ -288,6 +289,7 @@ if __name__ == '__main__':
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
     limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
+
             MateriaisSubstitutosPorSku.SubstitutosSkuOP()
             controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
 

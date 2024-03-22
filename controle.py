@@ -345,3 +345,36 @@ def salvarStatus_Etapa4(rotina, ip,datahoraInicio,etapa):
     conn.close()
 
     return datahorafinal
+
+def salvarStatus_Etapa5(rotina, ip,datahoraInicio,etapa):
+    datahorafinal = obterHoraAtual()
+
+    # Converte as strings para objetos datetime
+    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+
+    # Calcula a diferença entre as datas
+    diferenca = data1_obj - data2_obj
+
+    # Obtém a diferença em dias como um número inteiro
+    diferenca_em_dias = diferenca.days
+
+    # Obtém a diferença total em segundos
+    diferenca_total_segundos = diferenca.total_seconds()
+    tempoProcessamento = float(diferenca_total_segundos)
+
+
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa5 = %s, "etapa5_tempo" = %s, "tempo_processamento(s)" = ( %s + "tempo_processamento(s)" ) ' \
+               ' where  rotina = %s and status = %s and ip_origem = %s '
+
+    cursor = conn.cursor()
+
+    cursor.execute(consulta,(etapa, tempoProcessamento,tempoProcessamento,rotina,'em andamento', ip,  ))
+    conn.commit()
+    cursor.close()
+
+    conn.close()
+
+    return datahorafinal

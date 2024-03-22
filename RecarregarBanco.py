@@ -48,16 +48,18 @@ def FilaTags(datainico, rotina):
     df_tags = pd.merge(df_tags, TagsRepostas, on='codbarrastag', how='left')
     df_tags = df_tags.loc[df_tags['usuario_'].isnull()]
     df_tags.drop('usuario_', axis=1, inplace=True)
-    etapa3 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa2,'WMS: "Reposicao"."tagsreposicao"   ')
+    etapa3 = controle.salvarStatus_Etapa3(rotina,'automacao', etapa2,'WMS: "Reposicao"."tagsreposicao"   ')
 
 
         # Verificando as tag's que ja estam na fila
     ESTOQUE = pd.read_sql('select "usuario", "codbarrastag" as codbarrastag, "Situacao" as sti_aterior  from "Reposicao"."filareposicaoportag" ',conn2)
     df_tags = pd.merge(df_tags,ESTOQUE,on='codbarrastag',how='left')
     df_tags['Situacao'] = df_tags.apply(lambda row: 'Reposto' if not pd.isnull(row['usuario']) else 'Reposição não Iniciada', axis=1)
-    etapa4 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa3,'WMS: "Reposicao"."filareposicaoportag"   ')
+    etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'WMS: "Reposicao"."filareposicaoportag"   ')
 
     epc = LerEPC()
+    etapa5 = controle.salvarStatus_Etapa5(rotina,'automacao', etapa4,'csw: ler os EPCS  ')
+
     df_tags = pd.merge(df_tags, epc, on='codbarrastag', how='left')
     df_tags.rename(columns={'codbarrastag': 'codbarrastag','codEngenharia':'engenharia'
                             , 'numeroop':'numeroop'}, inplace=True)
