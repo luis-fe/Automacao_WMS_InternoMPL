@@ -101,9 +101,8 @@ def SubstitutosSkuOP():
     consulta = consulta[consulta['cor'] != '-']
     consulta = consulta[consulta['categoria'] != 'RETIRAR']
 
-    consulta['id']= consulta['requisicao'].astype(str)+'||'+consulta['componente']+'||'+consulta['subst']
-
-
+    consulta['id']= 'req:'+consulta['requisicao'].astype(str)+'||rdzPrinc:'+consulta['componente']+'||rdzSubst'+consulta['subst']
+    consulta = consulta.drop_duplicates()
 
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
