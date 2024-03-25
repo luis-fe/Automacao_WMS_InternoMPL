@@ -63,6 +63,10 @@ def SubstitutosSkuOP():
         lambda row: Categoria('BOTAO', row['nomecompontente'], 'BOTAO PLANO', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('MOLET', row['nomecompontente'], 'MOLETOM', row['categoria']), axis=1)
+
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('ETIQUETA DE TAMANHO', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('ETIQUETA', row['nomecompontente'], 'ETIQUETAS', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
@@ -82,6 +86,9 @@ def SubstitutosSkuOP():
     consulta['cor'].fillna('-',inplace=True)
 
     consulta = consulta[consulta['cor'] != '-']
+    consulta = consulta[consulta['categoria'] != 'RETIRAR']
+
+
 
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
