@@ -96,6 +96,8 @@ def SubstitutosSkuOP():
     consulta['exessao'] = '-'
     consulta['exessao'] = consulta.apply(
         lambda row: Excessoes('250101846','250101051',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250101918','250101717',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
 
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
