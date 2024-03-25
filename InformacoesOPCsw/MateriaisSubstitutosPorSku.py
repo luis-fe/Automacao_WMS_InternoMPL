@@ -97,6 +97,7 @@ def SubstitutosSkuOP():
     consulta['considera'].fillna('-',inplace=True)
     consulta['tipo'].fillna('variavel',inplace=True)
     consulta['cor'].fillna('-',inplace=True)
+    consulta['aplicacao'].fillna('-', inplace=True)
 
     consulta = consulta[consulta['cor'] != '-']
     consulta = consulta[consulta['categoria'] != 'RETIRAR']
