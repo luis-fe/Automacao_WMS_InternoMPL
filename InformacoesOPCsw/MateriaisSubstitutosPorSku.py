@@ -101,7 +101,7 @@ def SubstitutosSkuOP():
     consulta = consulta[consulta['cor'] != '-']
     consulta = consulta[consulta['categoria'] != 'RETIRAR']
 
-    consulta['id']= 'req:'+consulta['requisicao'].astype(str)+'||rdzPrinc:'+consulta['componente']+'||rdzSubst'+consulta['subst']
+    consulta['id']= 'req:'+consulta['requisicao'].astype(str)+'||cor:'+consulta['cor']+'||aplicacao:'+consulta['aplicacao']+'||rdzPrinc:'+consulta['componente']+'||rdzSubst'+consulta['subst']
     consulta = consulta.drop_duplicates()
 
     #Carregando dados no Wms
