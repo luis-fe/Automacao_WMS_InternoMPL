@@ -92,6 +92,11 @@ def SubstitutosSkuOP():
         lambda row: Categoria('PUNHO', row['nomecompontente'], 'PUNHO', row['categoria']), axis=1)
     # colunas carragadas: requisicao, numeroop, codproduto, databaixa_req, componente, nomecompontente, subst, nomesub
 
+
+    consulta['exessao'] = '-'
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250101051', row['coodigoPrincipal'], row['coodigoSubs'], row['exessao']), axis=1)
+
     ultimobackup = ConsultaSubstitutosFlegadoSim()
     consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
     consulta['considera'].fillna('-',inplace=True)
@@ -113,6 +118,18 @@ def Categoria(contem, valorReferencia, valorNovo, categoria):
         return valorNovo
     else:
         return categoria
+
+def Excessoes(contem1,valorReferencia1,valorReferencia2,exessao):
+    if contem1 in valorReferencia2 and exessao == '-':
+        subst = contem1 + valorReferencia2[9:]
+        principal = contem1 +valorReferencia1[9:]
+
+        if  subst == principal:
+            return 'acessorios'
+        else:
+            return '-'
+    else:
+        return '-'
 
 def ConsultaSubstitutosFlegadoSim():
     conn = ConexaoPostgreMPL.conexao()
