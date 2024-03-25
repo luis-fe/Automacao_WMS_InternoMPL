@@ -98,6 +98,8 @@ def SubstitutosSkuOP():
         lambda row: Excessoes('250101846','250101051',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
     consulta['exessao'] = consulta.apply(
         lambda row: Excessoes('250101918','250101717',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250301842','250301406',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
 
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
@@ -133,7 +135,7 @@ def Excessoes(Pai, SubstFilho, codigoPrincipal,codigosubst,exessao):
         else:
             return '-'
     else:
-        return '-'
+        return exessao
 
 def ConsultaSubstitutosFlegadoSim():
     conn = ConexaoPostgreMPL.conexao()
