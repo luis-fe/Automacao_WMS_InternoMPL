@@ -100,6 +100,12 @@ def SubstitutosSkuOP():
         lambda row: Excessoes('250101918','250101717',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
     consulta['exessao'] = consulta.apply(
         lambda row: Excessoes('250301842','250301406',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250101409','250101836',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250301842','250301309',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250101842','250101912',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
 
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
