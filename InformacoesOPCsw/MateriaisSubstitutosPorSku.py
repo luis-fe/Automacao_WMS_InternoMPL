@@ -106,6 +106,7 @@ def SubstitutosSkuOP():
 
     consulta = consulta[consulta['cor'] != '-']
     consulta = consulta[consulta['categoria'] != 'RETIRAR']
+    consulta = consulta[consulta['exessao'] != 'acessorios']
 
     consulta['id']= 'req:'+consulta['requisicao'].astype(str)+'||cor:'+consulta['cor']+'||aplicacao:'+consulta['aplicacao']+'||rdzPrinc:'+consulta['componente']+'||rdzSubst'+consulta['subst']
     consulta = consulta.drop_duplicates()
