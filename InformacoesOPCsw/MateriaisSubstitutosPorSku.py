@@ -65,10 +65,12 @@ def SubstitutosSkuOP():
         lambda row: Categoria('MOLET', row['nomecompontente'], 'MOLETOM', row['categoria']), axis=1)
 
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('ETIQUETA', row['nomecompontente'], 'ETIQUETAS', row['categoria']), axis=1)
+        lambda row: Categoria('ETIQUETA DE TAMANHO', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
 
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('ETIQUETA DE TAMANHO', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+        lambda row: Categoria('ETIQUETA', row['nomecompontente'], 'ETIQUETAS', row['categoria']), axis=1)
+
+
 
 
     consulta['categoria'] = consulta.apply(
