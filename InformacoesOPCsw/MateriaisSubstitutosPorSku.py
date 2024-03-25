@@ -126,6 +126,12 @@ def SubstitutosSkuOP():
     consulta['exessao'] = consulta.apply(
         lambda row: Excessoes('250198000','250101848',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
 
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250101848','250198000',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+
+    consulta['exessao'] = consulta.apply(
+        lambda row: Excessoes('250101842','250101848',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
+
     ultimobackup = ConsultaSubstitutosFlegadoSim()
     consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
     consulta['considera'].fillna('-',inplace=True)
