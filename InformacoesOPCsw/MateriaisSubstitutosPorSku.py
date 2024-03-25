@@ -95,13 +95,8 @@ def SubstitutosSkuOP():
 
     consulta['exessao'] = '-'
     consulta['exessao'] = consulta.apply(
-        lambda row: Excessoes('250101051', row['coodigoPrincipal'], row['coodigoSubs'], row['exessao'],'250101846'), axis=1)
+        lambda row: Excessoes('250101846','250101051',row['coodigoPrincipal'],row['coodigoSubs'], row['exessao']), axis=1)
 
-    consulta['exessao'] = consulta.apply(
-        lambda row: Excessoes('250101836', row['coodigoPrincipal'], row['coodigoSubs'], row['exessao'],'250101409'), axis=1)
-
-    consulta['exessao'] = consulta.apply(
-        lambda row: Excessoes('250101717', row['coodigoPrincipal'], row['coodigoSubs'], row['exessao'],'250101918'), axis=1)
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
     consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
@@ -126,12 +121,12 @@ def Categoria(contem, valorReferencia, valorNovo, categoria):
     else:
         return categoria
 
-def Excessoes(SubstFilho, codigoPrincipal,codigosubst,exessao, Pai):
-    if SubstFilho in codigosubst and exessao == '-' and Pai in codigoPrincipal :
-        SubstFilho = SubstFilho + codigosubst[9:]
-        principal = SubstFilho + codigoPrincipal[9:]
+def Excessoes(Pai, SubstFilho, codigoPrincipal,codigosubst,exessao):
+    if (SubstFilho in codigosubst) and exessao == '-' and (Pai in codigoPrincipal) :
+        TerminacaoSubt = codigosubst[9:]
+        TerminacaoPAi = codigoPrincipal[9:]
 
-        if  SubstFilho == principal:
+        if  TerminacaoSubt == TerminacaoPAi:
             return 'acessorios'
         else:
             return '-'
