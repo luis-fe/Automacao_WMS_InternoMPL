@@ -59,13 +59,22 @@ def SubstitutosSkuOP():
         lambda row: Categoria('MALHA', row['nomecompontente'], 'MALHA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('TECIDO', row['nomecompontente'], 'TECIDO PLANO', row['categoria']), axis=1)
+
     consulta['categoria'] = consulta.apply(
-        lambda row: Categoria('BOTAO', row['nomecompontente'], 'BOTAO PLANO', row['categoria']), axis=1)
+        lambda row: Categoria('BOTAO DE POLIESTER', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('BOTAO', row['nomecompontente'], 'BOTAO', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('MOLET', row['nomecompontente'], 'MOLETOM', row['categoria']), axis=1)
 
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('ETIQUETA DE TAMANHO', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('ETIQUETA TAMANHO', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+
+
 
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('ETIQUETA', row['nomecompontente'], 'ETIQUETAS', row['categoria']), axis=1)
