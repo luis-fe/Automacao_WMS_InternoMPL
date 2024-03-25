@@ -101,6 +101,8 @@ def SubstitutosSkuOP():
     consulta = consulta[consulta['cor'] != '-']
     consulta = consulta[consulta['categoria'] != 'RETIRAR']
 
+    consulta['id']= consulta['requisicao']+'||'+consulta['componente']+'||'+consulta['subst']
+
 
 
     #Carregando dados no Wms
