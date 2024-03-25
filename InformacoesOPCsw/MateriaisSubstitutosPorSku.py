@@ -95,7 +95,7 @@ def SubstitutosSkuOP():
 
     consulta['exessao'] = '-'
     consulta['exessao'] = consulta.apply(
-        lambda row: Excessoes('250101051', row['coodigoPrincipal'], row['coodigoSubs'], row['exessao']), axis=1)
+        lambda row: Excessoes('250101051', row['coodigoPrincipal'], row['coodigoSubs'], row['exessao'],'250101846'), axis=1)
 
     ultimobackup = ConsultaSubstitutosFlegadoSim()
     consulta = pd.merge(consulta,ultimobackup, on=['numeroop', 'componente'],how='left')
@@ -120,8 +120,8 @@ def Categoria(contem, valorReferencia, valorNovo, categoria):
     else:
         return categoria
 
-def Excessoes(contem1,valorReferencia1,valorReferencia2,exessao):
-    if contem1 in valorReferencia2 and exessao == '-':
+def Excessoes(contem1,valorReferencia1,valorReferencia2,exessao, contem2):
+    if contem1 in valorReferencia2 and exessao == '-' and contem2 in valorReferencia1 :
         subst = contem1 + valorReferencia2[9:]
         principal = contem1 +valorReferencia1[9:]
 
