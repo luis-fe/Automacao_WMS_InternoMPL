@@ -64,6 +64,11 @@ def SubstitutosSkuOP():
         lambda row: Categoria('BOTAO DE POLIESTER', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
 
     consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('BOTAO DE MASSA', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+
+
+
+    consulta['categoria'] = consulta.apply(
         lambda row: Categoria('BOTAO', row['nomecompontente'], 'BOTAO', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('MOLET', row['nomecompontente'], 'MOLETOM', row['categoria']), axis=1)
@@ -86,6 +91,11 @@ def SubstitutosSkuOP():
         lambda row: Categoria('CADAR', row['nomecompontente'], 'CADARCO', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('ELAST', row['nomecompontente'], 'ELASTICOS', row['categoria']), axis=1)
+
+    consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('COLARINHO PARA CAMISA', row['nomecompontente'], 'RETIRAR', row['categoria']), axis=1)
+
+
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('COLARIN', row['nomecompontente'], 'AV CAMISARIAS', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
