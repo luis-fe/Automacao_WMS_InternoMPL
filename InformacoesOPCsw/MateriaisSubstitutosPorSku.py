@@ -46,6 +46,8 @@ def SubstitutosSkuOP():
     # acrescentando as categorias
     consulta['categoria'] = '-'
     consulta['categoria'] = consulta.apply(
+        lambda row: Categoria('ZIPER', row['nomecompontente'], 'ZIPER', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(
         lambda row: Categoria('ENTRETELA', row['nomecompontente'], 'ENTRETELA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(
         lambda row: Categoria('RIBANA', row['nomecompontente'], 'RIBANA', row['categoria']), axis=1)
