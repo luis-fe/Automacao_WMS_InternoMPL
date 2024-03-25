@@ -50,7 +50,7 @@ def SalvarTagsNoBancoPostgre(rotina, ip,datahoraInicio):
 def BuscaResticaoSubstitutos():
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = pd.read_sql("select numeroop , codproduto||'||'||numeroop  as resticao,  "
+    consulta = pd.read_sql("select numeroop , codproduto||'||'||cor||'||'||numeroop  as resticao,  "
                             'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
                            "sso where sso.considera = 'sim' ",conn)
 
