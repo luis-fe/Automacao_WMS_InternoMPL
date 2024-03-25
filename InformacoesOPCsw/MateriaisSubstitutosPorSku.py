@@ -126,10 +126,10 @@ def Categoria(contem, valorReferencia, valorNovo, categoria):
     else:
         return categoria
 
-def Excessoes(SubstFilho, valorReferencia1,valorReferencia2,exessao, contem2):
-    if SubstFilho in valorReferencia2 and exessao == '-' and contem2 in valorReferencia1 :
-        SubstFilho = SubstFilho + valorReferencia2[9:]
-        principal = contem2 +valorReferencia1[9:]
+def Excessoes(SubstFilho, codigoPrincipal,codigosubst,exessao, Pai):
+    if SubstFilho in codigosubst and exessao == '-' and Pai in codigoPrincipal :
+        SubstFilho = SubstFilho + codigosubst[9:]
+        principal = SubstFilho + codigoPrincipal[9:]
 
         if  SubstFilho == principal:
             return 'acessorios'
