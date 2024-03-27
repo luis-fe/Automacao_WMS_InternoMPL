@@ -34,6 +34,9 @@ def ObterOpsEstamparia():
     if nao_encontrados.empty:
         print('nao foram encontraos ops para atualizar')
     else:
+        #Remove Duplicatas
+        nao_encontrados = nao_encontrados.drop_duplicates()
+
         #Carregando dados no Wms
         ConexaoPostgreMPL.Funcao_Inserir(consulta,nao_encontrados['OPpai'].size,'OpsEstamparia','append')
 
