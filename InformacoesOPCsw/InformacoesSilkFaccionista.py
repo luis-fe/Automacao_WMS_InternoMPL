@@ -18,7 +18,7 @@ def ObterOpsEstamparia():
 
     conn2 = ConexaoPostgreMPL.conexao()
 
-    consulta2 = pd.read_sql('select * from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn2)
+    consulta2 = pd.read_sql('select OPpai from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn2)
 
     conn2.close()
 
