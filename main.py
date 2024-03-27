@@ -184,7 +184,7 @@ def my_task2():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
     print('\n 13 - Salvando as OPsSilksFaccionista')
 
-    try:
+    #try:
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
@@ -196,12 +196,12 @@ def my_task2():
         else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
-
+'''
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
-
+'''
 print('Fim do Ciclo')
 def token_required(f):
     @wraps(f)
