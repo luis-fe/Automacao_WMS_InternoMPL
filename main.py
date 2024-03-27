@@ -185,15 +185,15 @@ def my_task2():
     print('\n 13 - Salvando as OPsSilksFaccionista')
 
     #try:
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
-        limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
-        if tempo > limite:
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
+    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
             InformacoesSilkFaccionista.ObterOpsEstamparia()
             controle.salvar('OPsSilksFaccionista', client_ip, datainicio)
 
-        else:
+    else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
 '''
