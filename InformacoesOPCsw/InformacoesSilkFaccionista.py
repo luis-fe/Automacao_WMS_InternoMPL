@@ -16,7 +16,22 @@ def ObterOpsEstamparia():
     consulta = pd.read_sql(BuscasAvancadas.RelacaoDeOPsSilk(),conn)
     conn.close()
 
-    #Carregando dados no Wms
-    ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['OPpai'].size,'OpsEstamparia','replace')
+    conn2 = ConexaoPostgreMPL.conexao()
 
-    return consulta
+    consulta2 = pd.read_sql('select * from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn)
+
+    # Merge dos DataFrames
+    merged = pd.merge(consulta, consulta2, on='A', how='left', indicator=True)
+
+    # Filtrar apenas as linhas da esquerda que não têm correspondência na direita
+    nao_encontrados = merged[merged['_merge'] == 'left_only']
+
+    # Remover a coluna indicadora de merge
+    nao_encontrados = nao_encontrados.drop(columns='_merge')
+
+    if nao_encontrados.empty:
+        print('nao foram encontraos ops para atualizar')
+    else:
+        #Carregando dados no Wms
+        ConexaoPostgreMPL.Funcao_Inserir(consulta,nao_encontrados['OPpai'].size,'OpsEstamparia','append')
+

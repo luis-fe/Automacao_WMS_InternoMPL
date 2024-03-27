@@ -275,7 +275,7 @@ def RelacaoDeOPsSilk():
         WHERE 
             m.codempresa = 1 
             AND m.codFase IN (74, 435) 
-            AND datamov > DATEADD(day, -900, CURRENT_TIMESTAMP)
+            AND datamov > DATEADD(day, -10, CURRENT_TIMESTAMP)
         ) AS dados 
     INNER JOIN 
         tct.RemessaOPsDistribuicao d 
