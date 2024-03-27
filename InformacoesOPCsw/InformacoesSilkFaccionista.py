@@ -23,7 +23,7 @@ def ObterOpsEstamparia():
     conn2.close()
 
     # Merge dos DataFrames
-    merged = pd.merge(consulta, consulta2, on='A', how='left', indicator=True)
+    merged = pd.merge(consulta, consulta2, on='OPpai', how='left', indicator=True)
 
     # Filtrar apenas as linhas da esquerda que não têm correspondência na direita
     nao_encontrados = merged[merged['_merge'] == 'left_only']
