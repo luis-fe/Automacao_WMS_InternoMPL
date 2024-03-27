@@ -18,7 +18,9 @@ def ObterOpsEstamparia():
 
     conn2 = ConexaoPostgreMPL.conexao()
 
-    consulta2 = pd.read_sql('select * from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn)
+    consulta2 = pd.read_sql('select * from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn2)
+
+    conn2.close()
 
     # Merge dos DataFrames
     merged = pd.merge(consulta, consulta2, on='A', how='left', indicator=True)
