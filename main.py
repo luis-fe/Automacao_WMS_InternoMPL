@@ -1,7 +1,7 @@
 import pytz
 import controle
 import empresaConfigurada
-from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku
+from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku, InformacoesSilkFaccionista
 import CalculoEnderecos
 import CalculoNecessidadesEndereco
 import ConexaoCSW
@@ -177,6 +177,25 @@ def my_task2():
         else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+    print('\n 13 - Salvando as OPsSilksFaccionista')
+
+    try:
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
+        limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+            InformacoesSilkFaccionista.ObterOpsEstamparia()
+            controle.salvar('OPsSilksFaccionista', client_ip, datainicio)
+
+        else:
+
+            print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
 
     except Exception as e:
         print(f"Erro detectado: {str(e)}")

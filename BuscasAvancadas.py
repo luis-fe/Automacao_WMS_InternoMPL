@@ -257,3 +257,31 @@ def ComponentesPadraoEng():
                  " ) and c.codproduto like '01%'"
 
     return consulta
+
+def RelacaoDeOPsSilk():
+    consulta = """
+    SELECT 
+        CASE WHEN dados.OPpai IS NULL THEN dados.numeroOP ELSE dados.OPpai END AS OPpai, 
+        dados.codfase, 
+        (SELECT f.nome FROM tcg.Faccionista f WHERE f.empresa = 1 AND f.codfaccionista = d.codfac) AS nomeFaccionista 
+    FROM   
+        (SELECT 
+            m.numeroOP, 
+            m.codfase, 
+            datamov,
+            (SELECT p.codOPConjunto FROM tco.RelacaoOPsConjuntoPartes p WHERE p.empresa = 1 AND p.codOPParte = m.numeroop) AS OPpai
+        FROM 
+            tco.MovimentacaoOPFase m             
+        WHERE 
+            m.codempresa = 1 
+            AND m.codFase IN (74, 435) 
+            AND datamov > DATEADD(day, -900, CURRENT_TIMESTAMP)
+        ) AS dados 
+    INNER JOIN 
+        tct.RemessaOPsDistribuicao d 
+    ON 
+        d.empresa = 1 
+        AND CONVERT(VARCHAR(10), d.codOP) = dados.numeroOP 
+        AND d.codfase = dados.codfase
+    """
+    return consulta
