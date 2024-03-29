@@ -289,7 +289,7 @@ def RelacaoDeOPsSilk():
 def MovBalanca():
     consulta = """
 SELECT top 10000 m.CodProduto as coditem, m.dataLcto, m.numeroLcto , m.codRequisicao, qtdBrutoRolo , produtoVar FROM Ppcpt_Tin_Ttp.MovBalanca m
-WHERE m.Empresa = 1 and m.codRequisicao > 0 and  produtoVar like '2501%'
+WHERE m.Empresa = 1 and m.codRequisicao > 0 and  produtoVar like '11%'
 order by codRequisicao desc 
 """
     return consulta
