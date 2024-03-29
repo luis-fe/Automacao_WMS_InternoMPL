@@ -288,8 +288,8 @@ def RelacaoDeOPsSilk():
 
 def MovBalanca():
     consulta = """
-SELECT top 10000 m.CodProduto as coditem, m.dataLcto, m.numeroLcto , m.codRequisicao, qtdBrutoRolo  FROM Ppcpt_Tin_Ttp.MovBalanca m
-WHERE m.Empresa = 1 and m.codRequisicao > 0
+SELECT top 10000 m.CodProduto as coditem, m.dataLcto, m.numeroLcto , m.codRequisicao, qtdBrutoRolo , produtoVar FROM Ppcpt_Tin_Ttp.MovBalanca m
+WHERE m.Empresa = 1 and m.codRequisicao > 0 and and produtoVar like '2501%'
 order by codRequisicao desc 
 """
     return consulta
@@ -308,7 +308,7 @@ order by codRequisicao desc
 def Movimento():
     consulta = """
 SELECT top 10000 mo.codItem as coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto  FROM est.Movimento mo
-WHERE mo.codEmpresa = 1 and mo.codTransacao = 1651 and mo.codFornecNota > 0
+WHERE mo.codEmpresa = 1 and mo.codTransacao = 200 and mo.codFornecNota > 0 
 order by dataLcto desc 
 """
     return consulta
