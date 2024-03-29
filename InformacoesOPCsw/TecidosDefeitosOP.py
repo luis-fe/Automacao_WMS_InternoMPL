@@ -18,7 +18,6 @@ def DefeitosTecidos():
     Movimento = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
 
     mvtoBalanca['coditem'] = mvtoBalanca['coditem'].astype(str)
-    Movimento['coditem'] = mvtoBalanca['coditem'].astype(str)
 
 
     #consulta = pd.merge(mvtoBalanca,Movimento,on=['coditem','dataLcto','numeroLcto'])
