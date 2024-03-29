@@ -20,7 +20,13 @@ def DefeitosTecidos():
     mvtoBalanca['coditem'] = mvtoBalanca['coditem'].astype(str)
 
 
-    consulta = pd.merge(mvtoBalanca,Movimento,on=['coditem','dataLcto','numeroLcto'])
+    consulta = pd.merge(mvtoBalanca,Movimento,on=['coditem','dataLcto','numeroLcto']) #c.numOPConfec , r.codRequisicao , r.codEtiqMalha , coditem
+
+    requisicaoitem = pd.read_sql(BuscasAvancadas.RequisicaoItemEtiquetas(),conn)
+    requisicaoitem['codRequisicao'] = requisicaoitem['codRequisicao'].astype(str)
+    consulta['codRequisicao'] = consulta['codRequisicao'].astype(str)
+
+    consulta = pd.merge(requisicaoitem, consulta , on=['coditem','codRequisicao'], how='left')
 
     #print(Movimento)
     conn.close()
