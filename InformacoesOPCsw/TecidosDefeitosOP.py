@@ -21,10 +21,10 @@ def DefeitosTecidos():
     Movimento['coditem'] = mvtoBalanca['coditem'].astype(str)
 
 
-    consulta = pd.merge(mvtoBalanca,Movimento,on=['coditem','dataLcto','numeroLcto'])
+    #consulta = pd.merge(mvtoBalanca,Movimento,on=['coditem','dataLcto','numeroLcto'])
 
-
+    print(Movimento)
     conn.close()
     # Carregando dados no Wms
-    ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
-    return consulta
+    #ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
+    #return consulta
