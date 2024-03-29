@@ -285,3 +285,31 @@ def RelacaoDeOPsSilk():
         AND d.codfase = dados.codfase
     """
     return consulta
+
+def MovBalanca():
+    consulta = """
+SELECT top 10000 m.CodProduto as coditem, m.dataLcto, m.numeroLcto , m.codRequisicao, qtdBrutoRolo  FROM Ppcpt_Tin_Ttp.MovBalanca m
+WHERE m.Empresa = 1 and m.codRequisicao > 0
+order by codRequisicao desc 
+"""
+    return consulta
+
+
+
+def RequisicaoItemEtiquetas():
+    consulta = """
+    SELECT top 10000 c.numOPConfec , r.codRequisicao , r.codEtiqMalha , r.codMaterial as coditem   FROM tcq.RequisicaoItemEtiquetas  r
+inner join tcq.Requisicao c on c.codEmpresa = r.codEmpresa and c.numero = r.codRequisicao 
+WHERE r.codEmpresa = 1 and c.seqRoteiro in (40, 408, 409 )
+order by codRequisicao desc 
+"""
+    return consulta
+
+def Movimento():
+    consulta = """
+SELECT top 10000 mo.codItem as coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto  FROM est.Movimento mo
+WHERE mo.codEmpresa = 1 and mo.codTransacao = 200 and mo.codFornecNota > 0
+order by dataLcto desc 
+"""
+    return consulta
+

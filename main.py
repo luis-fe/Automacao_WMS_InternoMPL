@@ -1,7 +1,7 @@
 import pytz
 import controle
 import empresaConfigurada
-from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku, InformacoesSilkFaccionista
+from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku, InformacoesSilkFaccionista, TecidosDefeitosOP
 import CalculoEnderecos
 import CalculoNecessidadesEndereco
 import ConexaoCSW
@@ -46,6 +46,19 @@ def AtualizarOPSilks():
     else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+def AtualizarOPSDefeitoTecidos():
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPSDefeitoTecidos')
+    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+            TecidosDefeitosOP.DefeitosTecidos()
+            controle.salvar('OPSDefeitoTecidos', client_ip, datainicio)
+
+    else:
+
+            print('JA EXISTE UMA ATUALIZACAO Dos OPSDefeitoTecidos   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 def my_task():
     hora = obterHoraAtual()
@@ -197,14 +210,20 @@ def my_task2():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
     print('\n 13 - Salvando as OPsSilksFaccionista')
 
-    #try:
     AtualizarOPSilks()
+
+
+    print('\n 14 - Salvando as OPSDefeitoTecidos')
+
+    #try:
+    AtualizarOPSDefeitoTecidos()
 '''
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 '''
+
 print('Fim do Ciclo')
 def token_required(f):
     @wraps(f)
@@ -266,7 +285,7 @@ scheduler.start()
 if __name__ == '__main__':
 
     print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
-    AtualizarOPSilks()
+    AtualizarOPSDefeitoTecidos()
 
     try:
 
