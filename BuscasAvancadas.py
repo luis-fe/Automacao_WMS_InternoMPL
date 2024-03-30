@@ -300,7 +300,7 @@ def RequisicaoItemEtiquetas():
     consulta = """
     SELECT top 10000 c.numOPConfec, r.codRequisicao , r.codMaterial as coditem, r.qtdeEntregue  FROM tcq.RequisicaoItem  r
 inner join tcq.Requisicao c on c.codEmpresa = r.codEmpresa  and c.numero = r.codRequisicao  
-WHERE r.codEmpresa = 1  and seqRoteiro in (410, 409, 308)
+WHERE r.codEmpresa = 1  and seqRoteiro in (410, 409, 408)
 order by codRequisicao desc 
 """
     return consulta
