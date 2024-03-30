@@ -298,14 +298,9 @@ order by codRequisicao desc
 
 def RequisicaoItemEtiquetas():
     consulta = """
-    SELECT top 10000 c.numOPConfec, r.codRequisicao , r.codMaterial as coditem, r.qtdeEntregue  FROM tcq.RequisicaoItem  r
-inner join tcq.Requisicao c on c.codEmpresa = r.codEmpresa  and c.numero = r.codRequisicao  
-WHERE r.codEmpresa = 1  and seqRoteiro in (410, 409, 408) and qtdeEntregue > 1 and r.codMaterialEdt like ('2501%')
-order by codRequisicao desc 
-union
-    SELECT top 10000 c.numOPConfec, r.codRequisicao , r.codMaterial as coditem, r.qtdeEntregue  FROM tcq.RequisicaoItem  r
-inner join tcq.Requisicao c on c.codEmpresa = r.codEmpresa  and c.numero = r.codRequisicao  
-WHERE r.codEmpresa = 1  and seqRoteiro in (410, 409, 408) and qtdeEntregue > 1 and r.codMaterialEdt like ('11')
+SELECT top 10000 c.numOPConfec, r.codRequisicao , r.codMaterial as coditem, r.qtdeEntregue, r.nomeMaterial  FROM tcq.RequisicaoItem  r
+inner join tcq.Requisicao c on c.codEmpresa = r.codEmpresa  and c.numero = r.codRequisicao  and c.sitBaixa = 1
+WHERE r.codEmpresa = 1  and seqRoteiro in (410, 409, 408) and qtdeEntregue > 1  
 order by codRequisicao desc 
 """
     return consulta
