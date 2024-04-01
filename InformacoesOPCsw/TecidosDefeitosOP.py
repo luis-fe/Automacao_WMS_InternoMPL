@@ -16,10 +16,10 @@ def DefeitosTecidos():
 
     consulta = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
     consulta.drop(['numDocto', 'numeroLcto','dataLcto'], axis=1, inplace=True)
-    consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
 
 
     consulta = consulta.drop_duplicates()
+    consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
 
 
     conn.close()
