@@ -41,6 +41,8 @@ def DefeitosTecidos():
     consulta2 = consulta1[consulta1['categoria']=='-']
 
     consulta2 = pd.merge(consulta2, req, on='coditem', how='left')
+    consulta2 = consulta2.sort_values(by='qtdeEntregue', ascending=False)  # escolher como deseja classificar
+    consulta2['repeticaoOP'] = consulta2.groupby('numOPConfec').cumcount() + 1
 
 
 
