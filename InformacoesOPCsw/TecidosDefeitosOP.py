@@ -18,15 +18,17 @@ def DefeitosTecidos():
     consulta.drop(['numDocto', 'numeroLcto','dataLcto'], axis=1, inplace=True)
 
 
-    consulta = consulta.drop_duplicates()
-    consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
+
 
     fornecedor = pd.read_sql(BuscasAvancadas.Fornecedor(),conn)
 
     fornecedor['codFornecNota'] = fornecedor['codFornecNota'].astype(str)
     consulta['codFornecNota'] = consulta['codFornecNota'].astype(str)
 
-    consulta = consulta.merge(consulta,fornecedor,on='codFornecNota',how='left')
+    consulta = consulta.merge(consulta,fornecedor,on='codFornecNota', how='left')
+
+    consulta = consulta.drop_duplicates()
+    consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
 
     conn.close()
     # Carregando dados no Wms
