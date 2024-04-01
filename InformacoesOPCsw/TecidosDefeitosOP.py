@@ -32,6 +32,9 @@ def DefeitosTecidos():
     consulta['categoria'] = '-'
     consulta['categoria']  = consulta.apply(lambda row : Categoria('RIBANA',row['nomeItem'],row['categoria']),axis=1  )
     consulta['categoria']  = consulta.apply(lambda row : Categoria('GOLA',row['nomeItem'],row['categoria']),axis=1  )
+    consulta['categoria']  = consulta.apply(lambda row : Categoria('KIT',row['nomeItem'],row['categoria']),axis=1  )
+    consulta['categoria']  = consulta.apply(lambda row : Categoria('PUNHO',row['nomeItem'],row['categoria']),axis=1  )
+
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
     return consulta
@@ -39,9 +42,8 @@ def DefeitosTecidos():
 
 
 def Categoria(contem, descricao, retorno):
-    if retorno != '-':
-        return '-'
-    elif contem in descricao:
+
+    if contem in descricao and retorno == '-':
         return 'limpar'
     else:
         return '-'
