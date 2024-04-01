@@ -46,5 +46,5 @@ def Categoria(contem, descricao, retorno):
     if contem in descricao and retorno == '-':
         return 'limpar'
     else:
-        return '-'
+        return retorno
 
