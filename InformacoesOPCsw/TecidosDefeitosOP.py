@@ -37,14 +37,16 @@ def DefeitosTecidos():
     consulta['categoria']  = consulta.apply(lambda row : Categoria('KIT',row['nomeItem'],row['categoria']),axis=1  )
     consulta['categoria']  = consulta.apply(lambda row : Categoria('PUNHO',row['nomeItem'],row['categoria']),axis=1  )
 
-    consulta = consulta[consulta['repeticoessku']==1]
-    consulta = pd.merge(consulta, req, on='coditem', how='left')
+    consulta1 = consulta[consulta['repeticoessku']==1]
+    consulta2 = consulta1[consulta1['categoria']=='-']
+
+    consulta2 = pd.merge(consulta2, req, on='coditem', how='left')
 
 
 
     # Carregando dados no Wms
-    ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
-    return consulta
+    ConexaoPostgreMPL.Funcao_Inserir(consulta2, consulta2['coditem'].size, 'OPSDefeitoTecidos', 'replace')
+    return consulta2
 
 
 
