@@ -18,6 +18,8 @@ def DefeitosTecidos():
     consulta.drop(['numDocto', 'numeroLcto','dataLcto'], axis=1, inplace=True)
 
     fornecedor = pd.read_sql(BuscasAvancadas.Fornecedor(),conn)
+    req = pd.read_sql(BuscasAvancadas.RequisicaoItemEtiquetas(),conn)
+
 
     fornecedor['codFornecNota'] = fornecedor['codFornecNota'].astype(str)
     consulta['codFornecNota'] = consulta['codFornecNota'].astype(str)
@@ -34,6 +36,11 @@ def DefeitosTecidos():
     consulta['categoria']  = consulta.apply(lambda row : Categoria('GOLA',row['nomeItem'],row['categoria']),axis=1  )
     consulta['categoria']  = consulta.apply(lambda row : Categoria('KIT',row['nomeItem'],row['categoria']),axis=1  )
     consulta['categoria']  = consulta.apply(lambda row : Categoria('PUNHO',row['nomeItem'],row['categoria']),axis=1  )
+
+    consulta = consulta[consulta['repeticoessku']==1]
+    consulta = pd.merge(consulta, req, on='coditem', how='left')
+
+
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
