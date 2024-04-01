@@ -316,7 +316,7 @@ order by dataLcto desc
 ##    -- Consulta de nome dos fornecedores
 def Fornecedor():
     consulta = """
-SELECT DISTINCT codFornecedor as codFornecNota , nomeFornecedor  FROM cgi.FornecHomologados  f WHERE f.codEmpresa  = 1
+SELECT codigo as codFornecNota , nome as nomeFornecedor  FROM Cpg.Fornecedor f WHERE f.codEmpresa = 1
     
     """
 
