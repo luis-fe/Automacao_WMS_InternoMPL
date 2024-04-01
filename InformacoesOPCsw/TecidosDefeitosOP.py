@@ -26,7 +26,7 @@ def DefeitosTecidos():
     consulta['codFornecNota'] = consulta['codFornecNota'].astype(str)
 
     consulta = pd.merge(consulta, fornecedor, on='codFornecNota', how='left')
-
+    consulta.drop(['codFornecNota'], axis=1, inplace=True)
     consulta = consulta.drop_duplicates()
     consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
 
