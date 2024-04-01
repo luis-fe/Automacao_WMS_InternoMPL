@@ -14,21 +14,11 @@ def obterHoraAtual():
 def DefeitosTecidos():
     conn = ConexaoCSW.Conexao()
 
-    mvtoBalanca = pd.read_sql(BuscasAvancadas.MovBalanca(),conn) #coditem,  m.dataLcto, m.numeroLcto , m.codRequisicao, qtdBrutoRolo
-    Movimento = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
+    consulta = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
 
-    mvtoBalanca['coditem'] = mvtoBalanca['coditem'].astype(str)
+    consulta = consulta.drop_duplicates()
 
 
-    consulta = pd.merge(mvtoBalanca,Movimento,on=['coditem','dataLcto','numeroLcto']) #c.numOPConfec , r.codRequisicao , r.codEtiqMalha , coditem
-
-    requisicaoitem = pd.read_sql(BuscasAvancadas.RequisicaoItemEtiquetas(),conn)
-    requisicaoitem['codRequisicao'] = requisicaoitem['codRequisicao'].astype(str)
-    consulta['codRequisicao'] = consulta['codRequisicao'].astype(str)
-
-    consulta = pd.merge(requisicaoitem, consulta , on=['coditem','codRequisicao'], how='left')
-
-    #print(Movimento)
     conn.close()
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
