@@ -17,9 +17,6 @@ def DefeitosTecidos():
     consulta = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
     consulta.drop(['numDocto', 'numeroLcto','dataLcto'], axis=1, inplace=True)
 
-
-
-
     fornecedor = pd.read_sql(BuscasAvancadas.Fornecedor(),conn)
 
     fornecedor['codFornecNota'] = fornecedor['codFornecNota'].astype(str)
@@ -31,6 +28,20 @@ def DefeitosTecidos():
     consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
 
     conn.close()
+
+    consulta['categoria'] = '-'
+    consulta['categoria']  = consulta.apply(lambda row : Categoria('RIBANA',row['nomeItem'],row['categoria'])  )
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta, consulta['coditem'].size, 'OPSDefeitoTecidos', 'replace')
     return consulta
+
+
+
+def Categoria(contem, descricao, retorno):
+    if retorno != '-':
+        return '-'
+    elif contem in descricao:
+        return 'limpar'
+    else:
+        return '-'
+
