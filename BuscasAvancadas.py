@@ -295,7 +295,6 @@ order by codRequisicao desc
     return consulta
 
 
-
 def RequisicaoItemEtiquetas():
     consulta = """
 SELECT top 10000 c.numOPConfec, r.codRequisicao , r.codMaterial as coditem, r.qtdeEntregue  FROM tcq.RequisicaoItem  r
