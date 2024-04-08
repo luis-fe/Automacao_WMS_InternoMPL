@@ -6,6 +6,10 @@ import ConexaoPostgreMPL
 def IncrementarPedidos():
     conn = ConexaoCSW.Conexao()
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
+    sugestoes =pd.read_sql(BuscasAvancadas.SugestaoItemAberto(),conn)
+
+    pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
+
     conn.close()
 
     # Carregando dados no Wms
