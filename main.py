@@ -87,6 +87,7 @@ def my_task2():
     print(f'\n1 - Iniciando a Fila das Tags para Repor:')
 
     try:
+
         # coloque o código que você deseja executar continuamente aqui
         rotina = 'fila Tags Reposicao'
         client_ip = 'automacao'
@@ -222,8 +223,9 @@ def my_task2():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
     print('\n 13 - Salvando as OPsSilksFaccionista')
 
-    AtualizarOPSilks()
 
+    AtualizarOPSilks()
+    AtualizarPedidos()
 
     print('\n 14 - Salvando as OPSDefeitoTecidos')
 
