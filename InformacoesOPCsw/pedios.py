@@ -18,8 +18,8 @@ def IncrementarPedidos():
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
 
 
-def Marca(itemPai):
-    marca = itemPai[0:3]
+def Marca(coditempai):
+    marca = str(coditempai)
     if marca == '202':
         return 'MPOLLO'
     elif marca == '102':
