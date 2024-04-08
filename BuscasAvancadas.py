@@ -321,3 +321,9 @@ SELECT codigo as codFornecNota , nome as nomeFornecedor  FROM Cpg.Fornecedor f W
 
     return consulta
 
+def IncrementarPediosProdutos():
+    consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada  FROM ped.PedidoItemGrade p
+WHERE p.codEmpresa = 1 
+order by codPedido desc"""
+
+    return consulta

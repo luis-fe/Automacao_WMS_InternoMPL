@@ -1,7 +1,7 @@
 import pytz
 import controle
 import empresaConfigurada
-from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku, InformacoesSilkFaccionista, TecidosDefeitosOP
+from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku, InformacoesSilkFaccionista, TecidosDefeitosOP, pedios
 import CalculoEnderecos
 import CalculoNecessidadesEndereco
 import ConexaoCSW
@@ -46,6 +46,18 @@ def AtualizarOPSilks():
     else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
+def AtualizarPedidos():
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
+    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+            pedios.IncrementarPedidos()
+            controle.salvar('pedidosItemgrade', client_ip, datainicio)
+
+    else:
+
+            print('JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
@@ -286,6 +298,7 @@ if __name__ == '__main__':
 
     print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
     AtualizarOPSDefeitoTecidos()
+    AtualizarPedidos()
 
     try:
 
