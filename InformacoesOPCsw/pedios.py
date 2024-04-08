@@ -12,5 +12,20 @@ def IncrementarPedidos():
 
     conn.close()
 
+    pedidos['Marca'] = pedidos.apply(lambda r :  Marca(r['coditemPai']) ,axis=1)
+
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
+
+
+def Marca(itemPai):
+    marca = itemPai[:3]
+    if marca == '202':
+        return 'MPOLLO'
+    elif marca == '102':
+        return 'MPOLLO'
+    elif marca == '104':
+        return 'PACO'
+    elif marca == '204':
+        return 'PACO'
+

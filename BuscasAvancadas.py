@@ -329,7 +329,11 @@ order by codPedido desc"""
     return consulta
 
 def SugestaoItemAberto():
-    consulta = """SELECT s.codPedido, s.codSequencia, s.produto as codProduto , s.qtdeSugerida, qtdePecasConf  FROM ped.SugestaoPedItem  s
-WHERE s.codEmpresa =1 """
+    consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada,
+(SELECT i.nome from cgi.Item i WHERE i.codigo = p.codProduto) as nome,
+(SELECT i2.coditempai from cgi.Item2 i2 WHERE i2.coditem = p.codProduto and i2.empresa = 1) as coditemPai
+FROM ped.PedidoItemGrade p
+WHERE p.codEmpresa = 1 
+order by codPedido desc"""
 
     return consulta
