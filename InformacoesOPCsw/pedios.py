@@ -11,22 +11,22 @@ def IncrementarPedidos():
     pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
 
     conn.close()
-
-    pedidos['Marca'] = pedidos.apply(lambda row :  Marca(row['coditemPai']) ,axis=1)
+    pedidos['Marca'] ='-'
+    pedidos['Marca'] = pedidos.apply(lambda row :  Marca(row['coditemPai'],row['Marca']) ,axis=1)
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
 
 
-def Marca(coditempai):
-    marca = str(coditempai)
-    if marca == '202':
+def Marca(coditempai, marca):
+    coditempai = str(coditempai)
+    if coditempai == '202' and marca =='-':
         return 'MPOLLO'
-    elif marca == '102':
+    elif coditempai == '102'and marca =='-':
         return 'MPOLLO'
-    elif marca == '104':
+    elif coditempai == '104'and marca =='-':
         return 'PACO'
-    elif marca == '204':
+    elif coditempai == '204'and marca =='-':
         return 'PACO'
     else:
         return '-'
