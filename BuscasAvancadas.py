@@ -331,7 +331,6 @@ order by codPedido desc"""
 def SugestaoItemAberto():
     consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada,
 (SELECT i.nome from cgi.Item i WHERE i.codigo = p.codProduto) as nome
-from cgi.Item2 i2 WHERE i2.coditem = p.codProduto and i2.empresa = 1) as marca
 FROM ped.PedidoItemGrade p
 WHERE p.codEmpresa = 1 
 order by codPedido desc"""
