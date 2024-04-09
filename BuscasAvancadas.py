@@ -329,15 +329,8 @@ order by codPedido desc"""
     return consulta
 
 def SugestaoItemAberto():
-    consulta = """SELECT top 500000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada,
-(SELECT i.nome from cgi.Item i WHERE i.codigo = p.codProduto) as nome,
-(SELECT i2.coditempai from cgi.Item2 i2 WHERE i2.coditem = p.codProduto and i2.empresa = 1) as coditemPai,
-(SELECT case when sUBSTRING(i2.coditempai,1,3) ='104' THEN 'PACO' 
-when sUBSTRING(i2.coditempai,1,3) ='204' THEN 'PACO' 
-when sUBSTRING(i2.coditempai,1,3) ='202' THEN 'MPOLLO' 
-when sUBSTRING(i2.coditempai,1,3) ='102' THEN 'MPOLLO' 
-else '-' 
-end marca
+    consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada,
+(SELECT i.nome from cgi.Item i WHERE i.codigo = p.codProduto) as nome
 from cgi.Item2 i2 WHERE i2.coditem = p.codProduto and i2.empresa = 1) as marca
 FROM ped.PedidoItemGrade p
 WHERE p.codEmpresa = 1 
