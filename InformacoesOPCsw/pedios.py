@@ -19,11 +19,30 @@ def IncrementarPedidos():
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
 
 def CadastroSKU():
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao() #Abrindo a Conexao com o CSW
 
     sku =pd.read_sql(BuscasAvancadas.CadastroSKU(),conn)
 
-    conn.close()
+    conn.close() #Fechando a Conexao com o CSW
+
     ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codSKU'].size, 'SKU', 'replace')
+
+    ## Criando a chave primaria escolhendo a coluna codSKU
+
+    chave = """ALTER TABLE pcp."SKU" ADD CONSTRAINT sku_pk PRIMARY KEY ("codSKU")"""
+
+    conn2 = ConexaoPostgreMPL.conexao() # Abrindo a conexao com o Postgre
+
+    cursor = conn2.cursor()# Abrindo o cursor com o Postgre
+    cursor.execute(chave)
+    conn2.commit() # Atualizando a chave
+    cursor.close()# Fechando o cursor com o Postgre
+
+    conn2.close() #Fechando a Conexao com o POSTGRE
+
+
+
+
+
 
 
