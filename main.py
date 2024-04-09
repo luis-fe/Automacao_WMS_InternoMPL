@@ -316,8 +316,8 @@ if __name__ == '__main__':
     print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
 
     AtualizarOPSDefeitoTecidos()
-    AtualizarPedidos(60)
     AtualizarSKU(30)
+    AtualizarPedidos(60)
 
     try:
 
