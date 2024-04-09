@@ -31,7 +31,7 @@ def CadastroSKU():
 
     chave = """ALTER TABLE pcp."SKU" ADD CONSTRAINT sku_pk PRIMARY KEY ("codSKU")"""
 
-    conn2 = ConexaoPostgreMPL.conexao() # Abrindo a conexao com o Postgre
+    conn2 = ConexaoPostgreMPL.conexaoPCP() # Abrindo a conexao com o Postgre
 
     cursor = conn2.cursor()# Abrindo o cursor com o Postgre
     cursor.execute(chave)
