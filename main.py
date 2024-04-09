@@ -52,12 +52,12 @@ def AtualizarSKU(IntervaloAutomacao):
     print('ETAPA - ATUALIZACAO DO AtualizarSKU')
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizarSKU')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             print('ETAPA AtualizarSKU- Inicio')
             pedios.CadastroSKU()
-            controle.salvar('pedidosItemgrade', client_ip, datainicio)
+            controle.salvar('AutomacaocadastroSKU', client_ip, datainicio)
             print('ETAPA AtualizarSKU- Fim')
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos AtualizarSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS')
@@ -69,9 +69,9 @@ def AtualizarPedidos():
     limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             pedios.IncrementarPedidos()
-            controle.salvar('AutomacaocadastroSKU', client_ip, datainicio)
+            controle.salvar('pedidosItemgrade', client_ip, datainicio)
     else:
-            print('JA EXISTE UMA ATUALIZACAO Dos AutomacaocadastroSKU   EM MENOS DE 1 HORA - 60 MINUTOS')
+            print('JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
