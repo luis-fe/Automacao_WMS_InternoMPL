@@ -24,6 +24,6 @@ def CadastroSKU():
     sku =pd.read_sql(BuscasAvancadas.CadastroSKU(),conn)
 
     conn.close()
-    ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codProduto'].size, 'SKU', 'replace')
+    ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codSKU'].size, 'SKU', 'replace')
 
 
