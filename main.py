@@ -310,10 +310,10 @@ scheduler.add_job(func=my_task, trigger='interval', seconds=300)
 scheduler.start()
 
 
-# Press the green button in the gutter to run the script.
+#Variavel que inicia a aplicacao
 if __name__ == '__main__':
 
-    print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
+    print('################# INICIANDO A AUTOMACAO DOS DADOS ')
 
     AtualizarOPSDefeitoTecidos()
     AtualizarSKU(30)
