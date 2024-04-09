@@ -46,18 +46,30 @@ def AtualizarOPSilks():
     else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
-def AtualizarPedidos():
+def AtualizarPedidos(IntervaloAutomacao):
+    print('ETAPA - ATUALIZACAO DO pedidosItemgrade')
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
+    limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+            print('ETAPA pedidosItemgrade- Inicio')
+            pedios.IncrementarPedidos()
+            controle.salvar('pedidosItemgrade', client_ip, datainicio)
+            print('ETAPA pedidosItemgrade- Fim')
+    else:
+            print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS')
+
+def AtualizarSKU():
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
     limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            pedios.IncrementarPedidos()
-            controle.salvar('pedidosItemgrade', client_ip, datainicio)
-
+            pedios.CadastroSKU()
+            controle.salvar('AutomacaocadastroSKU', client_ip, datainicio)
     else:
-
-            print('JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE 1 HORA - 60 MINUTOS')
+            print('JA EXISTE UMA ATUALIZACAO Dos AutomacaocadastroSKU   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
@@ -226,6 +238,7 @@ def my_task2():
 
     AtualizarOPSilks()
     AtualizarPedidos()
+    AtualizarSKU(30)
 
     print('\n 14 - Salvando as OPSDefeitoTecidos')
 
@@ -299,8 +312,10 @@ scheduler.start()
 if __name__ == '__main__':
 
     print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
+
     AtualizarOPSDefeitoTecidos()
     AtualizarPedidos()
+    AtualizarSKU(30)
 
     try:
 

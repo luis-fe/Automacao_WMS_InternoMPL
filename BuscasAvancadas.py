@@ -337,7 +337,7 @@ order by codPedido desc"""
     return consulta
 
 def CadastroSKU():
-    consulta = """SELECT i.codItem as codProduto , i.codItemPai, i.codSortimento , i.codCor, i.codSeqTamanho  FROM cgi.Item2 i
+    consulta = """SELECT i.codItem as codSKU , i.codItemPai as codRef, i.codSortimento, i.codCor, i.codSeqTamanho  FROM cgi.Item2 i
 WHERE i.Empresa = 1 and i.codSortimento > 1 and (i.codItemPai like '1%' or i.codItemPai like '2%' )
 """
 

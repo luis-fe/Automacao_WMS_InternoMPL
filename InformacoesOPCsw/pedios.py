@@ -8,14 +8,22 @@ def IncrementarPedidos():
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
     sugestoes =pd.read_sql(BuscasAvancadas.SugestaoItemAberto(),conn)
 
-    item =pd.read_sql(BuscasAvancadas.CadastroSKU(),conn)
 
 
     pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
-    pedidos = pd.merge(pedidos,item,on=['codProduto'],how='left')
 
 
+    conn.close()
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
+
+def CadastroSKU():
+    conn = ConexaoCSW.Conexao()
+
+    sku =pd.read_sql(BuscasAvancadas.CadastroSKU(),conn)
+
+    conn.close()
+    ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codProduto'].size, 'SKU', 'replace')
+
 
