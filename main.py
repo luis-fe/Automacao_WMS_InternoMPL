@@ -239,8 +239,8 @@ def my_task2():
 
 
     AtualizarOPSilks()
-    AtualizarPedidos(60)
     AtualizarSKU(30)
+    AtualizarPedidos(60)
 
     print('\n 14 - Salvando as OPSDefeitoTecidos')
 
