@@ -49,18 +49,18 @@ def AtualizarOPSilks():
 
 ## Funcao de Automacao: Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
 def AtualizarSKU(IntervaloAutomacao):
-    print('ETAPA - ATUALIZACAO DO AtualizarSKU')
+    print('ETAPA - ATUALIZACAO DO AutomacaoCadastroSKU')
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizarSKU')
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaocadastroSKU')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            print('ETAPA AtualizarSKU- Inicio')
+            print('ETAPA AutomacaoCadastroSKU- Inicio')
             pedios.CadastroSKU()
-            controle.salvar('AutomacaocadastroSKU', client_ip, datainicio)
-            print('ETAPA AtualizarSKU- Fim')
+            controle.salvar('AutomacaoCadastroSKU', client_ip, datainicio)
+            print('ETAPA AutomacaoCadastroSKU- Fim')
     else:
-            print(f'JA EXISTE UMA ATUALIZACAO Dos AtualizarSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS')
+            print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
 def AtualizarPedidos():
     client_ip = 'automacao'
