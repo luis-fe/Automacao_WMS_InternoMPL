@@ -46,7 +46,7 @@ def AtualizarOPSilks():
     else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
-def AtualizarPedidos(IntervaloAutomacao):
+def AtualizarSKU(IntervaloAutomacao):
     print('ETAPA - ATUALIZACAO DO pedidosItemgrade')
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
@@ -60,7 +60,7 @@ def AtualizarPedidos(IntervaloAutomacao):
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS')
 
-def AtualizarSKU():
+def AtualizarPedidos():
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
