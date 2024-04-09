@@ -4,7 +4,7 @@ import ConexaoCSW
 import ConexaoPostgreMPL
 
 def IncrementarPedidos():
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao()#Abrindo a Conexao com o CSW
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
     sugestoes =pd.read_sql(BuscasAvancadas.SugestaoItemAberto(),conn)
 
@@ -13,10 +13,24 @@ def IncrementarPedidos():
     pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
 
 
-    conn.close()
+    conn.close()#Fechando a Conexao com o CSW
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
+
+
+    # Linkando as chave estrangeira na tabela
+
+    chaveEstrangeira = """ALTER TABLE pcp."pedidosItemgrade" ADD CONSTRAINT pedidositemgrade_fk FOREIGN KEY ("codProduto") REFERENCES pcp."SKU"("codSKU")"""
+
+    conn2 = ConexaoPostgreMPL.conexaoPCP() # Abrindo a conexao com o Postgre
+
+    cursor = conn2.cursor()# Abrindo o cursor com o Postgre
+    cursor.execute(chaveEstrangeira)
+    conn2.commit() # Atualizando a chave
+    cursor.close()# Fechando o cursor com o Postgre
+
+    conn2.close() #Fechando a Conexao com o POSTGRE
 
 def CadastroSKU():
     conn = ConexaoCSW.Conexao() #Abrindo a Conexao com o CSW

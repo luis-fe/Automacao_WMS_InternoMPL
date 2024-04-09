@@ -62,11 +62,11 @@ def AtualizarSKU(IntervaloAutomacao):
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
-def AtualizarPedidos():
+def AtualizarPedidos(IntervaloAutomacao):
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
-    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+    limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             pedios.IncrementarPedidos()
             controle.salvar('pedidosItemgrade', client_ip, datainicio)
@@ -239,7 +239,7 @@ def my_task2():
 
 
     AtualizarOPSilks()
-    AtualizarPedidos()
+    AtualizarPedidos(60)
     AtualizarSKU(30)
 
     print('\n 14 - Salvando as OPSDefeitoTecidos')
@@ -316,7 +316,7 @@ if __name__ == '__main__':
     print('INICIANDO A AUTOMACAO DOS DADOS REFERENTE AO WMS')
 
     AtualizarOPSDefeitoTecidos()
-    AtualizarPedidos()
+    AtualizarPedidos(60)
     AtualizarSKU(30)
 
     try:

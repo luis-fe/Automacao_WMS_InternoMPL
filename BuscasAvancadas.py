@@ -329,16 +329,15 @@ order by codPedido desc"""
     return consulta
 
 def SugestaoItemAberto():
-    consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada 
-    FROM ped.PedidoItemGrade p
-WHERE p.codEmpresa = 1 
-order by codPedido desc"""
+    consulta = """SELECT p.codPedido , p.produto as codProduto , p.qtdeSugerida , p.qtdePecasConf  FROM ped.SugestaoPedItem p
+WHERE p.codEmpresa = 1"""
 
     return consulta
 
 def CadastroSKU():
-    consulta = """SELECT i.codItem as codSKU , i.codItemPai as codRef, i.codSortimento, i.codCor, i.codSeqTamanho  FROM cgi.Item2 i
-WHERE i.Empresa = 1 and i.codSortimento > 1 and (i.codItemPai like '1%' or i.codItemPai like '2%' )
+    consulta = """SELECT i.codItem , i.codItemPai, i.codSortimento , i.codCor, i.codSeqTamanho,
+(select i1.nome from cgi.Item i1 WHERE i1.codigo = i.codItem) as nomeSKU FROM cgi.Item2 i
+WHERE i.Empresa = 1 and i.codSortimento > 0 and (i.codItemPai like '1%' or i.codItemPai like '2%' )
 """
 
     return consulta
