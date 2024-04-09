@@ -49,7 +49,7 @@ def AtualizarOPSilks():
 
 ## Funcao de Automacao: Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
 def AtualizarSKU(IntervaloAutomacao):
-    print('ETAPA - ATUALIZACAO DO AutomacaoCadastroSKU')
+    print('\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaocadastroSKU')
@@ -63,6 +63,7 @@ def AtualizarSKU(IntervaloAutomacao):
             print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
 def AtualizarPedidos(IntervaloAutomacao):
+    print('\nETAPA 2 - ATUALIZACAO DOS PEDIDOS-item-grade ultimos 1 Milhao de linhas ')
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
@@ -71,7 +72,7 @@ def AtualizarPedidos(IntervaloAutomacao):
             pedios.IncrementarPedidos()
             controle.salvar('pedidosItemgrade', client_ip, datainicio)
     else:
-            print('JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE 1 HORA - 60 MINUTOS')
+            print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
