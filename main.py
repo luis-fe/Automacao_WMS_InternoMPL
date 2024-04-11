@@ -62,6 +62,7 @@ def AtualizarSKU(IntervaloAutomacao):
             pedios.CadastroSKU('AutomacaoCadastroSKU',datainicio)
             controle.salvarStatus('AutomacaoCadastroSKU',client_ip,datainicio)
             print('ETAPA AutomacaoCadastroSKU- Fim')
+            restart_server()
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
