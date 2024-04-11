@@ -7,13 +7,17 @@ def IncrementarPedidos():
     conn = ConexaoCSW.Conexao()#Abrindo a Conexao com o CSW
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
     sugestoes =pd.read_sql(BuscasAvancadas.SugestaoItemAberto(),conn)
+    capaPedido =pd.read_sql(BuscasAvancadas.CapaPedido2(),conn)
 
 
 
     pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
+    pedidos = pd.merge(pedidos,capaPedido,on='codPedido',how='left')
 
 
     conn.close()#Fechando a Conexao com o CSW
+
+    pedidos = pedidos[~pedidos['filtro'].contains('38')]
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
@@ -37,7 +41,10 @@ def CadastroSKU():
 
     sku =pd.read_sql(BuscasAvancadas.CadastroSKU(),conn)
 
+
     conn.close() #Fechando a Conexao com o CSW
+
+
 
     ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codSKU'].size, 'SKU', 'replace')
 

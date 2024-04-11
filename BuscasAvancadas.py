@@ -342,3 +342,10 @@ WHERE i.Empresa = 1 and i.codSortimento > 0 and (i.codItemPai like '1%' or i.cod
 """
 
     return consulta
+
+def CapaPedido2():
+    consulta = """SELECT top 100000 p.codPedido , p.codTipoNota  FROM ped.Pedido p
+WHERE p.codEmpresa = 1
+order by p.codPedido desc """
+
+    return consulta
