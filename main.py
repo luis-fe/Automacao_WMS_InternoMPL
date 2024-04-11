@@ -279,11 +279,14 @@ def my_task2():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
     print('\n 13 - Salvando as OPsSilksFaccionista')
 
-
-    AtualizarOPSilks()
-    AtualizarSKU(30)
-    AtualizarPedidos(60)
-    AtualizaApiReservaFaruamento(60)
+    empresa = empresaConfigurada.EmpresaEscolhida()
+    if empresa == 1:
+        AtualizarOPSilks()
+        AtualizarSKU(30)
+        AtualizarPedidos(60)
+        AtualizaApiReservaFaruamento(60)
+    else:
+        print(empresa)
 
     print('\n 14 - Salvando as OPSDefeitoTecidos')
 
@@ -357,12 +360,15 @@ scheduler.start()
 if __name__ == '__main__':
 
     print('################# INICIANDO A AUTOMACAO DOS DADOS ')
+    empresa = empresaConfigurada.EmpresaEscolhida()
 
-    AtualizarOPSDefeitoTecidos()
-    AtualizarSKU(30)
-    AtualizarPedidos(60)
-    AtualizaApiReservaFaruamento(60)
-
+    if empresa == 1:
+        AtualizarOPSilks()
+        AtualizarSKU(30)
+        AtualizarPedidos(60)
+        AtualizaApiReservaFaruamento(60)
+    else:
+        print(empresa)
 
     try:
 
