@@ -385,7 +385,7 @@ if __name__ == '__main__':
         limite = tempoMin * 60  # (limite de 10 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
 
-        if tempo > limite and empresa == '1':
+        if tempo > limite and empresa == 1:
             print('\n 1- Inicio do Processo de Capturar e salvar')
             controle.InserindoStatus(rotina,client_ip,datainicio)
             tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
@@ -393,8 +393,8 @@ if __name__ == '__main__':
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
 
-        elif empresa == '4':
-            print('\n 1- Inicio do Processo de Capturar e salvar')
+        elif empresa == 4:
+            print('\n 1- Inicio do Processo de Capturar e salvar: Empresa 4')
             tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
 
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
