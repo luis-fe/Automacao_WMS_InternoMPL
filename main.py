@@ -103,7 +103,7 @@ def AtualizaApiReservaFaruamento(IntervaloAutomacao):
 
 
         # Faça a requisição POST com parâmetros e headers usando o método requests.post()
-        response = requests.post(url,  headers=headers,  verify=False)
+        response = requests.get(url,  headers=headers,  verify=False)
         # Verificar se a requisição foi bem-sucedida
         if response.status_code == 200:
             # Converter os dados JSON em um dicionário
