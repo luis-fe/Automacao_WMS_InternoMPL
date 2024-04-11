@@ -149,6 +149,27 @@ def SubstitutosSkuOP():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
+def atualizatagoff():
+    print('\n 10 - Importando Tags da Reposicao off')
+    try:
+        rotina = 'atualiza tag off'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'atualiza tag off')
+        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+            controle.InserindoStatus(rotina, client_ip, datainicio)
+            TagsDisponivelGarantia.SalvarTagsNoBancoPostgre(rotina, client_ip, datainicio)
+            controle.salvarStatus('atualiza tag off', client_ip, datainicio)
+
+        else:
+            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+
 def my_task():
     hora = obterHoraAtual()
 
@@ -241,25 +262,7 @@ def my_task2():
         print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
     except:
         print('9.1.1 Falha na automacao - Tratamento de Erros')
-    print('\n 10 - Importando Tags da Reposicao off')
-    try:
-        rotina = 'atualiza tag off'
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'atualiza tag off')
-        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
-        if tempo > limite:
-            controle.InserindoStatus(rotina,client_ip,datainicio)
-            TagsDisponivelGarantia.SalvarTagsNoBancoPostgre(rotina, client_ip,datainicio)
-            controle.salvarStatus('atualiza tag off',client_ip,datainicio)
 
-        else:
-            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
-
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
     print('\n 11 - Importando as Ordem de Producao')
 
     try:
@@ -291,6 +294,7 @@ def my_task2():
         AtualizarPedidos(60)
         AtualizaApiReservaFaruamento(60)
         SubstitutosSkuOP()
+        atualizatagoff()
     else:
         print(empresa)
 
