@@ -16,8 +16,8 @@ def obterHoraAtual():
     return hora_str
 
 def FilaTags(datainico, rotina):
-    xemp = empresaConfigurada.EmpresaEscolhida()
-    xemp = "'"+xemp+"'"
+    empresa = empresaConfigurada.EmpresaEscolhida()
+    xemp = "'"+empresa+"'"
     conn = ConexaoCSW.Conexao()
     conn2 = ConexaoPostgreMPL.conexao()
     df_tags = pd.read_sql(
@@ -74,8 +74,12 @@ def FilaTags(datainico, rotina):
     dataHora = obterHoraAtual()
     df_tags['DataHora'] = dataHora
 
-    restringe = BuscaResticaoSubstitutos()
-    df_tags = pd.merge(df_tags,restringe,on=['numeroop','cor'],how='left')
+    if empresa == '1':
+        restringe = BuscaResticaoSubstitutos()
+        df_tags = pd.merge(df_tags,restringe,on=['numeroop','cor'],how='left')
+    else:
+        print('empresa 4')
+
 
     df_tags['resticao'].fillna('-',inplace=True)
     df_tags['considera'].fillna('-',inplace=True)
