@@ -19,6 +19,7 @@ import TratamentoErro
 import Usuarios
 import subprocess
 import subprocess
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -33,6 +34,7 @@ def obterHoraAtual():
 def restart_server():
     print("Reiniciando o aplicativo...")
     subprocess.call(["python", "main.py"])
+
 
 def AtualizarOPSilks():
     client_ip = 'automacao'
@@ -69,10 +71,47 @@ def AtualizarPedidos(IntervaloAutomacao):
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
+            print('ETAPA AtualizarPedidos- Inicio')
+
             pedios.IncrementarPedidos()
             controle.salvar('pedidosItemgrade', client_ip, datainicio)
+            print('ETAPA AtualizarPedidos- FIM')
+
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
+
+def AtualizaApiReservaFaruamento(IntervaloAutomacao):
+    print('\nETAPA 4 - Atualiza Api ReservaFaruamento')
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizaApiReservaFaruamento')
+    limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+        print('ETAPA AtualizaApiReservaFaruamento- Inicio')
+        url = 'http://192.168.0.183:8000/pcp/api/ReservaPreFaturamento'
+
+        token = "a44pcp22"
+
+
+        # Defina os parâmetros em um dicionário
+
+        # Defina os headers
+        headers = {
+            'accept': 'application/json',
+            'Authorization': f'{token}'
+        }
+
+
+        # Faça a requisição POST com parâmetros e headers usando o método requests.post()
+        response = requests.post(url,  headers=headers,  verify=False)
+        # Verificar se a requisição foi bem-sucedida
+        if response.status_code == 200:
+            # Converter os dados JSON em um dicionário
+            dados_dict = response.json()
+            controle.salvar('AtualizaApiReservaFaruamento', client_ip, datainicio)
+            print('ETAPA AtualizaApiReservaFaruamento- Fim')
+        else:
+            print(f'AtualizaApiReservaFaruamento : erro  {response.status_code} ')
 
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
@@ -242,6 +281,7 @@ def my_task2():
     AtualizarOPSilks()
     AtualizarSKU(30)
     AtualizarPedidos(60)
+    AtualizaApiReservaFaruamento(60)
 
     print('\n 14 - Salvando as OPSDefeitoTecidos')
 
@@ -319,6 +359,8 @@ if __name__ == '__main__':
     AtualizarOPSDefeitoTecidos()
     AtualizarSKU(30)
     AtualizarPedidos(60)
+    AtualizaApiReservaFaruamento(60)
+
 
     try:
 
