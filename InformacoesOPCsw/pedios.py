@@ -45,7 +45,7 @@ def CadastroSKU():
 
     conn.close() #Fechando a Conexao com o CSW
 
-
+    ExcluindoRelacoes()
 
     ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codSKU'].size, 'SKU', 'replace')
 
@@ -63,8 +63,18 @@ def CadastroSKU():
     conn2.close() #Fechando a Conexao com o POSTGRE
 
 
+def ExcluindoRelacoes():
 
+    chave = """ALTER TABLE pcp."pedidosItemgrade" DROP CONSTRAINT pedidositemgrade_fk """
 
+    conn2 = ConexaoPostgreMPL.conexaoPCP() # Abrindo a conexao com o Postgre
+
+    cursor = conn2.cursor()# Abrindo o cursor com o Postgre
+    cursor.execute(chave)
+    conn2.commit() # Atualizando a chave
+    cursor.close()# Fechando o cursor com o Postgre
+
+    conn2.close() #Fechando a Conexao com o POSTGRE
 
 
 
