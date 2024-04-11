@@ -77,12 +77,10 @@ def FilaTags(datainico, rotina):
     if empresa == '1':
         restringe = BuscaResticaoSubstitutos()
         df_tags = pd.merge(df_tags,restringe,on=['numeroop','cor'],how='left')
+        df_tags['resticao'].fillna('-', inplace=True)
+        df_tags['considera'].fillna('-', inplace=True)
     else:
         print('empresa 4')
-
-
-    df_tags['resticao'].fillna('-',inplace=True)
-    df_tags['considera'].fillna('-',inplace=True)
 
     #try:
     tamanho2 = 1000
