@@ -17,7 +17,7 @@ def IncrementarPedidos():
 
     conn.close()#Fechando a Conexao com o CSW
 
-    pedidos = pedidos[~pedidos['codTipoNota'].contains('38')]
+    pedidos = pedidos[~pedidos['codTipoNota'] != '38']
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
