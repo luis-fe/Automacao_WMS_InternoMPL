@@ -128,6 +128,27 @@ def AtualizarOPSDefeitoTecidos():
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPSDefeitoTecidos   EM MENOS DE 1 HORA - 60 MINUTOS')
 
+def SubstitutosSkuOP():
+    print('\n 12 - Salvando as OPs que tiveram substitutos')
+
+    try:
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
+        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+            MateriaisSubstitutosPorSku.SubstitutosSkuOP()
+            controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
+
+        else:
+
+            print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+
 def my_task():
     hora = obterHoraAtual()
 
@@ -258,25 +279,9 @@ def my_task2():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
-    print('\n 12 - Salvando as OPs que tiveram substitutos')
 
-    try:
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
-        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
-        if tempo > limite:
-            MateriaisSubstitutosPorSku.SubstitutosSkuOP()
-            controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
 
-        else:
 
-            print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
-
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
     print('\n 13 - Salvando as OPsSilksFaccionista')
 
     empresa = empresaConfigurada.EmpresaEscolhida()
@@ -285,6 +290,7 @@ def my_task2():
         AtualizarSKU(30)
         AtualizarPedidos(60)
         AtualizaApiReservaFaruamento(60)
+        SubstitutosSkuOP()
     else:
         print(empresa)
 
@@ -406,25 +412,6 @@ if __name__ == '__main__':
         print(f"Erro detectado: {str(e)}")
         restart_server()
 
-    print('\n 12 - Salvando as OPs que tiveram substitutos')
-
-    #try:
-    client_ip = 'automacao'
-    datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
-    limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
-    if tempo > limite:
-
-            MateriaisSubstitutosPorSku.SubstitutosSkuOP()
-            controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
-
-    else:
-
-            print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
-
-    #except Exception as e:
-     #   print(f"Erro detectado: {str(e)}")
-      #  restart_server()
 
     try:
         my_task()
