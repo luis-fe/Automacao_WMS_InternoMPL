@@ -54,7 +54,7 @@ def AtualizarSKU(IntervaloAutomacao):
     print('\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaocadastroSKU')
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoCadastroSKU')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             print('ETAPA AutomacaoCadastroSKU- Inicio')
