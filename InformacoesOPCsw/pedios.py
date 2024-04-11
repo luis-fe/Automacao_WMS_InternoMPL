@@ -2,7 +2,7 @@ import pandas as pd
 import BuscasAvancadas
 import ConexaoCSW
 import ConexaoPostgreMPL
-
+import controle
 def IncrementarPedidos():
     conn = ConexaoCSW.Conexao()#Abrindo a Conexao com o CSW
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
@@ -37,13 +37,14 @@ def IncrementarPedidos():
 
     conn2.close() #Fechando a Conexao com o POSTGRE
 
-def CadastroSKU():
+def CadastroSKU(rotina, datainico):
     conn = ConexaoCSW.Conexao() #Abrindo a Conexao com o CSW
 
     sku =pd.read_sql(BuscasAvancadas.CadastroSKU(),conn)
 
 
     conn.close() #Fechando a Conexao com o CSW
+    etapa1 = controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from cgi.item i')
 
     ExcluindoRelacoes()
 

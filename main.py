@@ -58,8 +58,9 @@ def AtualizarSKU(IntervaloAutomacao):
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             print('ETAPA AutomacaoCadastroSKU- Inicio')
-            pedios.CadastroSKU()
-            controle.salvar('AutomacaoCadastroSKU', client_ip, datainicio)
+            controle.InserindoStatus('AutomacaoCadastroSKU',client_ip,datainicio)
+            pedios.CadastroSKU('AutomacaoCadastroSKU',datainicio)
+            controle.salvarStatus('AutomacaoCadastroSKU',client_ip,datainicio)
             print('ETAPA AutomacaoCadastroSKU- Fim')
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
