@@ -170,6 +170,27 @@ def atualizatagoff():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
+def OrdemProducao():
+    print('\n 11 - Importando as Ordem de Producao')
+
+    try:
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'ordem de producao')
+        limite = 10 * 60  # (limite de 10 minutos , convertido para segundos)
+        if tempo > limite:
+            OP_emAberto.IncrementadoDadosPostgre('1')
+            controle.salvar('ordem de producao', client_ip, datainicio)
+
+        else:
+
+            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+
+
 def my_task():
     hora = obterHoraAtual()
 
@@ -263,29 +284,6 @@ def my_task2():
     except:
         print('9.1.1 Falha na automacao - Tratamento de Erros')
 
-    print('\n 11 - Importando as Ordem de Producao')
-
-    try:
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'ordem de producao')
-        limite = 10 * 60  # (limite de 10 minutos , convertido para segundos)
-        if tempo > limite:
-            OP_emAberto.IncrementadoDadosPostgre('1')
-            controle.salvar('ordem de producao', client_ip, datainicio)
-
-        else:
-
-            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
-
-
-
-
-    print('\n 13 - Salvando as OPsSilksFaccionista')
 
     empresa = empresaConfigurada.EmpresaEscolhida()
     if empresa == 1:
@@ -295,19 +293,13 @@ def my_task2():
         AtualizaApiReservaFaruamento(60)
         SubstitutosSkuOP()
         atualizatagoff()
+        OrdemProducao()
+        AtualizarOPSDefeitoTecidos()
     else:
         print(empresa)
 
-    print('\n 14 - Salvando as OPSDefeitoTecidos')
 
-    #try:
-    AtualizarOPSDefeitoTecidos()
-'''
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
-'''
+
 
 print('Fim do Ciclo')
 def token_required(f):
