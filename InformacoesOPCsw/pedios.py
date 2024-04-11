@@ -65,16 +65,19 @@ def CadastroSKU():
 
 def ExcluindoRelacoes():
 
-    chave = """ALTER TABLE pcp."pedidosItemgrade" DROP CONSTRAINT pedidositemgrade_fk """
+    try:
+        chave = """ALTER TABLE pcp."pedidosItemgrade" DROP CONSTRAINT pedidositemgrade_fk """
 
-    conn2 = ConexaoPostgreMPL.conexaoPCP() # Abrindo a conexao com o Postgre
+        conn2 = ConexaoPostgreMPL.conexaoPCP() # Abrindo a conexao com o Postgre
 
-    cursor = conn2.cursor()# Abrindo o cursor com o Postgre
-    cursor.execute(chave)
-    conn2.commit() # Atualizando a chave
-    cursor.close()# Fechando o cursor com o Postgre
+        cursor = conn2.cursor()# Abrindo o cursor com o Postgre
+        cursor.execute(chave)
+        conn2.commit() # Atualizando a chave
+        cursor.close()# Fechando o cursor com o Postgre
 
-    conn2.close() #Fechando a Conexao com o POSTGRE
+        conn2.close() #Fechando a Conexao com o POSTGRE
+    except:
+        print('sem relacao de chave estrangeira')
 
 
 
