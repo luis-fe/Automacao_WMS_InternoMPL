@@ -323,7 +323,7 @@ SELECT codigo as codFornecNota , nome as nomeFornecedor  FROM Cpg.Fornecedor f W
 
 def IncrementarPediosProdutos():
     consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada  FROM ped.PedidoItemGrade p
-WHERE p.codEmpresa = 1 and p.codProduto  not like '8601000%' or p.codProduto  not like '830600620%'
+WHERE p.codEmpresa = 1 and p.codProduto  not like '8601000%' and p.codProduto  not like '830600620%'
 order by codPedido desc"""
 
     return consulta
