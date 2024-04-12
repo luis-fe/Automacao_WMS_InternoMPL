@@ -202,6 +202,31 @@ def EliminaPedidosFaturadosNivelSKU():
     except:
         print(f'6.1.1 falha na automacao - Limpeza PedidosSku')
 
+## Funcao de Automacao 9: Atualizar :
+
+def LimpandoTag():
+    print('\n 7- Limpando as saidas de Tags Repostas fora do WMS')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'avaliacaoReposicao')
+        limite = 5 * 60  # (limite de 60 minutos , convertido para segundos)
+        empresa = empresaConfigurada.EmpresaEscolhida()
+        if tempo > limite and empresa == '1':
+
+            tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
+            controle.salvar('avaliacaoReposicao', client_ip, datainicio)
+
+            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
+        else:
+            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nCongelado')
+
+    except:
+        print(f'7.1.1 falha na automacao - Limpando Saida da Reposicao')
+
+## Funcao de Automacao 10: Atualizar Ops Silk :
+
 def AtualizarOPSilks():
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
@@ -216,6 +241,7 @@ def AtualizarOPSilks():
             print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 
+## Funcao de Automacao 11: AtualizarOPSDefeitoTecidos  :
 
 
 def AtualizarOPSDefeitoTecidos():
@@ -230,6 +256,8 @@ def AtualizarOPSDefeitoTecidos():
     else:
 
             print('JA EXISTE UMA ATUALIZACAO Dos OPSDefeitoTecidos   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+## Funcao de Automacao 12: SubstitutosSkuOP  :
 
 def SubstitutosSkuOP():
     print('\n 12 - Salvando as OPs que tiveram substitutos')
@@ -252,6 +280,7 @@ def SubstitutosSkuOP():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
+## Funcao de Automacao 13: Ordem Producao  :
 
 def OrdemProducao():
     print('\n 11 - Importando as Ordem de Producao')
@@ -273,6 +302,16 @@ def OrdemProducao():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
+## Funcao de Automacao 14: Ordem Producao  :
+
+def RemoveDuplicatasUsuario():
+    print('\n 9- TratamentoErrosDuplicacoes')
+    try:
+        datahora9 = TratamentoErro.RemoveDuplicatasUsuario()
+        print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
+    except:
+        print('9.1.1 Falha na automacao - Tratamento de Erros')
+
 
 def my_task():
     hora = obterHoraAtual()
@@ -288,36 +327,8 @@ def my_task2():
 
 
 
-    print('\n 7- Limpando as saidas de Tags Repostas fora do WMS')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'avaliacaoReposicao')
-        limite = 5 * 60  # (limite de 60 minutos , convertido para segundos)
-        empresa = empresaConfigurada.EmpresaEscolhida()
-        if tempo > limite and empresa == '1':
-
-            tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
-            controle.salvar('avaliacaoReposicao',client_ip,datainicio)
-
-            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
-        else:
-            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nCongelado')
-
-    except:
-        print(f'7.1.1 falha na automacao - Limpando Saida da Reposicao')
-
-    print('\n 9- TratamentoErrosDuplicacoes')
-    try:
-        datahora9 = TratamentoErro.RemoveDuplicatasUsuario()
-        print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
-    except:
-        print('9.1.1 Falha na automacao - Tratamento de Erros')
-
-
     empresa = empresaConfigurada.EmpresaEscolhida()
-    if empresa == '1':
+    if empresa == '10':
         AtualizarOPSilks()
         AtualizarSKU(30)
         AtualizarPedidos(60)
@@ -330,61 +341,12 @@ def my_task2():
         print(empresa)
 
 
-
-
-print('Fim do Ciclo')
-def token_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        token = request.headers.get('Authorization')
-        if token == 'a40016aabcx9':  # Verifica se o token é igual ao token fixo
-            return f(*args, **kwargs)
-        return jsonify({'message': 'Acesso negado'}), 401
-
-    return decorated_function
-@app.route('/api/UsuarioSenha', methods=['GET'])
-@token_required
-def check_user_password():
-    # Obtém o código do usuário e a senha dos parâmetros da URL
-    codigo = request.args.get('codigo')
-    senha = request.args.get('senha')
-
-    # Verifica se o código do usuário e a senha foram fornecidos
-    if codigo is None or senha is None:
-        return jsonify({'message': 'Código do usuário e senha devem ser fornecidos.'}), 400
-
-    # Consulta no banco de dados para verificar se o usuário e senha correspondem
-    result = Usuarios.ConsultaUsuarioSenha(codigo, senha)
-
-    # Verifica se o usuário existe
-    if result == 1:
-        # Consulta no banco de dados para obter informações adicionais do usuário
-
-        nome, funcao, situacao = Usuarios.PesquisarUsuariosCodigo(codigo)
-
-        # Verifica se foram encontradas informações adicionais do usuário
-        if nome != 0:
-            Usuarios.RegistroLog(codigo)
-            # Retorna as informações adicionais do usuário
-            return jsonify({
-                "status": True,
-                "message": "Usuário e senha VALIDADOS!",
-                "nome": nome,
-                "funcao": funcao,
-                "situacao": situacao
-            })
-        else:
-            return jsonify({'message': 'Não foi possível obter informações adicionais do usuário.'}), 500
-    else:
-        return jsonify({"status": False,
-                        "message": 'Usuário ou senha não existe'}), 401
+        print('Fim do Ciclo')
+        restart_server()
 
 
 
 scheduler = BackgroundScheduler(timezone=pytz.timezone('America/Sao_Paulo'))
-
-
-
 scheduler.add_job(func=my_task, trigger='interval', seconds=300)
 scheduler.start()
 
@@ -399,9 +361,6 @@ if __name__ == '__main__':
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
     if empresa == '1':
         AtualizarSKU(30)
-        AtualizarPedidos(60)
-        AtualizaApiReservaFaruamento(60)
-        AtualizarOPSilks()
     elif empresa == '4':
         AtualizarSKU(30)
 
