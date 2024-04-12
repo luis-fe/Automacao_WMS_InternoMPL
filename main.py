@@ -333,6 +333,7 @@ def my_task2():
 
         AtualizarSKU(60)
         AtualizarPedidos(60)
+        atualizatagoff(20)
 
     else:
         print(empresa)
@@ -358,6 +359,7 @@ if __name__ == '__main__':
     if empresa == '1':
         AtualizarSKU(60)
         AtualizarPedidos(60)
+        atualizatagoff(20)
     elif empresa == '4':
         print('empresa 4')
 
