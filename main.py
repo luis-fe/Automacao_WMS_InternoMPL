@@ -60,15 +60,16 @@ def AtualizarSKU(IntervaloAutomacao):
 
 def AtualizarPedidos(IntervaloAutomacao):
     print('\nETAPA 2 - ATUALIZACAO DOS PEDIDOS-item-grade ultimos 1 Milhao de linhas ')
+    rotina = 'pedidosItemgrade'
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             print('\nETAPA AtualizarPedidos- Inicio')
-
-            pedios.IncrementarPedidos()
-            controle.salvar('pedidosItemgrade', client_ip, datainicio)
+            controle.InserindoStatus('pedidosItemgrade',client_ip,datainicio)
+            pedios.IncrementarPedidos(rotina, datainicio)
+            controle.salvarStatus('pedidosItemgrade', client_ip, datainicio)
             print('ETAPA AtualizarPedidos- FIM')
 
     else:
@@ -328,21 +329,16 @@ def my_task2():
 
 
     empresa = empresaConfigurada.EmpresaEscolhida()
-    if empresa == '10':
-        AtualizarOPSilks()
-        AtualizarSKU(30)
+    if empresa == '1':
+
+        AtualizarSKU(60)
         AtualizarPedidos(60)
-        AtualizaApiReservaFaruamento(60)
-        SubstitutosSkuOP()
-        atualizatagoff()
-        OrdemProducao()
-        AtualizarOPSDefeitoTecidos()
+
     else:
         print(empresa)
 
 
         print('Fim do Ciclo')
-        restart_server()
 
 
 
@@ -354,15 +350,16 @@ scheduler.start()
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
 
-    print('\n#################              INICIANDO A AUTOMACAO DOS DADOS        ########################### \n')
+    print('\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
     empresa = empresaConfigurada.EmpresaEscolhida() #Busca a empresa que a aplicacao de automaca vai rodar
     print(f'\n Estamaos na empresa: {empresa}\n')
 
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
     if empresa == '1':
-        AtualizarSKU(30)
+        AtualizarSKU(60)
+        AtualizarPedidos(60)
     elif empresa == '4':
-        AtualizarSKU(30)
+        print('empresa 4')
 
     else:
         print('sem empresa selecionada')

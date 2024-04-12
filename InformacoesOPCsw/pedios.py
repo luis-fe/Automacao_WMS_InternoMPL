@@ -3,25 +3,30 @@ import BuscasAvancadas
 import ConexaoCSW
 import ConexaoPostgreMPL
 import controle
-def IncrementarPedidos():
+def IncrementarPedidos(rotina,datainico ):
     conn = ConexaoCSW.Conexao()#Abrindo a Conexao com o CSW
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
     sugestoes =pd.read_sql(BuscasAvancadas.SugestaoItemAberto(),conn)
     capaPedido =pd.read_sql(BuscasAvancadas.CapaPedido2(),conn)
 
+    etapa1 = controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from ped.pedidositemgrade')
 
 
     pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
     pedidos = pd.merge(pedidos,capaPedido,on='codPedido',how='left')
+
+    etapa2 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa1,'realizar o mergem entre pedidos+pedidositemgrade ')
 
 
     conn.close()#Fechando a Conexao com o CSW
 
     pedidos['codTipoNota'] = pedidos['codTipoNota'].astype(str)
     pedidos = pedidos[(pedidos['codTipoNota'] != '38') & (pedidos['codTipoNota'] != '239') & (pedidos['codTipoNota'] != '223')]
+    etapa3 = controle.salvarStatus_Etapa3(rotina,'automacao', etapa2,'filtrando tipo de notas')
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
+    etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'inserindo dados no Postgre')
 
 
     # Linkando as chave estrangeira na tabela
@@ -36,6 +41,7 @@ def IncrementarPedidos():
     cursor.close()# Fechando o cursor com o Postgre
 
     conn2.close() #Fechando a Conexao com o POSTGRE
+    etapa5 = controle.salvarStatus_Etapa5(rotina,'automacao', etapa4,'criando a chave estrangeira na tabela')
 
 def CadastroSKU(rotina, datainico):
     conn = ConexaoCSW.Conexao() #Abrindo a Conexao com o CSW
