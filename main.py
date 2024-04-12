@@ -2,9 +2,6 @@ import pytz
 import controle
 import empresaConfigurada
 from InformacoesOPCsw import OP_emAberto, MateriaisSubstitutosPorSku, InformacoesSilkFaccionista, TecidosDefeitosOP, pedios
-import CalculoEnderecos
-import CalculoNecessidadesEndereco
-import ConexaoCSW
 import RecarregaPedidos
 import RecarregarBanco
 from flask import Flask, render_template, jsonify, request
@@ -13,7 +10,6 @@ from functools import wraps
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
 import datetime
-import Ritmo
 import TagsDisponivelGarantia
 import TratamentoErro
 import Usuarios
@@ -21,35 +17,29 @@ import subprocess
 import subprocess
 import requests
 
-app = Flask(__name__)
-CORS(app)
-port = int(os.environ.get('PORT', 9000))
+"""
+NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
+PARA O BANCO DE DADOS DA APLICACAO DE WMS E PORTAL DA QUALIDADE
+"""
 
 
-def obterHoraAtual():
-    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+app = Flask(__name__) # DEFINE A VARIAVEL app como o caminho para excecutar o FrameWork Flask
+CORS(app) # O CORS garante que o serviço seja apontado via protocolo HTTP
+port = int(os.environ.get('PORT', 9000)) # Define a porta 9000 como padrao para essa aplicacao de AUTOMACAO
+
+
+def obterHoraAtual(): # Funcao criada para obter a data e hora do sistema, convetendo em fuso horario Brasil
+    fuso_horario = pytz.timezone('America/Sao_Paulo')
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%H')
     return hora_str
-def restart_server():
+
+def restart_server(): # Funcao que "reseta" a aplicacao para erros de execcao e outras processos
     print("Reiniciando o aplicativo...")
     subprocess.call(["python", "main.py"])
 
 
-def AtualizarOPSilks():
-    client_ip = 'automacao'
-    datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
-    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
-    if tempo > limite:
-            InformacoesSilkFaccionista.ObterOpsEstamparia()
-            controle.salvar('OPsSilksFaccionista', client_ip, datainicio)
-
-    else:
-
-            print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
-
-## Funcao de Automacao: Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
+## Funcao de Automacao 1 : Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
 def AtualizarSKU(IntervaloAutomacao):
     print('\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
     client_ip = 'automacao'
@@ -57,14 +47,16 @@ def AtualizarSKU(IntervaloAutomacao):
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoCadastroSKU')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            print('ETAPA AutomacaoCadastroSKU- Inicio')
+            print('\nETAPA AutomacaoCadastroSKU- Inicio')
             controle.InserindoStatus('AutomacaoCadastroSKU',client_ip,datainicio)
             pedios.CadastroSKU('AutomacaoCadastroSKU',datainicio)
             controle.salvarStatus('AutomacaoCadastroSKU',client_ip,datainicio)
             print('ETAPA AutomacaoCadastroSKU- Fim')
-            restart_server()
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
+
+
+## Funcao de Automacao 2 : Buscando a atualizacao dos pedidos a nivel de sku das 1milhao de ultimas linhas: Duracao media de x Segundos
 
 def AtualizarPedidos(IntervaloAutomacao):
     print('\nETAPA 2 - ATUALIZACAO DOS PEDIDOS-item-grade ultimos 1 Milhao de linhas ')
@@ -73,7 +65,7 @@ def AtualizarPedidos(IntervaloAutomacao):
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            print('ETAPA AtualizarPedidos- Inicio')
+            print('\nETAPA AtualizarPedidos- Inicio')
 
             pedios.IncrementarPedidos()
             controle.salvar('pedidosItemgrade', client_ip, datainicio)
@@ -82,6 +74,29 @@ def AtualizarPedidos(IntervaloAutomacao):
     else:
             print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
+## Funcao de Automacao 3 : Buscando a atualizacao das tag's em situacao gerada, disponibiliza os dados da situacao de tags em aberta : Duracao media de x Segundos
+def atualizatagoff(IntervaloAutomacao):
+    print('\nETAPA 3 - Atualiza tag off (disponibiliza os dados da situacao de tags em aberta ) ')
+    try:
+        rotina = 'atualiza tag off'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'atualiza tag off')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+            controle.InserindoStatus(rotina, client_ip, datainicio)
+            TagsDisponivelGarantia.SalvarTagsNoBancoPostgre(rotina, client_ip, datainicio)
+            controle.salvarStatus('atualiza tag off', client_ip, datainicio)
+
+        else:
+            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+
+## Funcao de Automacao 4 : Nessa etapa é acionada a API do CSW que faz o processo de AtualizaReserva das Sugestoes em aberto de acordo com a politica definida
 def AtualizaApiReservaFaruamento(IntervaloAutomacao):
     print('\nETAPA 4 - Atualiza Api ReservaFaruamento')
     client_ip = 'automacao'
@@ -114,6 +129,94 @@ def AtualizaApiReservaFaruamento(IntervaloAutomacao):
             print('ETAPA AtualizaApiReservaFaruamento- Fim')
         else:
             print(f'AtualizaApiReservaFaruamento : erro  {response.status_code} ')
+
+## Funcao de Automacao 5 : Atualiza as tags no status em estoque para o WMS
+def AtualizaFilaTagsEstoque(IntervaloAutomacao):
+    print('\nETAPA 5 - Atualiza Fila das Tags para Repor na situacao em ESTOQUE ')
+
+    try:
+
+        # coloque o código que você deseja executar continuamente aqui
+        rotina = 'fila Tags Reposicao'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+        empresa = empresaConfigurada.EmpresaEscolhida()
+        if tempo > limite and empresa == '1':
+
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
+            controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
+
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+
+        elif empresa == '4':
+            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
+
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+        else:
+            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
+    except:
+        print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
+
+
+## Funcao de Automacao 6 : Limpando Tags que sairam do estoque sem ser via WMS
+
+def LimezaTagsSaidaForaWMS(IntervaloAutomacao):
+    print('\nETAPA 6 - LimezaTagsSaidaForaWMS ')
+
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        rotina = 'fila Tags Reposicao'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+
+        # coloque o código que você deseja executar continuamente aqui
+        tamanho2, datahora2 = RecarregarBanco.avaliacaoFila()
+        print(f' 2.1- Sucesso - avaliacao Fila Reposicao \n Atencao!{tamanho2} tags foram eliminadas, as {datahora2}')
+    except:
+        print(' 2.1.1 falha na automacao - avaliacao Fila Reposicao')
+
+
+## Funcao de Automacao 7 : Elimina Pedidos ja Faturados
+def EliminaPedidosFaturados():
+    print('\n 3 - Limpando os Pedidos Faturados da Fila')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
+        print(f' 3.1 Sucesso - avaliacao Fila Pedidos \n Atenção!  {tamnho3} pedidos eliminados, as {datahora3}')
+    except:
+        print(' 3.1.1 falha na automacao - avaliacao Fila Pedidos')
+
+## Funcao de Automacao 8 :Elimina Pedidos Faturados NivelSKU
+
+def EliminaPedidosFaturadosNivelSKU():
+    print('\n 6 - Limpando PedidoSku')
+    try:
+        # coloque o código que você deseja executar continuamente aqui
+        datahora6 = RecarregaPedidos.LimpezaPedidosSku()
+        print(f'6.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora6}')
+    except:
+        print(f'6.1.1 falha na automacao - Limpeza PedidosSku')
+
+def AtualizarOPSilks():
+    client_ip = 'automacao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
+    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+            InformacoesSilkFaccionista.ObterOpsEstamparia()
+            controle.salvar('OPsSilksFaccionista', client_ip, datainicio)
+
+    else:
+
+            print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+
+
 
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
@@ -149,26 +252,6 @@ def SubstitutosSkuOP():
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
-def atualizatagoff():
-    print('\n 10 - Importando Tags da Reposicao off')
-    try:
-        rotina = 'atualiza tag off'
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'atualiza tag off')
-        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
-        if tempo > limite:
-            controle.InserindoStatus(rotina, client_ip, datainicio)
-            TagsDisponivelGarantia.SalvarTagsNoBancoPostgre(rotina, client_ip, datainicio)
-            controle.salvarStatus('atualiza tag off', client_ip, datainicio)
-
-        else:
-            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
-
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 def OrdemProducao():
     print('\n 11 - Importando as Ordem de Producao')
@@ -201,61 +284,9 @@ def my_task():
 
 
 def my_task2():
-    #OP_emAberto.IncrementadoDadosPostgre('1')
-    print('\n ###Começando a Automacao  do WMS ### ')
-    print(f'\n1 - Iniciando a Fila das Tags para Repor:')
-
-    try:
-
-        # coloque o código que você deseja executar continuamente aqui
-        rotina = 'fila Tags Reposicao'
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
-        limite = 20 * 60  # (limite de 60 minutos , convertido para segundos)
-        empresa = empresaConfigurada.EmpresaEscolhida()
-        if tempo > limite and empresa == '1':
-
-            controle.InserindoStatus(rotina,client_ip,datainicio)
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
-            controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
-
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
-
-        elif empresa == '4':
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
-
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
-        else:
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
-    except:
-        print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
-
-    print('\n 2 - Limpando a Fila das Tags com saidas fora do WMS')
-
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamanho2, datahora2 = RecarregarBanco.avaliacaoFila()
-        print(f' 2.1- Sucesso - avaliacao Fila Reposicao \n Atencao!{tamanho2} tags foram eliminadas, as {datahora2}')
-    except:
-        print(' 2.1.1 falha na automacao - avaliacao Fila Reposicao')
-
-    print('\n 3 - Limpando os Pedidos Faturados da Fila')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
-        print(f' 3.1 Sucesso - avaliacao Fila Pedidos \n Atenção!  {tamnho3} pedidos eliminados, as {datahora3}')
-    except:
-        print(' 3.1.1 falha na automacao - avaliacao Fila Pedidos')
+    print('\n ###  Inicando cilco de Automacao  do WMS ###\n ')
 
 
-    print('\n 6 - Limpando PedidoSku')
-    try:
-        # coloque o código que você deseja executar continuamente aqui
-        datahora6 = RecarregaPedidos.LimpezaPedidosSku()
-        print(f'6.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora6}')
-    except:
-        print(f'6.1.1 falha na automacao - Limpeza PedidosSku')
 
     print('\n 7- Limpando as saidas de Tags Repostas fora do WMS')
     try:
@@ -358,60 +389,31 @@ scheduler.add_job(func=my_task, trigger='interval', seconds=300)
 scheduler.start()
 
 
-#Variavel que inicia a aplicacao
+# INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
 
-    print('################# INICIANDO A AUTOMACAO DOS DADOS ')
-    empresa = empresaConfigurada.EmpresaEscolhida()
+    print('\n#################              INICIANDO A AUTOMACAO DOS DADOS        ########################### \n')
+    empresa = empresaConfigurada.EmpresaEscolhida() #Busca a empresa que a aplicacao de automaca vai rodar
+    print(f'\n Estamaos na empresa: {empresa}\n')
 
+    # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
     if empresa == '1':
-        AtualizarOPSilks()
         AtualizarSKU(30)
         AtualizarPedidos(60)
         AtualizaApiReservaFaruamento(60)
+        AtualizarOPSilks()
+    elif empresa == '4':
+        AtualizarSKU(30)
+
     else:
-        print(empresa)
-
-    try:
-
-        print('\n 1- INCREMENTANDO NO BANCO DE DADOS AS TAGS PRONTAS PARA O PROCESSO DE REPOSICAO')
-        # coloque o código que você deseja executar continuamente aqui
-        rotina = 'fila Tags Reposicao'
-
-        client_ip = 'automacao'
-        datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
-        tempoMin = 10
-        limite = tempoMin * 60  # (limite de 10 minutos , convertido para segundos)
-        empresa = empresaConfigurada.EmpresaEscolhida()
-
-        if tempo > limite and empresa == '1':
-            print('\n 1- Inicio do Processo de Capturar e salvar')
-            controle.InserindoStatus(rotina,client_ip,datainicio)
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
-            controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
-
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
-
-        elif empresa == '4':
-            print('\n 1- Inicio do Processo de Capturar e salvar: Empresa 4')
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
-
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
-        else:
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! a ultima atualizacao ocorreu a {tempo} , com {tempoMin} minutos de antecendencia antes do limite planejado')
+        print('sem empresa selecionada')
 
 
-
-
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-
-
+    # Etapa 2: Liga a automacao do my_task que é uma funcao de AGENDAMENTO DE PROCESSOS
     try:
         my_task()
-    except Exception as e:
+
+    except Exception as e: #Caso ocorre erros a automacao é reiniciada
         print(f"Erro detectado: {str(e)}")
         restart_server()
 

@@ -47,10 +47,10 @@ def CadastroSKU(rotina, datainico):
     etapa1 = controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from cgi.item i')
 
     ExcluindoRelacoes()
-    etapa2 = controle.salvarStatus_Etapa1(rotina,'automacao', etapa1,'Verifica se existe chavePrimaria')
+    etapa2 = controle.salvarStatus_Etapa2(rotina,'automacao', etapa1,'Verifica se existe chavePrimaria p/excluir')
 
     ConexaoPostgreMPL.Funcao_InserirPCP(sku, sku['codSKU'].size, 'SKU', 'replace')
-    etapa3 = controle.salvarStatus_Etapa1(rotina,'automacao', etapa2,'inserir no Postgre o cadastroSKU')
+    etapa3 = controle.salvarStatus_Etapa3(rotina,'automacao', etapa2,'inserir no Postgre o cadastroSKU')
 
     ## Criando a chave primaria escolhendo a coluna codSKU
 
@@ -64,6 +64,7 @@ def CadastroSKU(rotina, datainico):
     cursor.close()# Fechando o cursor com o Postgre
 
     conn2.close() #Fechando a Conexao com o POSTGRE
+    etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'Criar Chave primaria na tabela codSKU')
 
 
 def ExcluindoRelacoes():
