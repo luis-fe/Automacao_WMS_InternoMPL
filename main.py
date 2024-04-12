@@ -105,6 +105,7 @@ def AtualizaApiReservaFaruamento(IntervaloAutomacao):
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizaApiReservaFaruamento')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
+        controle.InserindoStatus('AtualizaApiReservaFaruamento', client_ip, datainicio)
         print('ETAPA AtualizaApiReservaFaruamento- Inicio')
         url = 'http://192.168.0.183:8000/pcp/api/ReservaPreFaturamento'
 
@@ -126,10 +127,12 @@ def AtualizaApiReservaFaruamento(IntervaloAutomacao):
         if response.status_code == 200:
             # Converter os dados JSON em um dicionário
             dados_dict = response.json()
-            controle.salvar('AtualizaApiReservaFaruamento', client_ip, datainicio)
+            controle.salvarStatus('AtualizaApiReservaFaruamento', client_ip, datainicio)
             print('ETAPA AtualizaApiReservaFaruamento- Fim')
         else:
             print(f'AtualizaApiReservaFaruamento : erro  {response.status_code} ')
+            controle.salvarStatus('AtualizaApiReservaFaruamento', client_ip, datainicio)
+
 
 ## Funcao de Automacao 5 : Atualiza as tags no status em estoque para o WMS
 def AtualizaFilaTagsEstoque(IntervaloAutomacao):
@@ -334,6 +337,8 @@ def my_task2():
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
+        AtualizaApiReservaFaruamento(60)
+
 
     else:
         print(empresa)
@@ -360,6 +365,7 @@ if __name__ == '__main__':
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
+        AtualizaApiReservaFaruamento(60)
     elif empresa == '4':
         print('empresa 4')
 
