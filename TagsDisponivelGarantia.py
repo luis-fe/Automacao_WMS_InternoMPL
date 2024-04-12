@@ -41,11 +41,9 @@ def BuscarTagsGarantia(rotina, ip,datahoraInicio):
 
 def SalvarTagsNoBancoPostgre(rotina, ip,datahoraInicio):
     consulta, etapa2 = BuscarTagsGarantia(rotina, ip,datahoraInicio)
-    print(consulta)
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta,consulta.size,'filareposicaoof', 'replace')
     etapa3 = controle.salvarStatus_Etapa3(rotina, ip, etapa2, 'Adicionar as tags ao wms')
 
-    print('Tags filareposicaoOF atualizadas com sucesso')
 
 def BuscaResticaoSubstitutos():
     conn = ConexaoPostgreMPL.conexao()
