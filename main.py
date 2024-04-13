@@ -444,7 +444,6 @@ def my_task2():
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
-        RemoveDuplicatasUsuario(10)  # 14
 
 
 
@@ -494,7 +493,6 @@ if __name__ == '__main__':
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
-        RemoveDuplicatasUsuario(10)  # 14
 
 
 
