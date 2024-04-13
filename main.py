@@ -436,7 +436,6 @@ def my_task2():
         AtualizarOPSDefeitoTecidos(90) #11
         SubstitutosSkuOP(60) #12
         OrdemProducao(40) #13
-        RemoveDuplicatasUsuario(10) #14
 
     else:
         AtualizaFilaTagsEstoque(15)
@@ -483,7 +482,6 @@ if __name__ == '__main__':
         AtualizarOPSDefeitoTecidos(90) #11
         SubstitutosSkuOP(60) #12
         OrdemProducao(40) #13
-        RemoveDuplicatasUsuario(10)  # 14
 
 
 
