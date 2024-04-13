@@ -6,7 +6,7 @@ import ConexaoPostgreMPL
 import ConexaoCSW
 import datetime
 from psycopg2 import sql
-
+import controle
 import empresaConfigurada
 
 
@@ -78,7 +78,7 @@ def SeparacoPedidos():
     print('\n4.1.1 Sem dados a Incluir')
     return tamanho, dataHora
 
-def avaliacaoPedidos():
+def avaliacaoPedidos(rotina, datahoraInicio):
     emp = empresaConfigurada.EmpresaEscolhida()
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido||'-'||codsequencia   as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
@@ -90,6 +90,8 @@ def avaliacaoPedidos():
     tagWms = pd.read_sql('select * from "Reposicao".filaseparacaopedidos t ', conn2)
     tagWms = pd.merge(tagWms,SugestoesAbertos, on='codigopedido', how='left')
     tagWms = tagWms[tagWms['estoque']!='estoque']
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datahoraInicio,'etapa csw ped.sugestao + wms')
+
 
     tamanho = tagWms['codigopedido'].size
 
@@ -108,6 +110,7 @@ def avaliacaoPedidos():
             conn2.commit()
     else:
         print('3.1.1 - sem Pedidos para serem eliminados da Fila de Pedidos')
+    etapa2= controle.salvarStatus_Etapa2(rotina, 'automacao',etapa1,'etapa excluindo pedidos ja faturados')
 
 
 def SugestaoSKU():
@@ -173,7 +176,7 @@ def IncrementarSku():
         return 0, datahora
 
 
-def LimpezaPedidosSku():
+def LimpezaPedidosSku(rotina, datainicio):
     conn = ConexaoPostgreMPL.conexao()
     query = 'delete from "Reposicao".pedidossku  p ' \
             'where p.codpedido  in ( ' \
@@ -185,8 +188,10 @@ def LimpezaPedidosSku():
     cursor.execute(query,)
     conn.commit()
     cursor.close()
-    datahora = obterHoraAtual()
-    return datahora
+    conn.close()
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'deletando pedidos na pedidossku que nao foram encontrados')
+
+
 
 def AtualizarPedidosConferidos():
     conn = ConexaoCSW.Conexao()
@@ -227,19 +232,28 @@ def AtualizarPedidosConferidos():
     datahora = obterHoraAtual()
     return tamanho, datahora
 
-def avaliacaoReposicao():
+def avaliacaoReposicao(rotina,datainicio):
     emp = empresaConfigurada.EmpresaEscolhida()
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
         'WHERE br.codEmpresa = '+emp+' and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
 
+    conn.close()
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'etapa csw Tcr.TagBarrasProduto br')
+
+
     conn2 = ConexaoPostgreMPL.conexao()
+
+
 
     tagWms = pd.read_sql('select * from "Reposicao".tagsreposicao t ', conn2)
     tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
     tagWms = tagWms[tagWms['estoque']!='estoque']
     tamanho = tagWms['codbarrastag'].size
+
+    etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao',etapa1,'companrando csw Tcr.TagBarrasProduto x WMS ')
+
     # Obter os valores para a cláusula WHERE do DataFrame
     lista = tagWms['codbarrastag'].tolist()
     # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
@@ -253,8 +267,9 @@ def avaliacaoReposicao():
         with conn2.cursor() as cursor:
             cursor.execute(query)
             conn2.commit()
-    else:
-        print('sem incremento')
+        etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,f'excluindo tags fora WMS {tamanho} tags')
 
-    dataHora = obterHoraAtual()
-    return tagWms['codbarrastag'].size, dataHora
+    else:
+        etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,'excluindo tags fora WMS 0 tags')
+
+

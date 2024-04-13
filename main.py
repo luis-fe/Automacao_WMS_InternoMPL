@@ -211,7 +211,7 @@ def EliminaPedidosFaturados(IntervaloAutomacao):
         if tempo > limite:
             controle.InserindoStatus(rotina,client_ip,datainicio)
             print('\nETAPA Elimina Pedidos ja Faturados- Inicio')
-            RecarregaPedidos.avaliacaoPedidos()
+            RecarregaPedidos.avaliacaoPedidos(rotina, datainicio)
             controle.salvarStatus(rotina, 'automacao', datainicio)
             print('ETAPA Elimina Pedidos ja Faturados- Fim')
         else:
@@ -223,57 +223,87 @@ def EliminaPedidosFaturados(IntervaloAutomacao):
 
 ## Funcao de Automacao 8 :Elimina Pedidos Faturados NivelSKU
 
-def EliminaPedidosFaturadosNivelSKU():
-    print('\n 6 - Limpando PedidoSku')
+def EliminaPedidosFaturadosNivelSKU(IntervaloAutomacao):
+    print('\n 8 - Elimina Pedidos Faturados NivelSKU')
     try:
-        # coloque o código que você deseja executar continuamente aqui
-        datahora6 = RecarregaPedidos.LimpezaPedidosSku()
-        print(f'6.1 Sucesso - Pedios Faturados Limpados do PedidoSKU, as {datahora6}')
-    except:
-        print(f'6.1.1 falha na automacao - Limpeza PedidosSku')
+        rotina = 'EliminaPedidosjaFaturados'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'EliminaPedidosjaFaturados')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+
+        if tempo > limite:
+            print('\nETAPA Elimina Pedidos sku Faturados- Inicio')
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            RecarregaPedidos.LimpezaPedidosSku(rotina, datainicio)
+            controle.salvarStatus(rotina, 'automacao', datainicio)
+            print('ETAPA Elimina Pedidos sku Faturados- Fim')
+
+        else:
+            print(f'JA EXISTE UMA ATUALIZACAO DA Elimina Pedidos FaturadosNivelSKU EM MENOS DE {IntervaloAutomacao} MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 ## Funcao de Automacao 9: Atualizar :
 
-def LimpandoTag():
-    print('\n 7- Limpando as saidas de Tags Repostas fora do WMS')
+def LimpandoTagSaidaReposicao(IntervaloAutomacao):
+    print('\n 9- Limpando as saidas de Tags Repostas fora do WMS')
     try:
         # coloque o código que você deseja executar continuamente aqui
+        rotina = 'LimpandoTagSaidaReposicao'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'avaliacaoReposicao')
         limite = 5 * 60  # (limite de 60 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
+
         if tempo > limite and empresa == '1':
+            print('\nETAPA LimpandoTagSaidaReposicao- Inicio')
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            RecarregaPedidos.avaliacaoReposicao(rotina, datainicio)
+            controle.salvarStatus(rotina, client_ip, datainicio)
+            print('ETAPA LimpandoTagSaidaReposicao- Fim')
 
-            tamnho7, datahora7 = RecarregaPedidos.avaliacaoReposicao()
-            controle.salvar('avaliacaoReposicao', client_ip, datainicio)
 
-            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nAtenção!  {tamnho7} tags limpadas, as {datahora7}')
         else:
-            print(f'7.1 Sucesso - Limpando Saida da Reposicao \nCongelado')
+            print(f'JA EXISTE UMA ATUALIZACAO DA  Limpando Tag Saida da Reposicao EM MENOS DE {IntervaloAutomacao} MINUTOS')
 
-    except:
-        print(f'7.1.1 falha na automacao - Limpando Saida da Reposicao')
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 ## Funcao de Automacao 10: Atualizar Ops Silk :
+def AtualizarOPSilks(IntervaloAutomacao):
+    print('\n 10- ATUALIZA OP Silks Faccionistas')
 
-def AtualizarOPSilks():
-    client_ip = 'automacao'
-    datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
-    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
-    if tempo > limite:
-            InformacoesSilkFaccionista.ObterOpsEstamparia()
-            controle.salvar('OPsSilksFaccionista', client_ip, datainicio)
+    try:
+        rotina ='OPsSilksFaccionista'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
+        limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+                print('\nETAPA Atualizar OP de Silks- Inicio')
+                controle.InserindoStatus(rotina, client_ip, datainicio)
+                InformacoesSilkFaccionista.ObterOpsEstamparia(rotina, datainicio)
+                controle.salvarStatus('OPsSilksFaccionista', client_ip, datainicio)
+                print('ETAPA Atualizar OP de Silks- Fim')
 
-    else:
 
-            print('JA EXISTE UMA ATUALIZACAO Dos OPsSilksFaccionista   EM MENOS DE 1 HORA - 60 MINUTOS')
+        else:
+                print(f'JA EXISTE UMA ATUALIZACAO Dos OPs SilksFaccionista   EM MENOS DE {IntervaloAutomacao} MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 
 ## Funcao de Automacao 11: AtualizarOPSDefeitoTecidos  :
-
-
 def AtualizarOPSDefeitoTecidos():
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
@@ -288,7 +318,6 @@ def AtualizarOPSDefeitoTecidos():
             print('JA EXISTE UMA ATUALIZACAO Dos OPSDefeitoTecidos   EM MENOS DE 1 HORA - 60 MINUTOS')
 
 ## Funcao de Automacao 12: SubstitutosSkuOP  :
-
 def SubstitutosSkuOP():
     print('\n 12 - Salvando as OPs que tiveram substitutos')
 
@@ -362,15 +391,24 @@ def my_task2():
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
-        AtualizaApiReservaFaruamento(60)
+        AtualizaApiReservaFaruamento(90)
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
         EliminaPedidosFaturados(10)
+        EliminaPedidosFaturadosNivelSKU(10)
+        LimpandoTagSaidaReposicao(10)
+        AtualizarOPSilks(90)
 
     else:
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
         EliminaPedidosFaturados(10)
+        EliminaPedidosFaturadosNivelSKU(10)
+        LimpandoTagSaidaReposicao(10)
+        AtualizarOPSilks(90)
+
+
+
 
         print(empresa)
 
@@ -396,15 +434,27 @@ if __name__ == '__main__':
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
-        AtualizaApiReservaFaruamento(60)
+        AtualizaApiReservaFaruamento(90)
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
         EliminaPedidosFaturados(10)
+        EliminaPedidosFaturadosNivelSKU(10)
+        LimpandoTagSaidaReposicao(10)
+        AtualizarOPSilks(90)
+
+
+
 
     elif empresa == '4':
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
         EliminaPedidosFaturados(10)
+        EliminaPedidosFaturadosNivelSKU(10)
+        LimpandoTagSaidaReposicao(10)
+        AtualizarOPSilks(90)
+
+
+
 
         print('empresa 4')
 
