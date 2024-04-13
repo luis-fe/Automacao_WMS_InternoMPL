@@ -333,7 +333,7 @@ def my_task2():
 
     empresa = empresaConfigurada.EmpresaEscolhida()
     if empresa == '1':
-
+        AtualizaFilaTagsEstoque(15)
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
@@ -362,6 +362,7 @@ if __name__ == '__main__':
 
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
     if empresa == '1':
+        AtualizaFilaTagsEstoque(15)
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
