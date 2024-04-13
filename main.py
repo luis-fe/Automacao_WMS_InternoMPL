@@ -388,16 +388,16 @@ def my_task2():
 
     empresa = empresaConfigurada.EmpresaEscolhida()
     if empresa == '1':
-        AtualizarSKU(60)
-        AtualizarPedidos(60)
-        atualizatagoff(20)
-        AtualizaApiReservaFaruamento(90)
-        AtualizaFilaTagsEstoque(15)
-        LimpezaTagsSaidaForaWMS(15)
-        EliminaPedidosFaturados(10)
-        EliminaPedidosFaturadosNivelSKU(10)
-        LimpandoTagSaidaReposicao(10)
-        AtualizarOPSilks(90)
+        AtualizarSKU(60) #1
+        AtualizarPedidos(60) #2
+        atualizatagoff(20) #3
+        AtualizaApiReservaFaruamento(90) #4
+        AtualizaFilaTagsEstoque(15) #5
+        LimpezaTagsSaidaForaWMS(15) #6
+        EliminaPedidosFaturados(10) #7
+        EliminaPedidosFaturadosNivelSKU(10) #8
+        LimpandoTagSaidaReposicao(10) #9
+        AtualizarOPSilks(90) #10
 
     else:
         AtualizaFilaTagsEstoque(15)
@@ -405,7 +405,7 @@ def my_task2():
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
-        AtualizarOPSilks(90)
+
 
 
 
@@ -431,16 +431,16 @@ if __name__ == '__main__':
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
     if empresa == '1':
-        AtualizarSKU(60)
-        AtualizarPedidos(60)
-        atualizatagoff(20)
-        AtualizaApiReservaFaruamento(90)
-        AtualizaFilaTagsEstoque(15)
-        LimpezaTagsSaidaForaWMS(15)
-        EliminaPedidosFaturados(10)
-        EliminaPedidosFaturadosNivelSKU(10)
-        LimpandoTagSaidaReposicao(10)
-        AtualizarOPSilks(90)
+        AtualizarSKU(60) #1
+        AtualizarPedidos(60) #2
+        atualizatagoff(20) #3
+        AtualizaApiReservaFaruamento(90) #4
+        AtualizaFilaTagsEstoque(15) #5
+        LimpezaTagsSaidaForaWMS(15) #6
+        EliminaPedidosFaturados(10) #7
+        EliminaPedidosFaturadosNivelSKU(10) #8
+        LimpandoTagSaidaReposicao(10) #9
+        AtualizarOPSilks(90) #10
 
 
 
@@ -451,7 +451,6 @@ if __name__ == '__main__':
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
-        AtualizarOPSilks(90)
 
 
 
