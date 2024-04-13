@@ -127,10 +127,12 @@ def AtualizaApiReservaFaruamento(IntervaloAutomacao):
         if response.status_code == 200:
             # Converter os dados JSON em um dicionário
             dados_dict = response.json()
+            etapa1 = controle.salvarStatus_Etapa1('AtualizaApiReservaFaruamento', 'automacao', datainicio, 'resposta 200 ok')
             controle.salvarStatus('AtualizaApiReservaFaruamento', client_ip, datainicio)
             print('ETAPA AtualizaApiReservaFaruamento- Fim')
         else:
             print(f'AtualizaApiReservaFaruamento : erro  {response.status_code} ')
+            etapa1 = controle.salvarStatus_Etapa1('AtualizaApiReservaFaruamento', 'automacao', datainicio, f'resposta {response.status_code}')
             controle.salvarStatus('AtualizaApiReservaFaruamento', client_ip, datainicio)
 
 
@@ -167,8 +169,8 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
 
 ## Funcao de Automacao 6 : Limpando Tags que sairam do estoque sem ser via WMS
 
-def LimezaTagsSaidaForaWMS(IntervaloAutomacao):
-    print('\nETAPA 6 - LimezaTagsSaidaForaWMS ')
+def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
+    print('\nETAPA 6 - LimpezaTagsSaidaForaWMS ')
 
     try:
         # coloque o código que você deseja executar continuamente aqui
@@ -333,16 +335,15 @@ def my_task2():
 
     empresa = empresaConfigurada.EmpresaEscolhida()
     if empresa == '1':
-        AtualizaFilaTagsEstoque(15)
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
         AtualizaApiReservaFaruamento(60)
-
+        AtualizaFilaTagsEstoque(15)
 
     else:
+        AtualizaFilaTagsEstoque(15)
         print(empresa)
-
 
         print('Fim do Ciclo')
 
@@ -361,18 +362,20 @@ if __name__ == '__main__':
     print(f'\n Estamaos na empresa: {empresa}\n')
 
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
+
     if empresa == '1':
-        AtualizaFilaTagsEstoque(15)
         AtualizarSKU(60)
         AtualizarPedidos(60)
         atualizatagoff(20)
         AtualizaApiReservaFaruamento(60)
+        AtualizaFilaTagsEstoque(15)
+
     elif empresa == '4':
+        AtualizaFilaTagsEstoque(15)
         print('empresa 4')
 
     else:
         print('sem empresa selecionada')
-
 
     # Etapa 2: Liga a automacao do my_task que é uma funcao de AGENDAMENTO DE PROCESSOS
     try:
