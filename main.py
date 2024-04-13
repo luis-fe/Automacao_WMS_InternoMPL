@@ -152,15 +152,13 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
         if tempo > limite and empresa == '1':
 
             controle.InserindoStatus(rotina,client_ip,datainicio)
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
+            RecarregarBanco.FilaTags(datainicio, rotina)
             controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
-
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+            print('ETAPA fila Tags Reposicao- Fim')
 
         elif empresa == '4':
-            tamnho1, datahora1 = RecarregarBanco.FilaTags(datainicio, rotina)
-
-            print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! {tamnho1} tags foram adicionadas, as {datahora1}')
+            RecarregarBanco.FilaTags(datainicio, rotina)
+            print('ETAPA fila Tags Reposicao- Fim')
         else:
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
     except:
@@ -174,15 +172,18 @@ def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
 
     try:
         # coloque o código que você deseja executar continuamente aqui
-        rotina = 'fila Tags Reposicao'
+        rotina = 'LimpezaTagsSaidaForaWMSo'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'LimpezaTagsSaidaForaWMS')
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
 
-        # coloque o código que você deseja executar continuamente aqui
-        tamanho2, datahora2 = RecarregarBanco.avaliacaoFila()
-        print(f' 2.1- Sucesso - avaliacao Fila Reposicao \n Atencao!{tamanho2} tags foram eliminadas, as {datahora2}')
+        if tempo > limite:
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            RecarregarBanco.avaliacaoFila(rotina, datainicio)
+            controle.salvarStatus(rotina,'automacao',datainicio)
+            print('ETAPA LimpezaTagsSaidaForaWMS- Fim')
+
     except:
         print(' 2.1.1 falha na automacao - avaliacao Fila Reposicao')
 
@@ -340,9 +341,12 @@ def my_task2():
         atualizatagoff(20)
         AtualizaApiReservaFaruamento(60)
         AtualizaFilaTagsEstoque(15)
+        LimpezaTagsSaidaForaWMS(15)
 
     else:
         AtualizaFilaTagsEstoque(15)
+        LimpezaTagsSaidaForaWMS(15)
+
         print(empresa)
 
         print('Fim do Ciclo')
@@ -369,9 +373,12 @@ if __name__ == '__main__':
         atualizatagoff(20)
         AtualizaApiReservaFaruamento(60)
         AtualizaFilaTagsEstoque(15)
+        LimpezaTagsSaidaForaWMS(15)
 
     elif empresa == '4':
         AtualizaFilaTagsEstoque(15)
+        LimpezaTagsSaidaForaWMS(15)
+
         print('empresa 4')
 
     else:

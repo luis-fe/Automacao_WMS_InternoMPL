@@ -85,12 +85,8 @@ def FilaTags(datainico, rotina):
     #try:
     tamanho2 = 1000
     ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
-    hora = obterHoraAtual()
-    return tamanho2, hora
-    #except:
-     #   print('falha na funçao Inserir')
-      #  hora = obterHoraAtual()
-       # return tamanho, hora
+
+
 
 
 def LerEPC():
@@ -107,17 +103,23 @@ def LerEPC():
     conn.close()
 
     return consulta
-def avaliacaoFila():
+def avaliacaoFila(rotina,datahoraInicio):
     xemp = empresaConfigurada.EmpresaEscolhida()
     xemp = "'"+xemp+"'"
     conn = ConexaoCSW.Conexao()
     SugestoesAbertos = pd.read_sql(
         "select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br "
         'WHERE br.codEmpresa in ('+xemp+') and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)', conn)
+
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
+
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
     tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
+    etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao',etapa1,'etapa merge filatagsWMS+tagsProdutoCSW')
+
+
     tagWms = tagWms[tagWms['estoque']!='estoque']
     tamanho =tagWms['codbarrastag'].size
     # Obter os valores para a cláusula WHERE do DataFrame
@@ -137,8 +139,7 @@ def avaliacaoFila():
     else:
         print('2.1.1 sem tags para ser eliminadas na Fila Tags Reposicao')
 
-    dataHora = obterHoraAtual()
-    return tagWms['codbarrastag'].size, dataHora
+
 
 def BuscaResticaoSubstitutos():
     conn = ConexaoPostgreMPL.conexao()
