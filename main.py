@@ -257,7 +257,7 @@ def LimpandoTagSaidaReposicao(IntervaloAutomacao):
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'avaliacaoReposicao')
-        limite = 5 * 60  # (limite de 60 minutos , convertido para segundos)
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
 
         if tempo > limite and empresa == '1':
@@ -285,7 +285,7 @@ def AtualizarOPSilks(IntervaloAutomacao):
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPsSilksFaccionista')
-        limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
                 print('\nETAPA Atualizar OP de Silks- Inicio')
                 controle.InserindoStatus(rotina, client_ip, datainicio)
@@ -304,35 +304,51 @@ def AtualizarOPSilks(IntervaloAutomacao):
 
 
 ## Funcao de Automacao 11: AtualizarOPSDefeitoTecidos  :
-def AtualizarOPSDefeitoTecidos():
-    client_ip = 'automacao'
-    datainicio = controle.obterHoraAtual()
-    tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPSDefeitoTecidos')
-    limite = 30 * 60  # (limite de 60 minutos , convertido para segundos)
-    if tempo > limite:
-            TecidosDefeitosOP.DefeitosTecidos()
-            controle.salvar('OPSDefeitoTecidos', client_ip, datainicio)
+def AtualizarOPSDefeitoTecidos(IntervaloAutomacao):
+    print('\n 11- ATUALIZA  OPS Defeito Tecidos')
 
-    else:
+    try:
+        rotina = 'OPSDefeitoTecidos'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPSDefeitoTecidos')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+                print('\nETAPA Atualizar OPS Defeito Tecidos- Inicio')
+                controle.InserindoStatus(rotina, client_ip, datainicio)
+                TecidosDefeitosOP.DefeitosTecidos(rotina, datainicio)
+                controle.salvarStatus('OPSDefeitoTecidos', client_ip, datainicio)
+                print('ETAPA Atualizar OPS Defeito Tecidos- Fim')
 
-            print('JA EXISTE UMA ATUALIZACAO Dos OPSDefeitoTecidos   EM MENOS DE 1 HORA - 60 MINUTOS')
+
+        else:
+                print(f'JA EXISTE UMA ATUALIZACAO das OPS Defeito Tecidos   EM MENOS DE - {IntervaloAutomacao} MINUTOS')
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 ## Funcao de Automacao 12: SubstitutosSkuOP  :
-def SubstitutosSkuOP():
+def SubstitutosSkuOP(IntervaloAutomacao):
     print('\n 12 - Salvando as OPs que tiveram substitutos')
 
     try:
+        rotina = 'SubstitutosSkuOP'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
-        limite = 60 * 60  # (limite de 60 minutos , convertido para segundos)
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+
         if tempo > limite:
-            MateriaisSubstitutosPorSku.SubstitutosSkuOP()
-            controle.salvar('SubstitutosSkuOP', client_ip, datainicio)
+            print('\nETAPA Atualizar Substitutos Sku OP- Inicio')
+            controle.InserindoStatus(rotina, client_ip, datainicio)
+            MateriaisSubstitutosPorSku.SubstitutosSkuOP(rotina, datainicio)
+            controle.salvarStatus('SubstitutosSkuOP', client_ip, datainicio)
+            print('ETAPA Atualizar Substitutos Sku OP- Final')
 
         else:
 
-            print('JA EXISTE UMA ATUALIZACAO Dos SubstitutosSkuOP   EM MENOS DE 1 HORA - 60 MINUTOS')
+            print(f'JA EXISTE UMA ATUALIZACAO dos Substitutos Sku por OP EM MENOS DE - {IntervaloAutomacao} MINUTOS')
 
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
@@ -341,21 +357,23 @@ def SubstitutosSkuOP():
 
 ## Funcao de Automacao 13: Ordem Producao  :
 
-def OrdemProducao():
-    print('\n 11 - Importando as Ordem de Producao')
-
+def OrdemProducao(IntervaloAutomacao):
+    print('\n 13 - Importando as Ordem de Producao')
     try:
+        rotina = 'ordem de producao'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'ordem de producao')
-        limite = 10 * 60  # (limite de 10 minutos , convertido para segundos)
+        limite = IntervaloAutomacao * 60  # (limite de 10 minutos , convertido para segundos)
+
         if tempo > limite:
-            OP_emAberto.IncrementadoDadosPostgre('1')
-            controle.salvar('ordem de producao', client_ip, datainicio)
-
+            print('\nETAPA importando Ordem de Producao- Inicio')
+            controle.InserindoStatus(rotina, client_ip, datainicio)
+            OP_emAberto.IncrementadoDadosPostgre('1', rotina, datainicio)
+            controle.salvarStatus(rotina, client_ip, datainicio)
+            print('ETAPA importando Ordem de Producao- Fim')
         else:
-
-            print('JA EXISTE UMA ATUALIZACAO DA FILA TAGS OFF EM MENOS DE 1 HORA - 60 MINUTOS')
+            print(f'JA EXISTE UMA ATUALIZACAO em importando Ordem de Producao EM MENOS DE - {IntervaloAutomacao} MINUTOS')
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
@@ -363,13 +381,30 @@ def OrdemProducao():
 
 ## Funcao de Automacao 14: Ordem Producao  :
 
-def RemoveDuplicatasUsuario():
-    print('\n 9- TratamentoErrosDuplicacoes')
+def RemoveDuplicatasUsuario(IntervaloAutomacao):
+    print('\n 14- RemoveDuplicatasUsuario')
     try:
-        datahora9 = TratamentoErro.RemoveDuplicatasUsuario()
-        print(f'9.1 Sucesso - Limpeza de Duplicatas Usuario Atribuido na Reposicao, as {datahora9}')
-    except:
-        print('9.1.1 Falha na automacao - Tratamento de Erros')
+        rotina = 'RemoveDuplicatasUsuario'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, rotina)
+        limite = IntervaloAutomacao * 60  # (limite de 10 minutos , convertido para segundos)
+
+        if tempo > limite:
+            print('\nETAPA RemoveDuplicatasUsuario- Inicio')
+            controle.InserindoStatus(rotina, client_ip, datainicio)
+            TratamentoErro.RemoveDuplicatasUsuario(rotina, datainicio)
+            controle.salvarStatus(rotina, client_ip, datainicio)
+
+            print('ETAPA RemoveDuplicatasUsuario- Fim')
+        else:
+            print(
+                f'JA EXISTE UMA ATUALIZACAO em Remove Duplicatas Usuario EM MENOS DE - {IntervaloAutomacao} MINUTOS')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 
 def my_task():
@@ -398,6 +433,10 @@ def my_task2():
         EliminaPedidosFaturadosNivelSKU(10) #8
         LimpandoTagSaidaReposicao(10) #9
         AtualizarOPSilks(90) #10
+        AtualizarOPSDefeitoTecidos(90) #11
+        SubstitutosSkuOP(60) #12
+        OrdemProducao(40) #13
+        RemoveDuplicatasUsuario(10) #14
 
     else:
         AtualizaFilaTagsEstoque(15)
@@ -405,6 +444,7 @@ def my_task2():
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
+        RemoveDuplicatasUsuario(10)  # 14
 
 
 
@@ -441,7 +481,10 @@ if __name__ == '__main__':
         EliminaPedidosFaturadosNivelSKU(10) #8
         LimpandoTagSaidaReposicao(10) #9
         AtualizarOPSilks(90) #10
-
+        AtualizarOPSDefeitoTecidos(90) #11
+        SubstitutosSkuOP(60) #12
+        OrdemProducao(40) #13
+        RemoveDuplicatasUsuario(10)  # 14
 
 
 
@@ -451,6 +494,7 @@ if __name__ == '__main__':
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
+        RemoveDuplicatasUsuario(10)  # 14
 
 
 

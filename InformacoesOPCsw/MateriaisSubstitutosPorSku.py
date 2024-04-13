@@ -2,25 +2,33 @@ import ConexaoCSW
 import pandas as pd
 import  BuscasAvancadas
 import ConexaoPostgreMPL
+import controle
+
 
 # Passo 1 - Automacao que impulta no WMS os dados referente as OP que ocorreram substituicao nos utimos 100 dias
-def SubstitutosSkuOP():
+def SubstitutosSkuOP(rotina, datainicio):
     conn = ConexaoCSW.Conexao()
 
     # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
     consultaSubstitudos = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'etapa busca no CSW: registro de substitutos')
+
 
     #Acrescentando o codigoSortimento aos compontentes variaveis
     consultaSortVar = ComponentesPrincipalPorSKU()
     consultaSortVar['tipo'] = 'Variavel'
     consultaSubstitudos = pd.merge(consultaSubstitudos,consultaSortVar,on=['codproduto', 'componente'], how='left')
     consultaSubstitudos['tipo'].fillna('Padrao',inplace=True)#Caso vazio, marcar como componente padrao
+    etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao',etapa1,'etapa CSW: Acrescentando o codigoSortimento aos compontentes variaveis')
+
 
     #Acrescentando as cores aos componentes variaveis
     consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
     consultaCor['tipo'] = 'Variavel'
     consultaCor['codSortimento']=consultaCor['codSortimento'].astype(str)
     consultaSubstitudos = pd.merge(consultaSubstitudos,consultaCor,on=['numeroop', 'codSortimento','tipo'], how='left')
+    etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,'etapa CSW: Acrescentando as cores aos componentes variaveis')
+
 
 
     #Levantamento dos compontentes padroes
@@ -31,6 +39,8 @@ def SubstitutosSkuOP():
     consultaSubstitudosPad.drop(['codSortimento', 'cor'], axis=1, inplace=True)
 
     consultaSubstitudosPad = pd.merge(consultaSubstitudosPad,consultaPad,on=['codproduto','componente','tipo'], how='left')
+    etapa4 = controle.salvarStatus_Etapa4(rotina, 'automacao',etapa3,'etapa CSW: Levantamento dos compontentes padroes')
+
 
 
     #Acrescentando as cores aos componentes padroes
@@ -150,7 +160,8 @@ def SubstitutosSkuOP():
 
     #Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta,consulta['requisicao'].size,'SubstitutosSkuOP','replace')
-    return consulta
+    etapa5 = controle.salvarStatus_Etapa5(rotina, 'automacao',etapa4,'Carregando dados no Wms')
+
 def Categoria(contem, valorReferencia, valorNovo, categoria):
     if contem in valorReferencia and categoria == '-':
         return valorNovo

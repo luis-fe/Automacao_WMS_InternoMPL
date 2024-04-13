@@ -1,11 +1,15 @@
 import ConexaoPostgreMPL
 import datetime
 import pandas as pd
+
+import controle
+
+
 def obterHoraAtual():
     agora = datetime.datetime.now()
     hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
-def RemoveDuplicatasUsuario():
+def RemoveDuplicatasUsuario(rotina, datainicio):
     conn = ConexaoPostgreMPL.conexao()
     query = 'update "Reposicao".filareposicaoportag' \
             'set usuario = null ' \
@@ -16,9 +20,9 @@ def RemoveDuplicatasUsuario():
     cursor.execute(query,)
     conn.commit()
     cursor.close()
-    datahora = obterHoraAtual()
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'etapa analisar')
 
-    return datahora
+
 
 def AtualizandoAgrupamento():
     conn = ConexaoPostgreMPL.conexao()

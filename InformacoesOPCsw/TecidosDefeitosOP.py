@@ -4,6 +4,10 @@ import ConexaoCSW
 import ConexaoPostgreMPL
 import datetime
 import pytz
+
+import controle
+
+
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
@@ -11,7 +15,7 @@ def obterHoraAtual():
     return agora
 
 
-def DefeitosTecidos():
+def DefeitosTecidos(rotina, datainicio):
     conn = ConexaoCSW.Conexao()
 
     consulta = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
@@ -19,6 +23,7 @@ def DefeitosTecidos():
 
     fornecedor = pd.read_sql(BuscasAvancadas.Fornecedor(),conn)
     req = pd.read_sql(BuscasAvancadas.RequisicaoItemEtiquetas(),conn)
+    etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'etapa  consultando no CSW etiquetas com defeito de tecidos')
 
 
     fornecedor['codFornecNota'] = fornecedor['codFornecNota'].astype(str)
@@ -48,7 +53,7 @@ def DefeitosTecidos():
 
     # Carregando dados no Wms
     ConexaoPostgreMPL.Funcao_Inserir(consulta2, consulta2['coditem'].size, 'OPSDefeitoTecidos', 'replace')
-    return consulta2
+    etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao',etapa1,'etapa inserindo dados dos tecidos')
 
 
 

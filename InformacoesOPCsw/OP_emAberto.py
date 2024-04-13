@@ -1,6 +1,8 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
+
+import controle
 from funcoesGlobais import SalvarConsulta
 import datetime
 import pytz
@@ -28,17 +30,20 @@ def BuscandoOPCSW(empresa):
     SalvarConsulta.salvar('sql tco.OrdemProdTamanhos ot','off.ordemprod',inicio)
     return get
 
-def IncrementadoDadosPostgre(empresa):
+def IncrementadoDadosPostgre(empresa, rotina, datainicio):
     inicio = obterHoraAtual()
     diferencaTempo = SalvarConsulta.UltimaAtualizacao('off.ordemprod',inicio)
 
     if diferencaTempo >= 600:
 
         dados = BuscandoOPCSW(empresa)
-
+        etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao', datainicio,
+                                              'etapa  consultando no CSW Buscando OPs em aberto')
 
         try:
             ConexaoPostgreMPL.Funcao_InserirOFF(dados,dados['numeroop'].size,'ordemprod','replace')
+            etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao', etapa1,
+                                                  'etapa inserindo ops no wms')
             print('OPS INSERIDAS COM SUCESSO')
         except:
             print('FALHA AO TENTAR INSERIR OS DADOS')
