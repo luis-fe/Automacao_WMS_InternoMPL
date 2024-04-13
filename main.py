@@ -365,10 +365,12 @@ def my_task2():
         AtualizaApiReservaFaruamento(60)
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
+        EliminaPedidosFaturados(10)
 
     else:
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
+        EliminaPedidosFaturados(10)
 
         print(empresa)
 
@@ -397,10 +399,12 @@ if __name__ == '__main__':
         AtualizaApiReservaFaruamento(60)
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
+        EliminaPedidosFaturados(10)
 
     elif empresa == '4':
         AtualizaFilaTagsEstoque(15)
         LimpezaTagsSaidaForaWMS(15)
+        EliminaPedidosFaturados(10)
 
         print('empresa 4')
 
