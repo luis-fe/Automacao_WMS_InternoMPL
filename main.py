@@ -161,8 +161,12 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
             print('ETAPA fila Tags Reposicao- Fim')
         else:
             print(f'    1.1 Sucesso - Fila das Tag \n   Atenção! ja tinha atualizacao congelada')
-    except:
-        print(' 1.1.1 falha na automacao - Fila Reposicao \n Atenção! 0 tags foram adicionadas')
+
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 
 ## Funcao de Automacao 6 : Limpando Tags que sairam do estoque sem ser via WMS
@@ -172,7 +176,7 @@ def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
 
     try:
         # coloque o código que você deseja executar continuamente aqui
-        rotina = 'LimpezaTagsSaidaForaWMSo'
+        rotina = 'LimpezaTagsSaidaForaWMS'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'LimpezaTagsSaidaForaWMS')
@@ -180,23 +184,42 @@ def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
 
         if tempo > limite:
             controle.InserindoStatus(rotina,client_ip,datainicio)
+            print('\nETAPA LimpezaTagsSaidaForaWMS- Inicio')
             RecarregarBanco.avaliacaoFila(rotina, datainicio)
             controle.salvarStatus(rotina,'automacao',datainicio)
             print('ETAPA LimpezaTagsSaidaForaWMS- Fim')
+        else:
+            print(f'JA EXISTE UMA ATUALIZACAO DA LimpezaTagsSaidaForaWMS EM MENOS DE {IntervaloAutomacao} MINUTOS')
 
-    except:
-        print(' 2.1.1 falha na automacao - avaliacao Fila Reposicao')
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 
 ## Funcao de Automacao 7 : Elimina Pedidos ja Faturados
-def EliminaPedidosFaturados():
-    print('\n 3 - Limpando os Pedidos Faturados da Fila')
+def EliminaPedidosFaturados(IntervaloAutomacao):
+    print('\nETAPA 7 - Elimina Pedidos ja Faturados ')
     try:
-        # coloque o código que você deseja executar continuamente aqui
-        tamnho3, datahora3 = RecarregaPedidos.avaliacaoPedidos()
-        print(f' 3.1 Sucesso - avaliacao Fila Pedidos \n Atenção!  {tamnho3} pedidos eliminados, as {datahora3}')
-    except:
-        print(' 3.1.1 falha na automacao - avaliacao Fila Pedidos')
+        rotina = 'EliminaPedidosjaFaturados'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'EliminaPedidosjaFaturados')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+
+        if tempo > limite:
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            print('\nETAPA Elimina Pedidos ja Faturados- Inicio')
+            RecarregaPedidos.avaliacaoPedidos()
+            controle.salvarStatus(rotina, 'automacao', datainicio)
+            print('ETAPA Elimina Pedidos ja Faturados- Fim')
+        else:
+            print(f'JA EXISTE UMA ATUALIZACAO DA Elimina Pedidos ja Faturados EM MENOS DE {IntervaloAutomacao} MINUTOS')
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 ## Funcao de Automacao 8 :Elimina Pedidos Faturados NivelSKU
 

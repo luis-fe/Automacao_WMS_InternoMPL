@@ -127,6 +127,8 @@ def avaliacaoFila(rotina,datahoraInicio):
     # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
 
 
+    #bACKUP DAS TAGS QUE TIVERAM SAIDA FORA DO WMS NA FILA
+
     if tamanho != 0:
         query = sql.SQL('DELETE FROM "Reposicao"."filareposicaoportag" WHERE codbarrastag IN ({})').format(
             sql.SQL(',').join(map(sql.Literal, lista))
@@ -138,6 +140,7 @@ def avaliacaoFila(rotina,datahoraInicio):
             conn2.commit()
     else:
         print('2.1.1 sem tags para ser eliminadas na Fila Tags Reposicao')
+    etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,'deletando saidas fora do WMS')
 
 
 
