@@ -16,7 +16,7 @@ import Usuarios
 import subprocess
 import subprocess
 import requests
-
+from models.backup import backupWMS
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
 PARA O BANCO DE DADOS DA APLICACAO DE WMS E PORTAL DA QUALIDADE
@@ -407,6 +407,9 @@ def RemoveDuplicatasUsuario(IntervaloAutomacao):
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
+def BackupTabelaPrateleira():
+    backupWMS.Backuptagsreposicao()
+
 
 def my_task():
     hora = obterHoraAtual()
@@ -424,6 +427,7 @@ def my_task2():
 
     empresa = empresaConfigurada.EmpresaEscolhida()
     if empresa == '1':
+        BackupTabelaPrateleira()
         AtualizarSKU(60) #1
         AtualizarPedidos(60) #2
         atualizatagoff(20) #3
