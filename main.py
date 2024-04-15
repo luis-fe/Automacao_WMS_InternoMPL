@@ -43,17 +43,18 @@ def restart_server(): # Funcao que "reseta" a aplicacao para erros de execcao e 
 def AtualizarSKU(IntervaloAutomacao):
     print('\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
     client_ip = 'automacao'
+    rotina  = 'AutomacaoCadastroSKU'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoCadastroSKU')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            print('\nETAPA AutomacaoCadastroSKU- Inicio')
-            controle.InserindoStatus('AutomacaoCadastroSKU',client_ip,datainicio)
-            pedios.CadastroSKU('AutomacaoCadastroSKU',datainicio)
-            controle.salvarStatus('AutomacaoCadastroSKU',client_ip,datainicio)
-            print(f'ETAPA AutomacaoCadastroSKU- Fim : {obterHoraAtual()}')
+            print(f'\nETAPA {rotina}- Inicio')
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            pedios.CadastroSKU(rotina,datainicio)
+            controle.salvarStatus(rotina,client_ip,datainicio)
+            print(f'ETAPA {rotina}- Fim : {obterHoraAtual()}')
     else:
-            print(f'{obterHoraAtual()} :JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
+            print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({obterHoraAtual()})')
 
 
 ## Funcao de Automacao 2 : Buscando a atualizacao dos pedidos a nivel de sku das 1milhao de ultimas linhas: Duracao media de x Segundos
