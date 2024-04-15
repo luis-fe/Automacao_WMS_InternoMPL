@@ -52,9 +52,9 @@ def AtualizarSKU(IntervaloAutomacao):
             controle.InserindoStatus(rotina,client_ip,datainicio)
             pedios.CadastroSKU(rotina,datainicio)
             controle.salvarStatus(rotina,client_ip,datainicio)
-            print(f'ETAPA {rotina}- Fim : {obterHoraAtual()}')
+            print(f'ETAPA {rotina}- Fim : {controle.obterHoraAtual()}')
     else:
-            print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({obterHoraAtual()})')
+            print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({controle.obterHoraAtual()}')
 
 
 ## Funcao de Automacao 2 : Buscando a atualizacao dos pedidos a nivel de sku das 1milhao de ultimas linhas: Duracao media de x Segundos
