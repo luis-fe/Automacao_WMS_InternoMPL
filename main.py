@@ -407,8 +407,24 @@ def RemoveDuplicatasUsuario(IntervaloAutomacao):
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
-def BackupTabelaPrateleira():
-    backupWMS.Backuptagsreposicao()
+# Funcao 15: backupWMS
+def BackupTabelaPrateleira(IntervaloAutomacao):
+    print('\nETAPA 15 - ATUALIZACAO DO Backuptagsreposicao')
+    client_ip = 'automacao'
+    rotina  = 'Backuptagsreposicao'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'Backuptagsreposicao')
+    limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+            print(f'\nETAPA {rotina}- Inicio')
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            backupWMS.Backuptagsreposicao()
+            controle.salvarStatus(rotina,client_ip,datainicio)
+            print(f'ETAPA {rotina}- Fim : {controle.obterHoraAtual()}')
+    else:
+            print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({controle.obterHoraAtual()}')
+
+
 
 
 def my_task():
@@ -440,6 +456,8 @@ def my_task2():
         AtualizarOPSDefeitoTecidos(90) #11
         SubstitutosSkuOP(60) #12
         OrdemProducao(40) #13
+        BackupTabelaPrateleira(90)
+
 
     else:
         AtualizaFilaTagsEstoque(15)
@@ -447,6 +465,8 @@ def my_task2():
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
+        BackupTabelaPrateleira(90)
+
 
         print(empresa)
 
@@ -469,7 +489,6 @@ if __name__ == '__main__':
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
     if empresa == '1':
-        BackupTabelaPrateleira()
 
         AtualizarSKU(60) #1
         AtualizarPedidos(60) #2
@@ -484,6 +503,8 @@ if __name__ == '__main__':
         AtualizarOPSDefeitoTecidos(90) #11
         SubstitutosSkuOP(60) #12
         OrdemProducao(40) #13
+        BackupTabelaPrateleira(90)
+
 
 
 
@@ -496,6 +517,8 @@ if __name__ == '__main__':
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
+        BackupTabelaPrateleira(90)
+
 
 
 
