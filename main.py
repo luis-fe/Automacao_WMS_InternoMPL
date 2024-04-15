@@ -51,9 +51,9 @@ def AtualizarSKU(IntervaloAutomacao):
             controle.InserindoStatus('AutomacaoCadastroSKU',client_ip,datainicio)
             pedios.CadastroSKU('AutomacaoCadastroSKU',datainicio)
             controle.salvarStatus('AutomacaoCadastroSKU',client_ip,datainicio)
-            print('ETAPA AutomacaoCadastroSKU- Fim')
+            print(f'ETAPA AutomacaoCadastroSKU- Fim : {obterHoraAtual()}')
     else:
-            print(f'JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
+            print(f'{obterHoraAtual()} :JA EXISTE UMA ATUALIZACAO Dos AutomacaoCadastroSKU   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
 
 
 ## Funcao de Automacao 2 : Buscando a atualizacao dos pedidos a nivel de sku das 1milhao de ultimas linhas: Duracao media de x Segundos
@@ -443,10 +443,6 @@ def my_task2():
         EliminaPedidosFaturados(10)
         EliminaPedidosFaturadosNivelSKU(10)
         LimpandoTagSaidaReposicao(10)
-
-
-
-
 
         print(empresa)
 
