@@ -427,7 +427,6 @@ def my_task2():
 
     empresa = empresaConfigurada.EmpresaEscolhida()
     if empresa == '1':
-        BackupTabelaPrateleira()
         AtualizarSKU(60) #1
         AtualizarPedidos(60) #2
         atualizatagoff(20) #3
@@ -470,6 +469,8 @@ if __name__ == '__main__':
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
     if empresa == '1':
+        BackupTabelaPrateleira()
+
         AtualizarSKU(60) #1
         AtualizarPedidos(60) #2
         atualizatagoff(20) #3
