@@ -509,7 +509,6 @@ if __name__ == '__main__':
 
 
     elif empresa == '4':
-        BackupTabelaPrateleira()
 
 
         AtualizaFilaTagsEstoque(15)
