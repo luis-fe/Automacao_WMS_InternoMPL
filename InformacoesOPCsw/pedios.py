@@ -6,12 +6,15 @@ import controle
 def IncrementarPedidos(rotina,datainico ):
     conn = ConexaoCSW.Conexao()#Abrindo a Conexao com o CSW
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
+    pedidosValores = pd.read_sql(BuscasAvancadas.ValorDosItensPedido(),conn)
+
+
     sugestoes =pd.read_sql(BuscasAvancadas.SugestaoItemAberto(),conn)
     capaPedido =pd.read_sql(BuscasAvancadas.CapaPedido2(),conn)
 
     etapa1 = controle.salvarStatus_Etapa1(rotina,'automacao', datainico,'from ped.pedidositemgrade')
 
-
+    pedidos = pd.merge(pedidos,pedidosValores,on=['codPedido','seqCodItem'],how='left')
     pedidos = pd.merge(pedidos,sugestoes,on=['codPedido','codProduto'],how='left')
     pedidos = pd.merge(pedidos,capaPedido,on='codPedido',how='left')
 

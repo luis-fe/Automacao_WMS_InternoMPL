@@ -322,7 +322,7 @@ SELECT codigo as codFornecNota , nome as nomeFornecedor  FROM Cpg.Fornecedor f W
     return consulta
 
 def IncrementarPediosProdutos():
-    consulta = """SELECT top 1000000 p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada  FROM ped.PedidoItemGrade p
+    consulta = """SELECT top 1000000 codItem as seqCodItem, p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada  FROM ped.PedidoItemGrade p
 WHERE p.codEmpresa = 1 and p.codProduto  not like '8601000%' and p.codProduto  not like '83060062%'  and p.codProduto  not like '8306000%' and
 p.codProduto not like '8302003%' and p.codProduto not like '8306003%' and p.codProduto not like '8306006%' and p.codProduto not like '8306007%'
 order by codPedido desc"""
@@ -350,5 +350,15 @@ def CapaPedido2():
     consulta = """SELECT top 100000 p.codPedido , p.codTipoNota, p.dataemissao  FROM ped.Pedido p
 WHERE p.codEmpresa = 1
 order by p.codPedido desc """
+
+    return consulta
+
+
+def ValorDosItensPedido():
+    consulta = """select top 350000 item.codPedido, 
+    item.CodItem as seqCodItem, 
+    item.precoUnitario, item.tipoDesconto, item.descontoItem, 
+    case when tipoDesconto = 1 then ( (item.qtdePedida * item.precoUnitario) - item.descontoItem)/item.qtdePedida when item.tipoDesconto = 0 then (item.precoUnitario * (1-(item.descontoItem/100))) else item.precoUnitario end  PrecoLiquido 
+    from ped.PedidoItem as item WHERE item.codEmpresa = 1 order by item.codPedido desc """
 
     return consulta
