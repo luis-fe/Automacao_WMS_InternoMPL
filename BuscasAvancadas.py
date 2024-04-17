@@ -330,7 +330,10 @@ order by codPedido desc"""
     return consulta
 
 def SugestaoItemAberto():
-    consulta = """SELECT p.codPedido , p.produto as codProduto , p.qtdeSugerida , p.qtdePecasConf  FROM ped.SugestaoPedItem p
+    consulta = """SELECT p.codPedido , p.produto as codProduto , p.qtdeSugerida , p.qtdePecasConf,
+case when (situacaoSugestao = 2 and dataHoraListagem>0) then 'Sugerido(Em Conferencia)' WHEN situacaoSugestao = 0 then 'Sugerido(Gerado)' WHEN situacaoSugestao = 2 then 'Sugerido(A listar)' else '' end StatusSugestao
+FROM ped.SugestaoPedItem p
+inner join ped.SugestaoPed c on c.codEmpresa = p.codEmpresa and c.codPedido = p.codPedido and c.codSequencia = p.codSequencia 
 WHERE p.codEmpresa = 1"""
 
     return consulta
