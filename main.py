@@ -42,14 +42,14 @@ def restart_server(): # Funcao que "reseta" a aplicacao para erros de execcao e 
 
 ## Funcao de Automacao 1 : Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
 def AtualizarSKU(IntervaloAutomacao):
-    print('\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
+    print(Fore.LIGHTYELLOW_EX+'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
     client_ip = 'automacao'
     rotina  = 'AutomacaoCadastroSKU'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoCadastroSKU')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            print(f'\nETAPA {rotina}- Inicio')
+            print(f'\nETAPA {rotina}- Inicio: {controle.obterHoraAtual()}')
             controle.InserindoStatus(rotina,client_ip,datainicio)
             pedios.CadastroSKU(rotina,datainicio)
             controle.salvarStatus(rotina,client_ip,datainicio)
@@ -68,14 +68,14 @@ def AtualizarPedidos(IntervaloAutomacao):
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'pedidosItemgrade')
     limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
-            print('\nETAPA AtualizarPedidos- Inicio')
+            print(f'\nETAPA AtualizarPedidos- Inicio: {controle.obterHoraAtual()}')
             controle.InserindoStatus('pedidosItemgrade',client_ip,datainicio)
             pedios.IncrementarPedidos(rotina, datainicio)
             controle.salvarStatus('pedidosItemgrade', client_ip, datainicio)
-            print('ETAPA AtualizarPedidos- FIM')
+            print(f'ETAPA AtualizarPedidos- FIM: {controle.obterHoraAtual()}')
 
     else:
-            print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo')
+            print(f'JA EXISTE UMA ATUALIZACAO Dos pedidosItemgrade   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: {controle.obterHoraAtual()}')
 
 ## Funcao de Automacao 3 : Buscando a atualizacao das tag's em situacao gerada, disponibiliza os dados da situacao de tags em aberta : Duracao media de x Segundos
 def atualizatagoff(IntervaloAutomacao):
@@ -483,7 +483,7 @@ scheduler.start()
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
 
-    print(Fore.BLUE+'\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
+    print(Fore.YELLOW+'\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
     empresa = empresaConfigurada.EmpresaEscolhida() #Busca a empresa que a aplicacao de automaca vai rodar
     print(Fore.YELLOW+f'\n Estamaos na empresa: {empresa}\n')
 
