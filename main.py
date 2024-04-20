@@ -17,6 +17,7 @@ import subprocess
 import subprocess
 import requests
 from models.backup import backupWMS
+from colorama import init, Fore
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
 PARA O BANCO DE DADOS DA APLICACAO DE WMS E PORTAL DA QUALIDADE
@@ -482,7 +483,7 @@ scheduler.start()
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
 
-    print('\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
+    print(Fore.RED+'\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
     empresa = empresaConfigurada.EmpresaEscolhida() #Busca a empresa que a aplicacao de automaca vai rodar
     print(f'\n Estamaos na empresa: {empresa}\n')
 
