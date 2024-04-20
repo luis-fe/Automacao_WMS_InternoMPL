@@ -61,7 +61,7 @@ def AtualizarSKU(IntervaloAutomacao):
 ## Funcao de Automacao 2 : Buscando a atualizacao dos pedidos a nivel de sku das 1milhao de ultimas linhas: Duracao media de x Segundos
 
 def AtualizarPedidos(IntervaloAutomacao):
-    print('\nETAPA 2 - ATUALIZACAO DOS PEDIDOS-item-grade ultimos 1 Milhao de linhas ')
+    print(Fore.LIGHTRED_EX+'\nETAPA 2 - ATUALIZACAO DOS PEDIDOS-item-grade ultimos 1 Milhao de linhas ')
     rotina = 'pedidosItemgrade'
     client_ip = 'automacao'
     datainicio = controle.obterHoraAtual()
@@ -79,7 +79,7 @@ def AtualizarPedidos(IntervaloAutomacao):
 
 ## Funcao de Automacao 3 : Buscando a atualizacao das tag's em situacao gerada, disponibiliza os dados da situacao de tags em aberta : Duracao media de x Segundos
 def atualizatagoff(IntervaloAutomacao):
-    print('\nETAPA 3 - Atualiza tag off (disponibiliza os dados da situacao de tags em aberta ) ')
+    print(Fore.WHITE+'\nETAPA 3 - Atualiza tag off (disponibiliza os dados da situacao de tags em aberta ) ')
     try:
         rotina = 'atualiza tag off'
         client_ip = 'automacao'
