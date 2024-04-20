@@ -483,9 +483,9 @@ scheduler.start()
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
 
-    print(Fore.RED+'\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
+    print(Fore.BLUE+'\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
     empresa = empresaConfigurada.EmpresaEscolhida() #Busca a empresa que a aplicacao de automaca vai rodar
-    print(f'\n Estamaos na empresa: {empresa}\n')
+    print(Fore.YELLOW+f'\n Estamaos na empresa: {empresa}\n')
 
     # Etapa 1: Comeca a rodar a automacao pela etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
