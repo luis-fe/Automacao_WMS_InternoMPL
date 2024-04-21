@@ -34,7 +34,7 @@ def IncrementarPedidos(rotina,datainico ):
     # Escolha o diretório onde deseja salvar o arquivo Parquet
     diretorio = '/home/grupompl/PCP_Interno/'
 
-    fp.write(diretorio+'pedidos.itemgrade', pedidos)
+    fp.write(diretorio+'pedidos.parquet', pedidos)
     etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'inserindo dados no Postgre')
 
 
