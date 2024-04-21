@@ -3,6 +3,8 @@ import BuscasAvancadas
 import ConexaoCSW
 import ConexaoPostgreMPL
 import controle
+import fastparquet as fp
+
 def IncrementarPedidos(rotina,datainico ):
     conn = ConexaoCSW.Conexao()#Abrindo a Conexao com o CSW
     pedidos = pd.read_sql(BuscasAvancadas.IncrementarPediosProdutos(),conn)
@@ -28,7 +30,8 @@ def IncrementarPedidos(rotina,datainico ):
     etapa3 = controle.salvarStatus_Etapa3(rotina,'automacao', etapa2,'filtrando tipo de notas')
 
     # Carregando dados no Wms
-    ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
+    #ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
+    fp.write('example.pedidos', pedidos)
     etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'inserindo dados no Postgre')
 
 
