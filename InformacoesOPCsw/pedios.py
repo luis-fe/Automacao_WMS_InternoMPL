@@ -33,11 +33,11 @@ def IncrementarPedidos(rotina,datainico ):
     #ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
     # Escolha o diretório onde deseja salvar o arquivo Parquet
     fp.write('pedidos.parquet', pedidos)
-    etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'inserindo dados no Postgre')
+    etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'Salvando o DataFrame em formato fast')
 
 
     # Linkando as chave estrangeira na tabela
-
+'''
     chaveEstrangeira = """ALTER TABLE pcp."pedidosItemgrade" ADD CONSTRAINT pedidositemgrade_fk FOREIGN KEY ("codProduto") REFERENCES pcp."SKU"("codSKU")"""
 
     conn2 = ConexaoPostgreMPL.conexaoPCP() # Abrindo a conexao com o Postgre
@@ -49,7 +49,7 @@ def IncrementarPedidos(rotina,datainico ):
 
     conn2.close() #Fechando a Conexao com o POSTGRE
     etapa5 = controle.salvarStatus_Etapa5(rotina,'automacao', etapa4,'criando a chave estrangeira na tabela')
-
+'''
 def CadastroSKU(rotina, datainico):
     conn = ConexaoCSW.Conexao() #Abrindo a Conexao com o CSW
 
