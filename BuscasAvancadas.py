@@ -347,7 +347,7 @@ WHERE i.Empresa = 1 and i.codSortimento > 0 and (i.codItemPai like '1%' or i.cod
     return consulta
 
 def CapaPedido2():
-    consulta = """SELECT top 100000 p.codPedido , p.codTipoNota, p.dataemissao  FROM ped.Pedido p
+    consulta = """SELECT top 100000 p.codPedido , p.codTipoNota, p.dataemissao, p.dataPrevFat  FROM ped.Pedido p
 WHERE p.codEmpresa = 1
 order by p.codPedido desc """
 
