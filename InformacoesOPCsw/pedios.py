@@ -32,9 +32,7 @@ def IncrementarPedidos(rotina,datainico ):
     # Carregando dados no Wms
     #ConexaoPostgreMPL.Funcao_InserirPCP(pedidos, pedidos['codPedido'].size, 'pedidosItemgrade', 'replace')
     # Escolha o diretório onde deseja salvar o arquivo Parquet
-    diretorio = '/home/grupompl/PCP_Interno/'
-
-    fp.write(diretorio+'pedidos.parquet', pedidos)
+    fp.write('pedidos.parquet', pedidos)
     etapa4 = controle.salvarStatus_Etapa4(rotina,'automacao', etapa3,'inserindo dados no Postgre')
 
 
