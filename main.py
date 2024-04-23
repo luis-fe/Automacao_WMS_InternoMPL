@@ -18,6 +18,8 @@ import subprocess
 import requests
 from models.backup import backupWMS
 from colorama import init, Fore
+import psutil
+
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
 PARA O BANCO DE DADOS DA APLICACAO DE WMS E PORTAL DA QUALIDADE
@@ -51,6 +53,8 @@ def AtualizarSKU(IntervaloAutomacao):
     if tempo > limite:
             print(f'\nETAPA {rotina}- Inicio: {controle.obterHoraAtual()}')
             controle.InserindoStatus(rotina,client_ip,datainicio)
+            cpu_percent = psutil.cpu_percent()
+            print("Uso da CPU:", cpu_percent, "%")
             pedios.CadastroSKU(rotina,datainicio)
             controle.salvarStatus(rotina,client_ip,datainicio)
             print(f'ETAPA {rotina}- Fim : {controle.obterHoraAtual()}')
