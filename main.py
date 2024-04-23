@@ -44,7 +44,10 @@ def restart_server(): # Funcao que "reseta" a aplicacao para erros de execcao e 
 
 ## Funcao de Automacao 1 : Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
 def AtualizarSKU(IntervaloAutomacao):
-    print(Fore.LIGHTYELLOW_EX+'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU')
+    cpu_percent = psutil.cpu_percent()
+    print("Uso da CPU:", cpu_percent, "%")
+
+    print(Fore.LIGHTYELLOW_EX+f'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU {cpu_percent}')
     client_ip = 'automacao'
     rotina  = 'AutomacaoCadastroSKU'
     datainicio = controle.obterHoraAtual()
