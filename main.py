@@ -47,7 +47,7 @@ def AtualizarSKU(IntervaloAutomacao):
     cpu_percent = psutil.cpu_percent()
     print("Uso da CPU:", cpu_percent, "%")
 
-    print(Fore.LIGHTYELLOW_EX+f'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU {cpu_percent}')
+    print(Fore.LIGHTYELLOW_EX+f'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU uso atual da cpu {cpu_percent}%')
     client_ip = 'automacao'
     rotina  = 'AutomacaoCadastroSKU'
     datainicio = controle.obterHoraAtual()
