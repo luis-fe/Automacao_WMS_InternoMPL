@@ -437,11 +437,19 @@ def BackupTabelaPrateleira(IntervaloAutomacao):
 
 def my_task():
     hora = obterHoraAtual()
+    empresa = empresaConfigurada.EmpresaEscolhida()
 
-    if hora in ['07','08','09','10', '11', '12', '13', '14', '15', '16','17','18']:
-        my_task2()
+    if empresa == '1':
+        if hora in ['07','08','09','10', '11', '12', '13', '14', '15', '16','17','18']:
+            my_task2()
+        else:
+            print('Aguardando a Data e Hora correto '+hora)
     else:
-        print('Aguardando a Data e Hora correto '+hora)
+        if hora in ['05','06','07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18','19']:
+            my_task2()
+        else:
+            print('Aguardando a Data e Hora correto ' + hora)
+
 
 
 def my_task2():
