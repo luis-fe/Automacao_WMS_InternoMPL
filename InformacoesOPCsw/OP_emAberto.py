@@ -24,7 +24,7 @@ def BuscandoOPCSW(empresa):
                       "FROM tco.OrdemProdTamanhos ot "
                       "having ot.codEmpresa = " + empresa + " and ot.numeroOP IN " + em_aberto, conn)
 
-    em_aberto2 = ' select o.numeroOP as numeroop,  o.codTipoOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa
+    em_aberto2 = ' select o.numeroOP as numeroop,  o.codTipoOP, codSeqRoteiroAtual as seqAtual  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa
     em_aberto2 = pd.read_sql(em_aberto2,conn)
 
     get = pd.merge(get,em_aberto2,on='numeroop')
