@@ -312,6 +312,14 @@ order by dataLcto desc
 """
     return consulta
 
+def PesquisarSequenciaRoteiro(codfase):
+    consulta = """
+    SELECT r.numeroOP , r.codSeqRoteiro FROM tco.RoteiroOP r
+WHERE r.codEmpresa = 1 and r.codFase = %s
+    """
+    return consulta
+
+
 ##    -- Consulta de nome dos fornecedores
 def Fornecedor():
     consulta = """
