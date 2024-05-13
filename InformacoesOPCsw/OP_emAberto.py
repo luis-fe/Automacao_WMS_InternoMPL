@@ -19,7 +19,7 @@ def BuscandoOPCSW(empresa):
 
     em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'
 
-    get = pd.read_sql('SELECT ot.numeroop as numeroop, codItem as codreduzido, '
+    get = pd.read_sql('SELECT ot.codProduto ,ot.numeroop as numeroop , codSortimento , seqTamanho, '
                       ' case WHEN ot.qtdePecas1Qualidade is null then ot.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs '
                       "FROM tco.OrdemProdTamanhos ot "
                       "having ot.codEmpresa = " + empresa + " and ot.numeroOP IN " + em_aberto, conn)
@@ -28,6 +28,12 @@ def BuscandoOPCSW(empresa):
     em_aberto2 = pd.read_sql(em_aberto2,conn)
 
     get = pd.merge(get,em_aberto2,on='numeroop')
+
+    sku = PesquisandoReduzido()
+    get['codProduto'] = get['codProduto'].astype(str)
+    get['codSortimento'] = get['codSortimento'] .astype(str)
+    get['seqTamanho'] = get['seqTamanho'] .astype(str)
+    get = pd.merge(get, sku, on=["codProduto", "codSortimento", "seqTamanho"], how='left')
 
     conn.close()# Fechado a conexao com o CSW
 
@@ -53,4 +59,20 @@ def IncrementadoDadosPostgre(empresa, rotina, datainicio):
             print('FALHA AO TENTAR INSERIR OS DADOS')
     else:
         print('A Comunicacao com a Classe ordemprod do WMS ja foi realizado a 10 min, nao precisa atualizar.')
+
+
+def PesquisandoReduzido():
+    conn = ConexaoPostgreMPL.conexaoPCP()
+
+    consulta = """select "codItemPai" as "codProduto"  ,"codSortimento" as "codSortimento" , "codSeqTamanho" as "seqTamanho", "codSKU" as codreduzido from "pcp"."SKU" """
+
+    consulta = pd.read_sql(consulta,conn)
+    conn.close()
+
+    consulta['codProduto'] = consulta['codProduto'] + "-0"
+    consulta['codProduto'] = consulta['codProduto'].apply(lambda x: '0'+ x if x.startswith(('1', '2')) else x)
+    consulta['codSortimento'] = consulta['codSortimento'] .astype(str)
+    consulta['seqTamanho'] = consulta['seqTamanho'] .astype(str)
+
+    return consulta
 
