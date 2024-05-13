@@ -40,6 +40,11 @@ def BuscandoOPCSW(empresa):
     get['id'] = get.apply(lambda r: 9000 if r['codTipoOP'] in [1, 4] else 1000, axis=1)
     get['id'] = get['id'] + get['seqAtual'].astype(int)
     get['id'] = get['id'].astype(str) + '||'+get['codreduzido'].astype(str)
+    get = get.sort_values(by=['codreduzido','id'], ascending=False)  # escolher como deseja classificar
+
+    get['ocorrencia_sku'] = get.groupby('codreduzido').cumcount() + 1
+    get['id'] = get['id'].astype(str) + '||'+get['ocorrencia_sku'].astype(str)
+    get['qtdAcumulada'] = get.groupby('codreduzido')['total_pcs'].cumsum()
 
 
     SalvarConsulta.salvar('sql tco.OrdemProdTamanhos ot','off.ordemprod',inicio)
