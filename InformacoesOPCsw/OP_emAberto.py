@@ -37,6 +37,11 @@ def BuscandoOPCSW(empresa):
 
     conn.close()# Fechado a conexao com o CSW
 
+    get['id'] = get.apply(lambda r: 9000 if r['codTipoOP'] in [1, 4] else 1000, axis=1)
+    get['id'] = get['id'] + get['seqAtual'].astype(int)
+    get['id'] = get['id'].astype(str) + '||'+get['codreduzido'].astype(str)
+
+
     SalvarConsulta.salvar('sql tco.OrdemProdTamanhos ot','off.ordemprod',inicio)
     return get
 
@@ -76,3 +81,4 @@ def PesquisandoReduzido():
 
     return consulta
 
+#IncrementadoDadosPostgre('1','teste',controle.obterHoraAtual())
