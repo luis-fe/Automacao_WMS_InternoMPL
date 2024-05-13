@@ -17,13 +17,17 @@ def BuscandoOPCSW(empresa):
 
     conn = ConexaoCSW.Conexao()##Abrindo Conexao Com o CSW
 
-    em_aberto = ' (select o.numeroOP,  o.codTipoOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'
+    em_aberto = ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa+')'
 
     get = pd.read_sql('SELECT ot.numeroop as numeroop, codItem as codreduzido, '
                       ' case WHEN ot.qtdePecas1Qualidade is null then ot.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs '
                       "FROM tco.OrdemProdTamanhos ot "
                       "having ot.codEmpresa = " + empresa + " and ot.numeroOP IN " + em_aberto, conn)
 
+    em_aberto2 = ' select o.numeroOP as numeroop,  o.codTipoOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = '+empresa
+    em_aberto2 = pd.read_sql(em_aberto2,conn)
+
+    get = pd.merge(get,em_aberto2,on='numeroop')
 
     conn.close()# Fechado a conexao com o CSW
 
