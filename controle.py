@@ -267,12 +267,14 @@ def salvarStatus_Etapa2(rotina, ip,datahoraInicio,etapa):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa2 = %s, "etapa2_tempo" = %s, "tempo_processamento(s)" = ( %s + "tempo_processamento(s)" ) ' \
+    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa2 = %s, "etapa2_tempo" = %s, "tempo_processamento(s)" = ( %s + "tempo_processamento(s)" ), "usoCpu2" = %s ' \
                ' where  rotina = %s and status = %s and ip_origem = %s '
 
     cursor = conn.cursor()
 
-    cursor.execute(consulta,(etapa, tempoProcessamento,tempoProcessamento,rotina,'em andamento', ip,  ))
+    cpu_percent = psutil.cpu_percent()
+
+    cursor.execute(consulta,(etapa, tempoProcessamento,tempoProcessamento,cpu_percent, rotina,'em andamento', ip,  ))
     conn.commit()
     cursor.close()
 

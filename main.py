@@ -64,7 +64,7 @@ def AtualizarSKU(IntervaloAutomacao):
             print(f'ETAPA {rotina}- Fim : {controle.obterHoraAtual()}')
     else:
             cpu_percent = psutil.cpu_percent()
-            print("Uso da CPU final do processo:", cpu_percent, "%")
+            print("Uso da CPU final do processo", cpu_percent, "%")
             print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({controle.obterHoraAtual()}')
 
 
