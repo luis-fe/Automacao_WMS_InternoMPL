@@ -4,7 +4,7 @@ import ConexaoPostgreMPL
 from datetime import datetime
 import pytz
 import pandas as pd
-
+import psutil
 
 # Funcao Para obter a Data e Hora
 def obterHoraAtual():
@@ -230,15 +230,16 @@ def salvarStatus_Etapa1(rotina, ip,datahoraInicio,etapa):
     diferenca_total_segundos = diferenca.total_seconds()
     tempoProcessamento = float(diferenca_total_segundos)
 
+    cpu_percent = psutil.cpu_percent()
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa1 = %s, "etapa1_tempo" = %s, "tempo_processamento(s)" = %s ' \
+    consulta = 'update "Reposicao".configuracoes.controle_requisicao_csw set etapa1 = %s, "etapa1_tempo" = %s, "tempo_processamento(s)" = %s , "usoCpu1" = %s ' \
                ' where  rotina = %s and inicio = %s and ip_origem = %s '
 
     cursor = conn.cursor()
 
-    cursor.execute(consulta,(etapa, tempoProcessamento,tempoProcessamento,rotina,datahoraInicio, ip,  ))
+    cursor.execute(consulta,(etapa, tempoProcessamento,tempoProcessamento,cpu_percent, rotina,datahoraInicio, ip,  ))
     conn.commit()
     cursor.close()
 
