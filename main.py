@@ -45,8 +45,7 @@ def restart_server(): # Funcao que "reseta" a aplicacao para erros de execcao e 
 ## Funcao de Automacao 1 : Buscando a atualizacao dos SKUs: Duracao media de 30 Segundos
 def AtualizarSKU(IntervaloAutomacao):
     cpu_percent = psutil.cpu_percent()
-    print("Uso da CPU:", cpu_percent, "%")
-
+    print("Uso da CPU inicio do processo:", cpu_percent, "%")
     print(Fore.LIGHTYELLOW_EX+f'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU uso atual da cpu {cpu_percent}%')
     client_ip = 'automacao'
     rotina  = 'AutomacaoCadastroSKU'
@@ -60,8 +59,12 @@ def AtualizarSKU(IntervaloAutomacao):
             print("Uso da CPU:", cpu_percent, "%")
             pedios.CadastroSKU(rotina,datainicio)
             controle.salvarStatus(rotina,client_ip,datainicio)
+            cpu_percent = psutil.cpu_percent()
+            print("Uso da CPU final do processo:", cpu_percent, "%")
             print(f'ETAPA {rotina}- Fim : {controle.obterHoraAtual()}')
     else:
+            cpu_percent = psutil.cpu_percent()
+            print("Uso da CPU final do processo:", cpu_percent, "%")
             print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({controle.obterHoraAtual()}')
 
 
