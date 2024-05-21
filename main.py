@@ -1,3 +1,4 @@
+import atexit
 import pytz
 import controle
 import empresaConfigurada
@@ -494,8 +495,12 @@ def my_task2():
 
 
 scheduler = BackgroundScheduler(timezone=pytz.timezone('America/Sao_Paulo'))
-scheduler.add_job(func=my_task, trigger='interval', seconds=300)
 scheduler.start()
+
+
+scheduler.add_job(func=my_task, trigger='interval', seconds=300)
+atexit.register(lambda: scheduler.shutdown())
+
 
 
 # INICIANDO O PROCESSO DE AUTOMACAO
