@@ -1,5 +1,7 @@
 ### Esse arquivo contem as funcoes de salvar as utimas consulta no banco de dados do POSTGRE , com o
 #objetivo especifico de controlar as requisicoes
+import gc
+
 import ConexaoPostgreMPL
 from datetime import datetime
 import pytz
@@ -89,14 +91,11 @@ def ExcluirHistorico(diasDesejados):
 
 
 def TempoUltimaAtualizacao(dataHoraAtual, rotina):
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexaoEngine()
 
     consulta = pd.read_sql('select max(fim) as "ultimaData" from "Reposicao".configuracoes.controle_requisicao_csw crc '
                           "where rotina = %s ", conn, params=(rotina,) )
 
-
-
-    conn.close()
     utimaAtualizacao = consulta['ultimaData'][0]
     if utimaAtualizacao != None:
 
@@ -244,6 +243,7 @@ def salvarStatus_Etapa1(rotina, ip,datahoraInicio,etapa):
     cursor.close()
 
     conn.close()
+    gc.collect()
 
     return datahorafinal
 

@@ -1,5 +1,6 @@
 import jaydebeapi
 import empresaConfigurada as emp
+from contextlib import contextmanager
 
 
 
@@ -32,15 +33,17 @@ def ConexaoCianorte():
 
 
 # Função de conectar com o CSW, com 2 opções de conexao:
+@contextmanager
 def ConexaoInternoMPL():
-   # try:
+    conn = None
+    try:
         conn = jaydebeapi.connect(
-    'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
-    {'user': '_system', 'password': 'ccscache'},
-    'CacheDB.jar'
-    )
-        return conn
-  #  except:
-   #     conn2 = Conexao2()
-    #    return conn2
+            'com.intersys.jdbc.CacheDriver',
+            'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+            {'user': '_system', 'password': 'ccscache'},
+            'CacheDB.jar'
+        )
+        yield conn
+    finally:
+        if conn is not None:
+            conn.close()
