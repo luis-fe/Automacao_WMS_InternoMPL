@@ -7,10 +7,13 @@ import controle
 
 # Passo 1 - Automacao que impulta no WMS os dados referente as OP que ocorreram substituicao nos utimos 100 dias
 def SubstitutosSkuOP(rotina, datainicio):
-    conn = ConexaoCSW.Conexao()
+    with ConexaoCSW.Conexao() as conn:
 
-    # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
-    consultaSubstitudos = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+        # Consultando Sql Obter os itens substitutos dos ultimos 100 dias
+        consultaSubstitudos = pd.read_sql(BuscasAvancadas.RegistroSubstituto(),conn)
+        consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(), conn)
+        consultaPad = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(), conn)
+
     etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'etapa busca no CSW: registro de substitutos')
 
 
@@ -23,7 +26,6 @@ def SubstitutosSkuOP(rotina, datainicio):
 
 
     #Acrescentando as cores aos componentes variaveis
-    consultaCor = pd.read_sql(BuscasAvancadas.ConsultaCOr(),conn)
     consultaCor['tipo'] = 'Variavel'
     consultaCor['codSortimento']=consultaCor['codSortimento'].astype(str)
     consultaSubstitudos = pd.merge(consultaSubstitudos,consultaCor,on=['numeroop', 'codSortimento','tipo'], how='left')
@@ -32,7 +34,6 @@ def SubstitutosSkuOP(rotina, datainicio):
 
 
     #Levantamento dos compontentes padroes
-    consultaPad = pd.read_sql(BuscasAvancadas.ComponentesPadraoEng(),conn)
     consultaPad['tipo'] = 'Padrao'
     consultaSubstitudosPad = consultaSubstitudos
     consultaSubstitudosPad = consultaSubstitudosPad[consultaSubstitudosPad['tipo'] == 'Padrao']
@@ -50,7 +51,6 @@ def SubstitutosSkuOP(rotina, datainicio):
     consultaSubstitudos = consultaSubstitudos[consultaSubstitudos['tipo']=='Variavel']
     consulta = pd.concat([consultaSubstitudos, consultaSubstitudosPad], ignore_index=True)
 
-    conn.close()
     consulta['aplicacaoPad'].fillna('-',inplace=True)
     consulta['aplicacao'] = consulta.apply(lambda row : row['aplicacaoPad'] if row['aplicacaoPad']!='-' else row['aplicacao'], axis=True )
     # acrescentando as categorias
@@ -194,12 +194,10 @@ def ConsultaSubstitutosFlegadoSim():
 
 #22- Sql Obter o compontente de cadas sku nas engenharias , relativo as 10Mil primeiras OP : velocidade 36 segundos (lento)
 def ComponentesPrincipalPorSKU():
-    conn = ConexaoCSW.Conexao()
+    with ConexaoCSW.Conexao() as conn:
 
-    # Consultando Sql Obter os skus x compontente principal para poder "ligar" ao calculos
-    consulta = pd.read_sql(BuscasAvancadas.ComponentesPrincipaisEngenharia(),conn)
-
-    conn.close()
+        # Consultando Sql Obter os skus x compontente principal para poder "ligar" ao calculos
+        consulta = pd.read_sql(BuscasAvancadas.ComponentesPrincipaisEngenharia(),conn)
 
     # Dividir os valores da coluna 2 por ";"
     consulta['codSortimento'] = consulta['codSortimento'].str.split(';')

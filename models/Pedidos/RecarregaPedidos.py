@@ -87,8 +87,8 @@ def SeparacoPedidos():
 
 def avaliacaoPedidos(rotina, datahoraInicio):
     emp = empresaConfigurada.EmpresaEscolhida()
-    conn = ConexaoCSW.ConexaoInternoMPL()
-    SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido||'-'||codsequencia   as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
+    with ConexaoCSW.ConexaoInternoMPL() as conn :
+        SugestoesAbertos = pd.read_sql("SELECT 'estoque' as estoque, codPedido||'-'||codsequencia   as codigopedido, dataGeracao,  priorizar, vlrSugestao, situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed "
                                    " WHERE codEmpresa = "+emp+ "and situacaoSugestao =2",conn)
 
 
@@ -216,13 +216,12 @@ def LimpezaPedidosSku(rotina, datainicio):
 
 
 def AtualizarPedidosConferidos():
-    conn = ConexaoCSW.Conexao()
-    PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codigopedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
+    with ConexaoCSW.Conexao() as conn:
+        PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codigopedido, 'Em Conferencia' as situacaopedido FROM ped.SugestaoPedItem p "
                                   'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
                                   'WHERE p.codEmpresa = 1 and p.qtdePecasConf > 0 ', conn)
 
 
-    conn.close()
 
     conn2 = ConexaoPostgreMPL.conexao()
 
@@ -264,19 +263,17 @@ def avaliacaoReposicao(rotina, datainicio):
         # Conectar usando SQLAlchemy
         postgre_engine = ConexaoPostgreMPL.conexaoEngine()
         # Conexão CSW via jaydebeapi
-        conn_csw = ConexaoCSW.ConexaoInternoMPL()
-        cursor_csw = conn_csw.cursor()
-        query_csw = (
-            "select br.codBarrasTag as codbarrastag, 'estoque' as estoque "
-            f"from Tcr.TagBarrasProduto br WHERE br.codEmpresa = {emp} "
-            "and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)"
-        )
-        cursor_csw.execute(query_csw)
-        rows = cursor_csw.fetchall()
+        with ConexaoCSW.Conexao() as conn_csw:
+            with conn_csw.cursor() as cursor_csw:
+                query_csw = (
+                    "select br.codBarrasTag as codbarrastag, 'estoque' as estoque "
+                    f"from Tcr.TagBarrasProduto br WHERE br.codEmpresa = {emp} "
+                    "and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)"
+                )
+                cursor_csw.execute(query_csw)
+                rows = cursor_csw.fetchall()
 
-        SugestoesAbertos = pd.DataFrame(rows, columns=['codbarrastag', 'estoque'])
-        cursor_csw.close()
-        conn_csw.close()
+                SugestoesAbertos = pd.DataFrame(rows, columns=['codbarrastag', 'estoque'])
 
         etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao', datainicio, 'etapa csw Tcr.TagBarrasProduto br')
 
@@ -298,8 +295,7 @@ def avaliacaoReposicao(rotina, datainicio):
                 cursor = conn.cursor()
                 cursor.execute(query)
                 conn.commit()
-                cursor.close()
-                conn.close()
+
             etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao', etapa2, f'excluindo tags fora WMS {tamanho} tags')
         else:
             etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao', etapa2, 'excluindo tags fora WMS 0 tags')
