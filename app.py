@@ -27,7 +27,7 @@ PARA O BANCO DE DADOS DA APLICACAO DE WMS E PORTAL DA QUALIDADE
 
 app = Flask(__name__)
 CORS(app) # O CORS garante que o serviço seja apontado via protocolo HTTP
-port = int(os.environ.get('PORT', 9000)) # Define a porta 9000 como padrao para essa aplicacao de AUTOMACAO
+port = int(os.environ.get('PORT', 8000)) # Define a porta 9000 como padrao para essa aplicacao de AUTOMACAO
 def memory_usage():
     process = psutil.Process(os.getpid())
     return process.memory_info().rss  # Retorna o uso de memória em bytes
@@ -77,7 +77,7 @@ def automacao():
     if empresa == '1':
         memoria_antes = memory_usage()
         print(f'Memoria antes de Atualizar SKU - Etapa 1: {round(memoria_antes / 1000000, 3)} GB')
-        Pedidos.AtualizarSKU(60)  # 1
+        Pedidos.AtualizarSKU(60)  # 1 ok
         gc.collect()
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar SKU - Etapa 1: {round(memoria_apos / 1000000, 3)} GB')
@@ -87,22 +87,22 @@ def automacao():
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar Pedidos - Etapa 2: {round(memoria_apos / 1000000, 3)} GB')
 
-        TagOff.atualizatagoff(20)  # 3
+        TagOff.atualizatagoff(20)  # 3 ok
         gc.collect()
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar TagOff - Etapa 3: {round(memoria_apos / 1000000, 3)} GB')
 
-        ReservaPreFaturamento.AtualizaApiReservaFaruamento(90)  # 4
+        ReservaPreFaturamento.AtualizaApiReservaFaruamento(90)  # 4 ok
         gc.collect()
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar ReservaPreFaturamento - Etapa 4: {round(memoria_apos / 1000000, 3)} GB')
 
-        TagsReposicao.AtualizaFilaTagsEstoque(15)  # 5
+        TagsReposicao.AtualizaFilaTagsEstoque(15)  # 5 ok
         gc.collect()
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar AtualizaFilaTagsEstoque - Etapa 5: {round(memoria_apos / 1000000, 3)} GB')
 
-        TagsReposicao.LimpezaTagsSaidaForaWMS(15)  # 6
+        TagsReposicao.LimpezaTagsSaidaForaWMS(15)  # 6 ok
         gc.collect()
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar LimpezaTagsSaidaForaWMS - Etapa 6: {round(memoria_apos / 1000000, 3)} GB')
@@ -150,6 +150,7 @@ def automacao():
 
     elif empresa == '4':
         TagsReposicao.AtualizaFilaTagsEstoque(15)
+
         gc.collect()
 
         TagsReposicao.LimpezaTagsSaidaForaWMS(15)

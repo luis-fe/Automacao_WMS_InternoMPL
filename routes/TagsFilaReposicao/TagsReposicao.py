@@ -4,7 +4,7 @@ import gc
 import controle
 import empresaConfigurada
 from models.Pedidos.RecarregaPedidos import avaliacaoReposicao
-from models.TagsFilaReposicao import RecarregarBanco
+from models.TagsFilaReposicao import RecarregarBanco, TagsTransferidas
 
 
 def AtualizaFilaTagsEstoque(IntervaloAutomacao):
@@ -74,15 +74,10 @@ def LimpandoTagSaidaReposicao(IntervaloAutomacao):
             print('\nETAPA LimpandoTagSaidaReposicao- Inicio')
             controle.InserindoStatus(rotina,client_ip,datainicio)
             avaliacaoReposicao(rotina, datainicio)
+            TagsTransferidas.transferirTags(4)
             controle.salvarStatus(rotina, client_ip, datainicio)
             print('ETAPA LimpandoTagSaidaReposicao- Fim')
             gc.collect()
-
         else:
             print(f'JA EXISTE UMA ATUALIZACAO DA  Limpando Tag Saida da Reposicao EM MENOS DE {IntervaloAutomacao} MINUTOS')
             gc.collect()
-
-
-
-
-
