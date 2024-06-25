@@ -1,5 +1,4 @@
 import gc
-import _queue
 import pandas as pd
 import psutil
 import pytz
@@ -131,7 +130,6 @@ def CadastroSKU(rotina, datainico):
                 conn.close()
         except jaydebeapi.Error as e:
             print(Fore.RED + f'Erro ao fechar conexão: {e}')
-    del _queue.SimpleQueue
     memoria_antes = memory_usage()
     print(Fore.MAGENTA + f'A MEMORIA na Etapa 1 de CadastroSKU  {round(memoria_antes / 1000000)}')
 
