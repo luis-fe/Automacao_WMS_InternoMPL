@@ -71,7 +71,7 @@ def my_task2():
 
 scheduler = BackgroundScheduler(timezone=pytz.timezone('America/Sao_Paulo'))
 scheduler.start()
-scheduler.add_job(func=my_task, trigger='interval', seconds=500)
+scheduler.add_job(func=my_task, trigger='interval', seconds=40)
 
 
 def automacao():
