@@ -19,6 +19,7 @@ from routes.TagsFilaReposicao.TagsReposicao import LimpandoTagSaidaReposicao
 from routes.TagsReposicaoOff import TagOff
 from routes.TagsFilaReposicao import TagsReposicao
 from routes.backup import backup
+from models.TagsFilaReposicao import TagsTransferidas
 
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
@@ -149,6 +150,10 @@ def automacao():
         print(f'Memoria apos Atualizar BackupTabelaPrateleira - Etapa 14: {round(memoria_apos / 1000000, 3)} GB')
 
     elif empresa == '4':
+        print('update das tags na empresa 4')
+        TagsTransferidas.transferirTags(4)
+
+
         TagsReposicao.AtualizaFilaTagsEstoque(15)
 
         gc.collect()
@@ -167,6 +172,8 @@ def automacao():
 
         backup.BackupTabelaPrateleira(90)
         gc.collect()
+
+
 
     else:
         print('sem empresa selecionada')
