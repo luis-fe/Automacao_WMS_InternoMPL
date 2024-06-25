@@ -5,7 +5,7 @@ import ConexaoCSW
 
 def transferirTags(empresa):
     sql ="""
-    SELECT t.codBarrasTag as codbarrastag, t.codNaturezaAtual as natureza FROM Tcr.TagBarrasProduto t
+    SELECT t.codBarrasTag as codbarrastag, t.codNaturezaAtual as codnaturezaatual FROM Tcr.TagBarrasProduto t
     WHERE t.codEmpresa = """+ str(empresa)+""" and codnaturezaatual not in(5) and situacao = 3
     """
 
@@ -19,17 +19,17 @@ def transferirTags(empresa):
             tags = pd.DataFrame(rows, columns=colunas)
 
     conn = ConexaoPostgreMPL.conexaoEngine()
-    tagsReposicao = pd.read_sql("""SELECT codbarrastag from "Reposicao".tagsreposicao """,conn)
+    tagsReposicao = pd.read_sql("""SELECT "codreduzido", "engenharia","codbarrastag","numeroop", "descricao", "cor", "epc", "tamanho", "totalop"  from "Reposicao".tagsreposicao """,conn)
 
     tagsReposicao = pd.merge(tagsReposicao,tags,on='codbarrastag')
 
-    update_sql = """
-     delete from "Reposicao"."Reposicao".tagsreposicao
-     WHERE codbarrastag = %s
-     """
+    Insert = 'INSERT INTO  "Reposicao"."filareposicaoportag" ("codreduzido", "engenharia","codbarrastag","numeroop", "descricao", "cor", "epc", "tamanho", "totalop", "Situacao",' \
+             ' , codnaturezaatual) ' \
+             'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,'+"'Reposição não Iniciada'"+',%s );'
 
     with conn.connect() as connection:
         for index, row in tagsReposicao.iterrows():
-            connection.execute(update_sql, (
-                row['codbarrastag']
-                               ))
+            connection.execute(Insert, (
+            row["codreduzido"], row["engenharia"], row["codbarrastag"], row["numeroop"], row["descricao"], row["cor"], row["epc"], row["tamanho"], row["totalop"],
+            'Reposição não Iniciada', row["codnaturezaatual"]
+        ))
