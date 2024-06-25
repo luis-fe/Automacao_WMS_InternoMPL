@@ -55,7 +55,7 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     database = "Reposicao"
     user = "postgres"
     password = "Master100"
-    host = "192.168.0.183"
+    host = "localhost"
     port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy
@@ -71,7 +71,7 @@ def Funcao_InserirPCP (df_tags, tamanho,tabela, metodo):
     database = "PCP"
     user = "postgres"
     password = "Master100"
-    host = "192.168.0.183"
+    host = "localhost"
     port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy

@@ -164,14 +164,25 @@ def avaliacaoFila(rotina,datahoraInicio):
     conn2 = ConexaoPostgreMPL.conexao()
 
     tagWms = pd.read_sql('select * from "Reposicao".filareposicaoportag t ', conn2)
+    tagWms2 = pd.read_sql('select * from "Reposicao".tagsreposicao t ', conn2)
+
     tagWms = pd.merge(tagWms,SugestoesAbertos, on='codbarrastag', how='left')
+    tagWms2 = pd.merge(tagWms2,SugestoesAbertos, on='codbarrastag', how='left')
+
     etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao',etapa1,'etapa merge filatagsWMS+tagsProdutoCSW')
 
 
     tagWms = tagWms[tagWms['estoque']!='estoque']
+    tagWms2 = tagWms2[tagWms2['estoque']!='estoque']
+
+
     tamanho =tagWms['codbarrastag'].size
+    tamanho2 =tagWms2['codbarrastag'].size
+
     # Obter os valores para a cláusula WHERE do DataFrame
     lista = tagWms['codbarrastag'].tolist()
+    lista2 = tagWms2['codbarrastag'].tolist()
+
     # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
 
 
@@ -182,10 +193,19 @@ def avaliacaoFila(rotina,datahoraInicio):
             sql.SQL(',').join(map(sql.Literal, lista))
         )
 
+        query2 = sql.SQL('DELETE FROM "Reposicao"."tagsreposicao" WHERE codbarrastag IN ({})').format(
+            sql.SQL(',').join(map(sql.Literal, lista2))
+        )
+
         # Executar a consulta DELETE
         with conn2.cursor() as cursor:
             cursor.execute(query)
             conn2.commit()
+            cursor.execute(query2)
+            conn2.commit()
+
+
+
     else:
         print('2.1.1 sem tags para ser eliminadas na Fila Tags Reposicao')
     etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,'deletando saidas fora do WMS')
