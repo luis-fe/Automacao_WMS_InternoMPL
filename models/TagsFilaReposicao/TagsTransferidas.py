@@ -24,14 +24,12 @@ def transferirTags(empresa):
     tagsReposicao = pd.merge(tagsReposicao,tags,on='codbarrastag')
 
     update_sql = """
-     UPDATE "Reposicao"."Reposicao".tagsreposicao
-     SET natureza = %s
+     delete "Reposicao"."Reposicao".tagsreposicao
      WHERE codbarrastag = %s
      """
 
     with conn.connect() as connection:
         for index, row in tagsReposicao.iterrows():
             connection.execute(update_sql, (
-                row['natureza'],
                 row['codbarrastag']
                                ))
