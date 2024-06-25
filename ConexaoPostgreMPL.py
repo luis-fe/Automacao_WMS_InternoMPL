@@ -17,7 +17,7 @@ def conexaoEngine():
     db_name = "Reposicao"
     db_user = "postgres"
     db_password = "Master100"
-    db_host = "192.168.0.183"
+    db_host = "localhost"
     portbanco = "5432"
 
     connection_string = f"postgresql://{db_user}:{db_password}@{db_host}:{portbanco}/{db_name}"
