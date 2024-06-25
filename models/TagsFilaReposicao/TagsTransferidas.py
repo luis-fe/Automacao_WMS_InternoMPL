@@ -6,7 +6,7 @@ import ConexaoCSW
 def transferirTags(empresa):
     sql ="""
     SELECT t.codBarrasTag as codbarrastag, t.codNaturezaAtual as natureza FROM Tcr.TagBarrasProduto t
-    WHERE t.codEmpresa = """+ empresa+""" and codnaturezaatual not in(5) and situacao = 3
+    WHERE t.codEmpresa = """+ str(empresa)+""" and codnaturezaatual not in(5) and situacao = 3
     """
 
 
