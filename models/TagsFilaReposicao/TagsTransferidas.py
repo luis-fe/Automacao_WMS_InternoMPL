@@ -24,7 +24,7 @@ def transferirTags(empresa):
     tagsReposicao = pd.merge(tagsReposicao,tags,on='codbarrastag')
 
     update_sql = """
-     delete "Reposicao"."Reposicao".tagsreposicao
+     delete from "Reposicao"."Reposicao".tagsreposicao
      WHERE codbarrastag = %s
      """
 
