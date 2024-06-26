@@ -139,7 +139,7 @@ def LerEPC():
                            'join Tcr_Rfid.NumeroSerieTagEPC epc on epc.codTag = t.codBarrasTag '
                            'WHERE t.codEmpresa = '+xemp+' and (t.codTransacao = 3500 or t.codTransacao = 501) '
                            'and (codLote like "23%" or  codLote like "24%" or codLote like "25%" '
-                           'or codLote like "22%" )',conn)
+                           ' or codLote like "26%" or codLote like "27%" or codLote like "28%" or codLote like "29%" or codLote like "3%" )',conn)
 
     return consulta
 def avaliacaoFila(rotina,datahoraInicio):
