@@ -150,8 +150,8 @@ def automacao():
         print(f'Memoria apos Atualizar BackupTabelaPrateleira - Etapa 14: {round(memoria_apos / 1000000, 3)} GB')
 
     elif empresa == '4':
-        print('update das tags na empresa 4')
-        TagsTransferidas.transferirTags(4)
+        #print('update das tags na empresa 4')
+        #TagsTransferidas.transferirTags(4)
 
 
         TagsReposicao.AtualizaFilaTagsEstoque(15)

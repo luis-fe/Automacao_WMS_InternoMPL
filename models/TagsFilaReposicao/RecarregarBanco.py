@@ -149,7 +149,7 @@ def avaliacaoFila(rotina,datahoraInicio):
         with conn.cursor() as cursor_csw:
 
             sql1 = """select br.codBarrasTag as codbarrastag , 'estoque' as estoque  from Tcr.TagBarrasProduto br 
-    WHERE br.codEmpresa in (%s) and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54) """%xemp
+    WHERE br.codEmpresa in (%s) and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54, 8) """%xemp
             cursor_csw.execute(sql1)
             colunas = [desc[0] for desc in cursor_csw.description]
             # Busca todos os dados
