@@ -201,9 +201,11 @@ def avaliacaoFila(rotina,datahoraInicio):
         with conn2.cursor() as cursor:
             cursor.execute(query)
             conn2.commit()
-            cursor.execute(query2)
-            conn2.commit()
-
+            try:
+                cursor.execute(query2)
+                conn2.commit()
+            except:
+                print('segue o baile')
 
 
     else:
