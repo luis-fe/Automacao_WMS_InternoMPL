@@ -172,6 +172,7 @@ def automacao():
 
         backup.BackupTabelaPrateleira(90)
         gc.collect()
+        os.system('clear')
 
 
 

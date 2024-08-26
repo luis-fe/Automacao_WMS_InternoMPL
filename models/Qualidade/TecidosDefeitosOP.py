@@ -16,13 +16,13 @@ def obterHoraAtual():
 
 
 def DefeitosTecidos(rotina, datainicio):
-    conn = ConexaoCSW.Conexao()
+    with ConexaoCSW.Conexao() as conn:
+        consulta = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
+        req = pd.read_sql(BuscasAvancadas.RequisicaoItemEtiquetas(), conn)
 
-    consulta = pd.read_sql(BuscasAvancadas.Movimento(),conn)#coditem , mo.nomeItem, mo.codFornecNota, mo.dataLcto , mo.numDocto, mo.numeroLcto
     consulta.drop(['numDocto', 'numeroLcto','dataLcto'], axis=1, inplace=True)
 
     fornecedor = pd.read_sql(BuscasAvancadas.Fornecedor(),conn)
-    req = pd.read_sql(BuscasAvancadas.RequisicaoItemEtiquetas(),conn)
     etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datainicio,'etapa  consultando no CSW etiquetas com defeito de tecidos')
 
 
@@ -34,7 +34,6 @@ def DefeitosTecidos(rotina, datainicio):
     consulta = consulta.drop_duplicates()
     consulta['repeticoessku'] = consulta.groupby('coditem').cumcount() + 1
 
-    conn.close()
 
     consulta['categoria'] = '-'
     consulta['categoria']  = consulta.apply(lambda row : Categoria('RIBANA',row['nomeItem'],row['categoria']),axis=1  )
