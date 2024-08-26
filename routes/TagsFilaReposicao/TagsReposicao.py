@@ -22,12 +22,15 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
         if tempo > limite and empresa == '1':
 
             controle.InserindoStatus(rotina,client_ip,datainicio)
-            RecarregarBanco.FilaTags(datainicio, rotina)
+            automacao = RecarregarBanco.AutomacaoFilaTags('1')
+            automacao.recarregarTags(datainicio, rotina)
             controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
+            del(automacao)
             print('ETAPA fila Tags Reposicao- Fim')
 
         elif empresa == '4':
-            RecarregarBanco.FilaTags(datainicio, rotina)
+            automacao = RecarregarBanco.AutomacaoFilaTags('4')
+            automacao.recarregarTags(datainicio, rotina)
             print('ETAPA fila Tags Reposicao- Fim')
             gc.collect()
 
@@ -49,7 +52,8 @@ def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
         if tempo > limite:
             controle.InserindoStatus(rotina,client_ip,datainicio)
             print('\nETAPA LimpezaTagsSaidaForaWMS- Inicio')
-            RecarregarBanco.avaliacaoFila(rotina, datainicio)
+            automacao = RecarregarBanco.AutomacaoFilaTags()
+            automacao.avaliacaoFila(rotina, datainicio)
             controle.salvarStatus(rotina,'automacao',datainicio)
             print('ETAPA LimpezaTagsSaidaForaWMS- Fim')
             gc.collect()
