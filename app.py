@@ -180,7 +180,7 @@ def automacao():
         print(f"Encerrando processo com PID: {pid}")
         # Iniciar nova instância do script após 5 segundos
         new_process = f"{sys.executable} {sys.argv[0]}"
-        os.system(f"sleep 5 && {new_process} &")
+        os.system(f"sleep 20 && {new_process} &")
 
         # Encerrar o processo atual
         p = psutil.Process(pid)
