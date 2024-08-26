@@ -1,4 +1,3 @@
-import psutil
 import pytz
 import empresaConfigurada
 from flask import Flask, render_template, jsonify, request,session
@@ -20,6 +19,10 @@ from routes.TagsReposicaoOff import TagOff
 from routes.TagsFilaReposicao import TagsReposicao
 from routes.backup import backup
 from models.TagsFilaReposicao import TagsTransferidas
+import sys
+import psutil
+import time
+
 
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
@@ -173,7 +176,15 @@ def automacao():
         backup.BackupTabelaPrateleira(90)
         gc.collect()
         os.system('clear')
-        os.system('sudo python3 app.py')
+        pid = os.getpid()
+        print(f"Encerrando processo com PID: {pid}")
+        # Iniciar nova instância do script após 5 segundos
+        new_process = f"{sys.executable} {sys.argv[0]}"
+        os.system(f"sleep 5 && {new_process} &")
+
+        # Encerrar o processo atual
+        p = psutil.Process(pid)
+        p.terminate()
 
 
 
