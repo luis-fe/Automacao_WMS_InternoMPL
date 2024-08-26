@@ -173,6 +173,7 @@ def automacao():
         backup.BackupTabelaPrateleira(90)
         gc.collect()
         os.system('clear')
+        os.system('sudo python3 app.py')
 
 
 

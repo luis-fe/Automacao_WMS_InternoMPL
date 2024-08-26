@@ -10,6 +10,9 @@ import empresaConfigurada
 
 
 class AutomacaoFilaTags():
+    '''
+    classe feita para Automatizar o processo de recarregar as Tags no WMS
+    '''
     def __init__(self, empresa = None):
         if empresa != None:
             self.empresa = empresa
@@ -209,8 +212,6 @@ class AutomacaoFilaTags():
                     conn2.commit()
                 except:
                     print('segue o baile')
-
-
         else:
             print('2.1.1 sem tags para ser eliminadas na Fila Tags Reposicao')
         etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,'deletando saidas fora do WMS')
@@ -223,7 +224,5 @@ class AutomacaoFilaTags():
         consulta = pd.read_sql("select numeroop , codproduto||'||'||numeroop  as resticao,  "
                                 'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
                                "sso where sso.considera = 'sim'",conn)
-
         conn.close()
-
         return consulta
