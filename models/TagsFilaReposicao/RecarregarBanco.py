@@ -14,12 +14,17 @@ class AutomacaoFilaTags():
     classe feita para Automatizar o processo de recarregar as Tags no WMS
     '''
     def __init__(self, empresa = None):
+        '''Contrutor definindo a empresa
+        :arg
+        self.empesa : o Codigo da empresa em str da qual estamos acessando a automacao, seguindo do IF para caso "NONE" buscar da empresa parametrizada.
+        '''
         if empresa != None:
             self.empresa = empresa
         else:
             self.empresa  = empresaConfigurada.EmpresaEscolhida()
 
     def obterHoraAtual(self):
+        '''Funcao utilizada para obter o valor da Data e Hora Atual'''
 
         fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
         agora = datetime.datetime.now(fuso_horario)
@@ -27,6 +32,7 @@ class AutomacaoFilaTags():
         return hora_str
 
     def recarregarTags(self,rotina, datainico):
+        '''Funcao utilizada para acessar o erp CSW , Obter as tags e as transferir para o WMS'''
         xemp = "'" + self.empresa + "'"
 
         with ConexaoCSW.Conexao() as conn:
@@ -137,6 +143,7 @@ class AutomacaoFilaTags():
 
 
     def LerEPC(self):
+        '''Funcao utilizada para obter o EPC das tags'''
         xemp = empresaConfigurada.EmpresaEscolhida()
         xemp = "'"+xemp+"'"
         with ConexaoCSW.Conexao() as conn:
@@ -149,6 +156,7 @@ class AutomacaoFilaTags():
 
         return consulta
     def avaliacaoFila(self,rotina,datahoraInicio):
+        '''funcao utilizada para avalaiar a fila, verificando se existe tag que ja foi faturada na fila '''
         xemp = empresaConfigurada.EmpresaEscolhida()
         xemp = "'"+xemp+"'"
         with ConexaoCSW.Conexao() as conn:
