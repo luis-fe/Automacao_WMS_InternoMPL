@@ -153,8 +153,6 @@ def automacao():
         print(f'Memoria apos Atualizar BackupTabelaPrateleira - Etapa 14: {round(memoria_apos / 1000000, 3)} GB')
 
     elif empresa == '4':
-        #print('update das tags na empresa 4')
-        #TagsTransferidas.transferirTags(4)
 
 
         TagsReposicao.AtualizaFilaTagsEstoque(15)
@@ -175,6 +173,10 @@ def automacao():
 
         backup.BackupTabelaPrateleira(90)
         gc.collect()
+
+        SubstitutosSkuOP(60)  # 12
+        gc.collect()
+
         os.system('clear')
         pid = os.getpid()
         print(f"Encerrando processo com PID: {pid}")

@@ -1,7 +1,7 @@
 ## Funcao de Automacao 12: SubstitutosSkuOP  :
 import gc
 import controle
-from models.Qualidade import MateriaisSubstitutosPorSku
+from models.Qualidade import OpsSubstitutasClass
 
 
 def SubstitutosSkuOP(IntervaloAutomacao):
@@ -15,7 +15,9 @@ def SubstitutosSkuOP(IntervaloAutomacao):
         if tempo > limite:
             print('\nETAPA Atualizar Substitutos Sku OP- Inicio')
             controle.InserindoStatus(rotina, client_ip, datainicio)
-            MateriaisSubstitutosPorSku.SubstitutosSkuOP(rotina, datainicio)
+
+            itensSubstitutos = OpsSubstitutasClass.OpsSubstitutas(datainicio,rotina,'1')
+            itensSubstitutos.SubstitutosSkuOP()
             controle.salvarStatus('SubstitutosSkuOP', client_ip, datainicio)
             print('ETAPA Atualizar Substitutos Sku OP- Final')
             gc.collect()
