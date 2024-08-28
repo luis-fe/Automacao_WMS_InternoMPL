@@ -115,31 +115,43 @@ def automacao():
 
     elif empresa == '4':
 
-
+        verificador = []
         TagsReposicao.AtualizaFilaTagsEstoque(15)
 
         gc.collect()
 
         TagsReposicao.LimpezaTagsSaidaForaWMS(15)
         gc.collect()
+        verificador.append(True)
 
         EliminaPedidosFaturados(10)
         gc.collect()
+        verificador.append(True)
+
 
         EliminaPedidosFaturadosNivelSKU(10)
         gc.collect()
+        verificador.append(True)
+
 
         LimpandoTagSaidaReposicao(10)
         gc.collect()
+        verificador.append(True)
+
 
         backup.BackupTabelaPrateleira(90)
         gc.collect()
+        verificador.append(True)
+
 
         SubstitutosSkuOP(60)  # 12
         gc.collect()
+        verificador.append(True)
+
 
         OrdemProducao(10)  # 13
         gc.collect()
+        verificador.append(True)
 
     else:
         print('sem empresa selecionada')
@@ -167,7 +179,7 @@ if __name__ == '__main__':
     # Iniciar nova instância do script após N segundos
     new_process = f"{sys.executable} {sys.argv[0]}"
     print(f'gerado o process {new_process}')
-    os.system(f"sleep 120 && {new_process} &")
+    os.system(f"sleep 180 && {new_process} &")
 
     #Encerrando o Registro de controle do PID
     controle.excluirPID()
