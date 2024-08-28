@@ -1,7 +1,7 @@
 ## Funcao de Automacao 13: Ordem Producao  :
 import gc
 import controle
-from models.Ops import OP_emAberto
+from models.Ops import OP_AbertoClass
 
 
 def OrdemProducao(IntervaloAutomacao):
@@ -15,7 +15,8 @@ def OrdemProducao(IntervaloAutomacao):
         if tempo > limite:
             print('\nETAPA importando Ordem de Producao- Inicio')
             controle.InserindoStatus(rotina, client_ip, datainicio)
-            OP_emAberto.IncrementadoDadosPostgre('1', rotina, datainicio)
+            op_aberto = OP_AbertoClass.Op_AbertoClass('1',rotina,datainicio)
+            op_aberto.IncrementadoDadosPostgre()
             controle.salvarStatus(rotina, client_ip, datainicio)
             print('ETAPA importando Ordem de Producao- Fim')
             gc.collect()

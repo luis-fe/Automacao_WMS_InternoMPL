@@ -177,6 +177,9 @@ def automacao():
         SubstitutosSkuOP(60)  # 12
         gc.collect()
 
+        OrdemProducao(10)  # 13
+        gc.collect()
+
         os.system('clear')
         pid = os.getpid()
         print(f"Encerrando processo com PID: {pid}")
