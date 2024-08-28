@@ -12,7 +12,7 @@ class Controle ():
 
     def inserirNovoPID(self):
 
-        insertPID = """insert into "ControlePID" ("PID","DataHoraCriacao") values (%s , %s)  """
+        insertPID = """insert into configuracoes."ControlePID" ("PID","DataHoraCriacao") values (%s , %s)  """
         dataHora = self.oBterDataHora('en')
         with ConexaoPostgreMPL.conexao() as conn:
             with conn.cursor() as curr:
@@ -22,7 +22,7 @@ class Controle ():
 
     def excluirPID(self):
 
-        excluirPID = """DELETE FROM ControlePID" WHERE "PID" = %s """
+        excluirPID = """DELETE FROM configuracoes.ControlePID" WHERE "PID" = %s """
         with ConexaoPostgreMPL.conexao() as conn:
             with conn.cursor() as curr:
 
