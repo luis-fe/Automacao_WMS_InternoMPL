@@ -22,7 +22,7 @@ class Controle ():
 
     def excluirPID(self):
 
-        excluirPID = """DELETE FROM configuracoes.ControlePID" WHERE "PID" = %s """
+        excluirPID = """DELETE FROM configuracoes."ControlePID" WHERE "PID" = %s """
         with ConexaoPostgreMPL.conexao() as conn:
             with conn.cursor() as curr:
 
