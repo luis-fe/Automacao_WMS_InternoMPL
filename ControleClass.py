@@ -8,7 +8,7 @@ class Controle ():
     '''Classe criada para controle da automacao , registrando os dados para analisar performa-se e a aplicacao!'''
     def __init__(self,empresa, PID):
         self.empresa = empresa
-        self.PID = PID
+        self.PID = str(PID)
 
     def inserirNovoPID(self):
 
