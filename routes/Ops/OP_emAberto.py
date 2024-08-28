@@ -15,6 +15,7 @@ def OrdemProducao(IntervaloAutomacao):
         if tempo > limite:
             print('\nETAPA importando Ordem de Producao- Inicio')
             controle.InserindoStatus(rotina, client_ip, datainicio)
+
             op_aberto = classe.Op_AbertoClass('1',rotina,datainicio)
             op_aberto.IncrementadoDadosPostgre()
             controle.salvarStatus(rotina, client_ip, datainicio)
