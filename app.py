@@ -36,46 +36,6 @@ port = int(os.environ.get('PORT', 8000)) # Define a porta 9000 como padrao para 
 def memory_usage():
     process = psutil.Process(os.getpid())
     return process.memory_info().rss  # Retorna o uso de memória em bytes
-def obterHoraAtual(): # Funcao criada para obter a data e hora do sistema, convetendo em fuso horario Brasil
-    fuso_horario = pytz.timezone('America/Sao_Paulo')
-    agora = datetime.datetime.now(fuso_horario)
-    hora_str = agora.strftime('%H')
-    return hora_str
-def restart_server(): # Funcao que "reseta" a aplicacao para erros de execcao e outras processos
-    print("Reiniciando o aplicativo...")
-    subprocess.call(["python", "app.py"])
-
-def my_task():
-    hora = obterHoraAtual()
-    empresa = '1'  # Simulação de chamada empresaConfigurada.EmpresaEscolhida()
-    horas_permitidas = {
-        '1': ['06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18'],
-        '2': ['05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19']
-    }
-
-    if empresa == '1' and  hora in ['06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18']:
-
-        gc.collect()
-        my_task2()
-
-    elif empresa == '4' and  hora in ['05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'] :
-        gc.collect()
-        my_task2()
-
-
-def my_task2():
-        gc.collect()
-        memoria_antes = memory_usage()
-        print(f'A memoria usanda antes desse ciclo é {memoria_antes}')
-        automacao()
-        gc.collect()
-
-
-
-
-scheduler = BackgroundScheduler(timezone=pytz.timezone('America/Sao_Paulo'))
-scheduler.start()
-scheduler.add_job(func=my_task, trigger='interval', seconds=40)
 
 
 def automacao():
@@ -189,9 +149,7 @@ def automacao():
         print(f'gerado o process {new_process}')
         os.system(f"sleep 60 && {new_process} &")
 
-        # Encerrar o processo atual
-        p = psutil.Process(pid)
-        p.terminate()
+
 
 
 
@@ -205,9 +163,9 @@ if __name__ == '__main__':
     empresa = empresaConfigurada.EmpresaEscolhida()  # Busca a empresa que a aplicacao de automaca vai rodar
     print(f'\n Estamaos na empresa: {empresa}\nno PID {os.getpid()}')
 
-
+    PID = os.getpid()
     '''Instanciando o objeto controle para controlar o registro da automacao'''
-    controle = ControleClass.Controle(empresa,os.getpid())
+    controle = ControleClass.Controle(empresa,PID)
     controle.inserirNovoPID()
 
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
@@ -215,12 +173,8 @@ if __name__ == '__main__':
     automacao()
     '''Encerrando o Registro de controle do PID'''
     controle.excluirPID()
-    # Etapa 2: Liga a automacao do my_task que é uma funcao de AGENDAMENTO DE PROCESSOS
-    try:
-        my_task()
-
-    except Exception as e:  # Caso ocorra erros, a automacao é reiniciada
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
+    # Encerrar o processo atual
+    p = psutil.Process(PID)
+    p.terminate()
 
     app.run(host='0.0.0.0', port=port)
