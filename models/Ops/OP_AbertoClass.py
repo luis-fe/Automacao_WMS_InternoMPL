@@ -94,7 +94,7 @@ class Op_AbertoClass():
         return get
 
     def PesquisandoReduzido(self):
-        conn = ConexaoPostgreMPL.conexaoEngineMatriz()
+        conn = ConexaoPostgreMPL.conexaoEngineMatrizPCP()
 
         consulta = """select "codItemPai" as "codProduto", "codSortimento"::varchar as "codSortimento", 
         "codSeqTamanho"::varchar as "seqTamanho", "codigo" as codreduzido, categoria  from "PCP".pcp.itens_csw ic """
