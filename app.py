@@ -201,7 +201,7 @@ def automacao():
 if __name__ == '__main__':
     print('\n################# INICIANDO A AUTOMACAO DOS DADOS ########################### \n')
     empresa = empresaConfigurada.EmpresaEscolhida()  # Busca a empresa que a aplicacao de automaca vai rodar
-    print(f'\n Estamaos na empresa: {empresa}\n')
+    print(f'\n Estamaos na empresa: {empresa}\nno PID {os.getpid()}')
 
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
