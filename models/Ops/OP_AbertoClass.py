@@ -24,7 +24,7 @@ class Op_AbertoClass():
 
         sqlCsw_em_aberto2 = ' select o.numeroOP as numeroop,  o.codTipoOP, codSeqRoteiroAtual as seqAtual  from tco.ordemprod o where o.situacao = 3 and codTipoOP <> 13 and o.codempresa = ' + self.empresa
 
-        with ConexaoCSW.ConexaoInternoMPL() as conn:  ##Abrindo Conexao Com o CSW
+        with ConexaoCSW.Conexao() as conn:  ##Abrindo Conexao Com o CSW
             with conn.cursor() as cursor_csw:
                 # Executa a primeira consulta e armazena os resultados
                 cursor_csw.execute(sqlCswOpsnivelSku)
@@ -40,6 +40,8 @@ class Op_AbertoClass():
                 del rows
 
                 get = pd.merge(get, em_aberto2, on='numeroop')
+        print('resultado')
+        print(get)
         etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio,
                                               'etapa  consultando no CSW as OPs em aberto')
 
