@@ -22,6 +22,7 @@ from models.TagsFilaReposicao import TagsTransferidas
 import sys
 import psutil
 import time
+import ControleClass
 
 
 """
@@ -204,10 +205,16 @@ if __name__ == '__main__':
     empresa = empresaConfigurada.EmpresaEscolhida()  # Busca a empresa que a aplicacao de automaca vai rodar
     print(f'\n Estamaos na empresa: {empresa}\nno PID {os.getpid()}')
 
+
+    '''Instanciando o objeto controle para controlar o registro da automacao'''
+    controle = ControleClass.Controle(empresa,os.getpid())
+    controle.inserirNovoPID()
+
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
     automacao()
-
+    '''Encerrando o Registro de controle do PID'''
+    controle.excluirPID()
     # Etapa 2: Liga a automacao do my_task que é uma funcao de AGENDAMENTO DE PROCESSOS
     try:
         my_task()
