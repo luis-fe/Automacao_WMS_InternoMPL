@@ -141,13 +141,7 @@ def automacao():
         OrdemProducao(10)  # 13
         gc.collect()
 
-        os.system('clear')
-        pid = os.getpid()
-        print(f"Encerrando processo com PID: {pid}")
-        # Iniciar nova instância do script após 5 segundos
-        new_process = f"{sys.executable} {sys.argv[0]}"
-        print(f'gerado o process {new_process}')
-        os.system(f"sleep 60 && {new_process} &")
+
 
 
 
@@ -171,9 +165,18 @@ if __name__ == '__main__':
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
     automacao()
-    '''Encerrando o Registro de controle do PID'''
+    os.system('clear')
+
+
+
+    # Iniciar nova instância do script após N segundos
+    new_process = f"{sys.executable} {sys.argv[0]}"
+    print(f'gerado o process {new_process}')
+    os.system(f"sleep 60 && {new_process} &")
+
+    #Encerrando o Registro de controle do PID
     controle.excluirPID()
-    # Encerrar o processo atual
+    #Encerrando o  PID atual
     p = psutil.Process(PID)
     p.terminate()
 
