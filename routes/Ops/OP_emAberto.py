@@ -26,3 +26,5 @@ def OrdemProducao(IntervaloAutomacao):
             print(f'JA EXISTE UMA ATUALIZACAO em importando Ordem de Producao EM MENOS DE - {IntervaloAutomacao} MINUTOS')
             gc.collect()
 
+        return True
+
