@@ -86,7 +86,7 @@ class Op_AbertoClass():
         get['id'] = get['id'].astype(str) + '||' + get['ocorrencia_sku'].astype(str)
         get['qtdAcumulada'] = get.groupby('codreduzido')['total_pcs'].cumsum()
 
-        etapa2 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', etapa1,
+        etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1,
                                               'etapa tratando as ops a nivel de sku')
 
         return get
