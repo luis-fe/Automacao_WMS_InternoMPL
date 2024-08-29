@@ -98,9 +98,9 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     for i in range(0, len(df_tags), chunksize):
         df_tags.iloc[i:i + chunksize].to_sql(tabela, engine, if_exists=metodo, index=False , schema='off')
 
-def Funcao_InserirOFFMatriz (df_tags, tamanho,tabela, metodo):
+def Funcao_InserirPCPMatriz (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
-    database = "Reposicao"
+    database = "PCP"
     user = "postgres"
     password = "Master100"
     host = "192.168.0.183"

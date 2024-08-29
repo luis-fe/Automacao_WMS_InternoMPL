@@ -111,7 +111,7 @@ class Op_AbertoClass():
 
     def IncrementadoDadosPostgre(self):
         dados = self.buscandoOPCSW()
-        ConexaoPostgreMPL.Funcao_InserirOFFMatriz(dados, dados['numeroop'].size, 'ordemprod', 'replace')
+        ConexaoPostgreMPL.Funcao_InserirPCPMatriz(dados, dados['numeroop'].size, 'ordemprod', 'replace')
         return pd.DataFrame([{'status': True, 'Mensagem': 'Dados carregados com sucesso !'}])
 
 
