@@ -14,8 +14,10 @@ def AutomacaoPedidos(IntervaloAutomacao):
         if tempo > limite:
                 print('\nETAPA Atualizar Pedidos- Inicio')
                 controle.InserindoStatus(rotina, client_ip, datainicio)
-                PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
-                controle.salvarStatus('OPSDefeitoTecidos', client_ip, datainicio)
+                automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
+                automacaoPedidos.incrementarPedidos()
+                automacaoPedidos.trasferenciaDeArquivo()
+                controle.salvarStatus(rotina, client_ip, datainicio)
                 print('ETAPA  Atualizar Pedidos- Fim')
                 gc.collect()
 
