@@ -14,7 +14,7 @@ def AutomacaoReservarPedidosPreFat(IntervaloAutomacao):
         if tempo > limite:
                 print('\nETAPA ReservarPedidosPreFat- Inicio')
                 controle.InserindoStatus(rotina, client_ip, datainicio)
-                automacaoPedidos = ReservaPreFaturamentoClass.ReservaPreFaturamento('1')
+                automacaoPedidos = ReservaPreFaturamentoClass.ReservaPreFaturamento('1',rotina,datainicio)
                 automacaoPedidos.conexaoAPIreservaFatCsw()
                 #automacaoPedidos.IncrementadoDadosPostgre()
                 controle.salvarStatus(rotina, client_ip, datainicio)
