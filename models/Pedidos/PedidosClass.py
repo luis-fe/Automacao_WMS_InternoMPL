@@ -108,7 +108,7 @@ class AutomacaoPedidos():
 
     def IncrementadoDadosPostgre(self):
         dados = self.incrementarPedidos()
-        ConexaoPostgreMPL.Funcao_InserirPCPBackupMatriz(dados, dados['numeroop'].size, 'pedidos', 'replace')
+        ConexaoPostgreMPL.Funcao_InserirPCPBackupMatriz(dados, dados['codPedido'].size, 'pedidos', 'replace')
         return pd.DataFrame([{'status': True, 'Mensagem': 'Dados carregados com sucesso !'}])
 
 
