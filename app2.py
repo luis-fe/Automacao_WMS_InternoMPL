@@ -127,15 +127,15 @@ if __name__ == '__main__':
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
     automacao()
-    os.system('clear')
+    #os.system('clear')
     # Iniciar nova instância do script após N segundos
-    new_process = f"{sys.executable} {sys.argv[0]}"
-    print(f'gerado o process {new_process}')
-    os.system(f"sleep 600 && {new_process} &")
+    #new_process = f"{sys.executable} {sys.argv[0]}"
+    #print(f'gerado o process {new_process}')
+    #os.system(f"sleep 600 && {new_process} &")
 
     #Encerrando o Registro de controle do PID
-    controle.excluirPID()
+    #controle.excluirPID()
     #Encerrando o  PID atual
-    p = psutil.Process(PID)
-    p.terminate()
+    #p = psutil.Process(PID)
+    #p.terminate()
 

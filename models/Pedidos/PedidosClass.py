@@ -82,9 +82,9 @@ class AutomacaoPedidos():
             pedidos = pedidos[(pedidos['codTipoNota'] != '38') & (pedidos['codTipoNota'] != '239') & (
                         pedidos['codTipoNota'] != '223')]
 
-            #fp.write('./dados/pedidos.parquet', pedidos)
+            fp.write('./dados/pedidos.parquet', pedidos)
 
-            etapa2 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', etapa1, 'Geracao do arquivo parquet no servidor origem')
+            etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'Geracao do arquivo parquet no servidor origem')
 
             return pedidos
 
