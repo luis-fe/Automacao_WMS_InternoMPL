@@ -10,7 +10,7 @@ from colorama import init, Fore
 import gc
 from routes.Ops.InformacoesSilkFaccionista import AtualizarOPSilks
 from routes.Ops.OP_emAberto import OrdemProducao
-from routes.Pedidos import Pedidos, ReservaPreFaturamento
+from routes.Pedidos import Pedidos, ReservaPreFaturamento, PedidosRoute
 from routes.Pedidos.Pedidos import EliminaPedidosFaturados, EliminaPedidosFaturadosNivelSKU
 from routes.Qualidade.MateriaisSubstitutosPorSku import SubstitutosSkuOP
 from routes.Qualidade.TecidosDefeitosOP import AtualizarOPSDefeitoTecidos
@@ -115,43 +115,10 @@ def automacao():
 
     elif empresa == '4':
 
-        verificador = []
-        TagsReposicao.AtualizaFilaTagsEstoque(15)
+        PedidosRoute.AutomacaoPedidos(15)
 
         gc.collect()
 
-        TagsReposicao.LimpezaTagsSaidaForaWMS(15)
-        gc.collect()
-        verificador.append(True)
-
-        EliminaPedidosFaturados(10)
-        gc.collect()
-        verificador.append(True)
-
-
-        EliminaPedidosFaturadosNivelSKU(10)
-        gc.collect()
-        verificador.append(True)
-
-
-        LimpandoTagSaidaReposicao(10)
-        gc.collect()
-        verificador.append(True)
-
-
-        backup.BackupTabelaPrateleira(90)
-        gc.collect()
-        verificador.append(True)
-
-
-        SubstitutosSkuOP(60)  # 12
-        gc.collect()
-        verificador.append(True)
-
-
-        OrdemProducao(10)  # 13
-        gc.collect()
-        verificador.append(True)
 
     else:
         print('sem empresa selecionada')
