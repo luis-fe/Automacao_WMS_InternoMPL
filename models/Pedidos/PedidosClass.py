@@ -2,6 +2,7 @@ import pandas as pd
 import gc
 import fastparquet as fp
 import ConexaoCSW
+import ConexaoPostgreMPL
 import controle
 import paramiko
 
@@ -81,9 +82,11 @@ class AutomacaoPedidos():
             pedidos = pedidos[(pedidos['codTipoNota'] != '38') & (pedidos['codTipoNota'] != '239') & (
                         pedidos['codTipoNota'] != '223')]
 
-            fp.write('./dados/pedidos.parquet', pedidos)
+            #fp.write('./dados/pedidos.parquet', pedidos)
 
             etapa2 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', etapa1, 'Geracao do arquivo parquet no servidor origem')
+
+            return pedidos
 
 
     def trasferenciaDeArquivo(self):
@@ -101,6 +104,12 @@ class AutomacaoPedidos():
 
         sftp.close()
         transport.close()
+
+
+    def IncrementadoDadosPostgre(self):
+        dados = self.incrementarPedidos()
+        ConexaoPostgreMPL.Funcao_InserirPCPBackupMatriz(dados, dados['numeroop'].size, 'pedidos', 'replace')
+        return pd.DataFrame([{'status': True, 'Mensagem': 'Dados carregados com sucesso !'}])
 
 
 
