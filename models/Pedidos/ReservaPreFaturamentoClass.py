@@ -6,9 +6,14 @@ import requests
 import datetime
 import pytz
 
+import controle
+
+
 class ReservaPreFaturamento():
-    def __init__(self, empresa):
+    def __init__(self, empresa,rotina,dataInicio):
         self.empresa = empresa
+        self.rotina = rotina
+        self.dataInicio = dataInicio
 
     def conexaoAPIreservaFatCsw(self):
         url = "https://192.168.0.25/api/customci/v10/atualizarSugestaoFaturamento"
@@ -59,11 +64,16 @@ class ReservaPreFaturamento():
 
             concatenar['Atualizado'] = Atualizado
 
-            return concatenar
+            etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio,
+                                                  f'resposta da api {response.status_code}')
+
+            return response.status_code
 
 
         else:
-            print('Falha ao obter os dados da API')
+            etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio,
+                                                  f'resposta da api {response.status_code}')
+            return response.status_code
 
     def StatusSugestaoPedidos(self):
         # pedidos = APIAtualizaPreFaturamento()
