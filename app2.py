@@ -1,12 +1,5 @@
-import pytz
 import empresaConfigurada
-from flask import Flask, render_template, jsonify, request,session
-from flask_cors import CORS
-from apscheduler.schedulers.background import BackgroundScheduler
 import os
-import datetime
-import subprocess
-from colorama import init, Fore
 import gc
 from routes.Ops.InformacoesSilkFaccionista import AtualizarOPSilks
 from routes.Ops.OP_emAberto import OrdemProducao
@@ -18,10 +11,8 @@ from routes.TagsFilaReposicao.TagsReposicao import LimpandoTagSaidaReposicao
 from routes.TagsReposicaoOff import TagOff
 from routes.TagsFilaReposicao import TagsReposicao
 from routes.backup import backup
-from models.TagsFilaReposicao import TagsTransferidas
 import sys
 import psutil
-import time
 import ControleClass
 
 
@@ -30,9 +21,6 @@ NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transfe
 PARA O BANCO DE DADOS DA APLICACAO DE WMS E PORTAL DA QUALIDADE
 """
 
-app = Flask(__name__)
-CORS(app) # O CORS garante que o serviço seja apontado via protocolo HTTP
-port = int(os.environ.get('PORT', 8000)) # Define a porta 9000 como padrao para essa aplicacao de AUTOMACAO
 def memory_usage():
     process = psutil.Process(os.getpid())
     return process.memory_info().rss  # Retorna o uso de memória em bytes
@@ -154,4 +142,3 @@ if __name__ == '__main__':
     p = psutil.Process(PID)
     p.terminate()
 
-    app.run(host='0.0.0.0', port=port)
