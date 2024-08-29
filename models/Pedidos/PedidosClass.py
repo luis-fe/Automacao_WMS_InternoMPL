@@ -89,6 +89,8 @@ class AutomacaoPedidos():
             return pedidos
 
 
+
+
     def trasferenciaDeArquivo(self):
         '''Metodo que transferi o arquivo .fast entre servidores concectados '''
 
@@ -104,8 +106,6 @@ class AutomacaoPedidos():
 
         sftp.close()
         transport.close()
-
-
     def IncrementadoDadosPostgre(self):
         dados = self.incrementarPedidos()
         ConexaoPostgreMPL.Funcao_InserirPCPBackupMatriz(dados, dados['codPedido'].size, 'pedidos', 'replace')
