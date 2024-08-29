@@ -45,10 +45,6 @@ def automacao():
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar TagOff - Etapa 3: {round(memoria_apos / 1000000, 3)} GB')
 
-        ReservaPreFaturamento.AtualizaApiReservaFaruamento(90)  # 4 ok
-        gc.collect()
-        memoria_apos = memory_usage()
-        print(f'Memoria apos Atualizar ReservaPreFaturamento - Etapa 4: {round(memoria_apos / 1000000, 3)} GB')
 
         TagsReposicao.AtualizaFilaTagsEstoque(15)  # 5 ok
         gc.collect()
@@ -104,7 +100,9 @@ def automacao():
     elif empresa == '4':
 
         PedidosRoute.AutomacaoPedidos(15)
+        gc.collect()
 
+        ReservaPreFaturamento.AutomacaoReservarPedidosPreFat(45)
         gc.collect()
 
 
@@ -131,7 +129,7 @@ if __name__ == '__main__':
     # Iniciar nova instância do script após N segundos
     new_process = f"{sys.executable} {sys.argv[0]}"
     print(f'gerado o process {new_process}')
-    os.system(f"sleep 600 && {new_process} &")
+    os.system(f"sleep 120 && {new_process} &")
 
     #Encerrando o Registro de controle do PID
     controle.excluirPID()
