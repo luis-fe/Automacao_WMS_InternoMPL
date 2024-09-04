@@ -171,7 +171,10 @@ if __name__ == '__main__':
 
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
-    automacao()
+    try:
+        automacao()
+    except:
+        print('erro')
     os.system('clear')
 
 

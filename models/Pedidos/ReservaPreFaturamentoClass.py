@@ -1,7 +1,6 @@
 import pandas as pd
 import fastparquet as fp
 import ConexaoCSW
-import ConexaoPostgreMPL
 import requests
 import datetime
 import pytz
