@@ -72,7 +72,7 @@ def LimpandoTagSaidaReposicao(IntervaloAutomacao):
         rotina = 'LimpandoTagSaidaReposicao'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'avaliacaoReposicao')
+        tempo = controle.TempoUltimaAtualizacao(datainicio, rotina)
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
 
