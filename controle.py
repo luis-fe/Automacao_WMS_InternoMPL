@@ -97,7 +97,9 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
                           "where rotina = %s ", conn, params=(rotina,) )
 
     utimaAtualizacao = consulta['ultimaData'][0]
-   # if utimaAtualizacao != None:
+    print(utimaAtualizacao)
+
+    # if utimaAtualizacao != None:
 
     if len(utimaAtualizacao) < 24:
         print(utimaAtualizacao)
