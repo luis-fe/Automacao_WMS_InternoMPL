@@ -101,7 +101,7 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
 
     # if utimaAtualizacao != None:
 
-    if len(utimaAtualizacao) < 24:
+    if len(utimaAtualizacao) < 23:
         print(utimaAtualizacao)
         utimaAtualizacao = utimaAtualizacao + '.001'
     else:
