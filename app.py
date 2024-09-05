@@ -174,7 +174,7 @@ if __name__ == '__main__':
     try:
         automacao()
     except:
-     #   print('erro')
+        print('erro')
     os.system('clear')
 
 
