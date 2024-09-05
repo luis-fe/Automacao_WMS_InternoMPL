@@ -215,11 +215,9 @@ class AutomacaoFilaTags():
             with conn2.cursor() as cursor:
                 cursor.execute(query)
                 conn2.commit()
-                try:
-                    cursor.execute(query2)
-                    conn2.commit()
-                except:
-                    print('segue o baile')
+                cursor.execute(query2)
+                conn2.commit()
+
         else:
             print('2.1.1 sem tags para ser eliminadas na Fila Tags Reposicao')
         etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao',etapa2,'deletando saidas fora do WMS')
