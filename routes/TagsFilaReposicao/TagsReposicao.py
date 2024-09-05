@@ -29,8 +29,10 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
             print('ETAPA fila Tags Reposicao- Fim')
 
         elif empresa == '4':
+            controle.InserindoStatus(rotina,client_ip,datainicio)
             automacao = RecarregarBanco.AutomacaoFilaTags('4')
             automacao.recarregarTags(rotina, datainicio)
+            controle.salvarStatus('AtualizarTagsEstoque','automacao',datainicio)
             print('ETAPA fila Tags Reposicao- Fim')
             gc.collect()
 
