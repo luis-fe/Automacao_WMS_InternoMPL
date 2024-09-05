@@ -13,10 +13,10 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
 
 
         # coloque o código que você deseja executar continuamente aqui
-        rotina = 'fila Tags Reposicao'
+        rotina = 'AtualizarTagsEstoque'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'fila Tags Reposicao')
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizarTagsEstoque')
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         empresa = empresaConfigurada.EmpresaEscolhida()
         if tempo > limite and empresa == '1':
@@ -24,7 +24,7 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
             controle.InserindoStatus(rotina,client_ip,datainicio)
             automacao = RecarregarBanco.AutomacaoFilaTags('1')
             automacao.recarregarTags(rotina, datainicio)
-            controle.salvarStatus('fila Tags Reposicao','automacao',datainicio)
+            controle.salvarStatus('AtualizarTagsEstoque','automacao',datainicio)
             del(automacao)
             print('ETAPA fila Tags Reposicao- Fim')
 
