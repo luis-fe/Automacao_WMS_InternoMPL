@@ -116,7 +116,7 @@ def automacao():
     elif empresa == '4':
 
         verificador = []
-        TagsReposicao.AtualizaFilaTagsEstoque(15)
+        TagsReposicao.AtualizaFilaTagsEstoque(5)
 
         gc.collect()
 

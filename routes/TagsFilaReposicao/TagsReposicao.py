@@ -28,7 +28,7 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
             del(automacao)
             print('ETAPA fila Tags Reposicao- Fim')
 
-        elif empresa == '4':
+        elif empresa == '4' and tempo > limite :
             controle.InserindoStatus(rotina,client_ip,datainicio)
             automacao = RecarregarBanco.AutomacaoFilaTags('4')
             automacao.recarregarTags(rotina, datainicio)
