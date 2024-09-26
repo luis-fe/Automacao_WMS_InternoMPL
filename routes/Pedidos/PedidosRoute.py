@@ -17,6 +17,7 @@ def AutomacaoPedidos(IntervaloAutomacao):
                 automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
                 automacaoPedidos.incrementarPedidos()
                 automacaoPedidos.trasferenciaDeArquivo()
+                automacaoPedidos.trasferenciaDeArquivo2()
                 #automacaoPedidos.IncrementadoDadosPostgre()
                 controle.salvarStatus(rotina, client_ip, datainicio)
                 print('ETAPA  Atualizar Pedidos- Fim')

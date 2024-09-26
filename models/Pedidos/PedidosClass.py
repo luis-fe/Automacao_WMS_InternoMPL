@@ -106,6 +106,24 @@ class AutomacaoPedidos():
 
         sftp.close()
         transport.close()
+
+    def trasferenciaDeArquivo2(self):
+        '''Metodo que transferi o arquivo .fast entre servidores concectados '''
+
+        # Conectar ao servidor
+        transport = paramiko.Transport(('10.162.0.190', 22))
+        transport.connect(username='mplti', password='*yvnMP')
+
+        sftp = paramiko.SFTPClient.from_transport(transport)
+
+        # Enviar o arquivo
+        with open('./dados/pedidos.parquet', 'rb') as fp:
+            sftp.putfo(fp, '/home/mplti/ModuloPCP/dados/pedidos.parquet')
+
+        sftp.close()
+        transport.close()
+
+
     def IncrementadoDadosPostgre(self):
         dados = self.incrementarPedidos()
         ConexaoPostgreMPL.Funcao_InserirPCPBackupMatriz(dados, dados['codPedido'].size, 'pedidos', 'replace')
