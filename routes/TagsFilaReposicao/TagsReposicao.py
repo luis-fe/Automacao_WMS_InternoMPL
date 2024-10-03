@@ -97,6 +97,7 @@ def LimpandoTagSaidaReposicao(IntervaloAutomacao):
 
             tranferencia = TagsTransferidas.AutomacaoTransferenciaTags(4)
             tranferencia.transferirTagsParaFila()
+            tranferencia.mudancaNatureza()
 
             controle.salvarStatus(rotina, client_ip, datainicio)
             print('ETAPA LimpandoTagSaidaReposicao- Fim')
