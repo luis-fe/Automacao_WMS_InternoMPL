@@ -232,3 +232,25 @@ class AutomacaoFilaTags():
                                "sso where sso.considera = 'sim'",conn)
         conn.close()
         return consulta
+
+
+    def atualizarEmpresa(self):
+        update = """
+        update
+	"Reposicao"."Reposicao".tagsreposicao
+set
+	codempresa = '4'
+where
+	codempresa is null
+        """
+        conn2 = ConexaoPostgreMPL.conexao()
+
+
+        with conn2.cursor() as cursor:
+            cursor.execute(update)
+            conn2.commit()
+
+
+        conn2.close()
+
+
