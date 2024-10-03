@@ -82,6 +82,19 @@ def LimpandoTagSaidaReposicao(IntervaloAutomacao):
             controle.InserindoStatus(rotina,client_ip,datainicio)
             avaliacaoReposicao(rotina, datainicio)
 
+            tranferencia = TagsTransferidas.AutomacaoTransferenciaTags(1)
+            tranferencia.transferirTagsParaFila()
+
+            controle.salvarStatus(rotina, client_ip, datainicio)
+            print('ETAPA LimpandoTagSaidaReposicao- Fim')
+            gc.collect()
+
+
+        elif tempo > limite and empresa == '4':
+            print('\nETAPA LimpandoTagSaidaReposicao- Inicio')
+            controle.InserindoStatus(rotina,client_ip,datainicio)
+            avaliacaoReposicao(rotina, datainicio)
+
             tranferencia = TagsTransferidas.AutomacaoTransferenciaTags(4)
             tranferencia.transferirTagsParaFila()
 
