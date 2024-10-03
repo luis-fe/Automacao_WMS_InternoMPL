@@ -20,7 +20,7 @@ class AutomacaoTransferenciaTags():
         '''FUNCAO QUE CONSULTA AS TAGS EM ESTOQUE FORA DA NATUREZA 5 e devolve para fila'''
         sql ="""
         SELECT t.codBarrasTag as codbarrastag, t.codNaturezaAtual as codnaturezaatual FROM Tcr.TagBarrasProduto t
-        WHERE t.codEmpresa = """+ str(self.empresa)+""" and codnaturezaatual not in(5) and situacao = 3
+        WHERE t.codEmpresa = """+ str(self.empresa)+""" and codnaturezaatual not in(5, 7) and situacao = 3
         """
 
 
