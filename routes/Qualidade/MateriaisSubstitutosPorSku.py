@@ -18,6 +18,7 @@ def SubstitutosSkuOP(IntervaloAutomacao):
 
             itensSubstitutos = OpsSubstitutasClass.OpsSubstitutas(datainicio,rotina,'1')
             itensSubstitutos.SubstitutosSkuOP()
+            itensSubstitutos.atualizarEPCFaccoes()
             controle.salvarStatus('SubstitutosSkuOP', client_ip, datainicio)
             print('ETAPA Atualizar Substitutos Sku OP- Final')
             gc.collect()

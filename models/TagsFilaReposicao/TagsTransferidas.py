@@ -51,8 +51,13 @@ class AutomacaoTransferenciaTags():
     def mudancaNatureza(self):
 
         sql ="""
-        SELECT t.codBarrasTag as codbarrastag, t.codNaturezaAtual as codnaturezaatual FROM Tcr.TagBarrasProduto t
-        WHERE t.codEmpresa = """+ str(self.empresa)+""" and codnaturezaatual  in(5, 7) and situacao = 3
+        SELECT 
+            t.codBarrasTag as codbarrastag, 
+            t.codNaturezaAtual as codnaturezaatual 
+        FROM 
+            Tcr.TagBarrasProduto t
+        WHERE 
+            t.codEmpresa = """+ str(self.empresa)+""" and codnaturezaatual  in(5, 7) and situacao = 3
         """
 
 

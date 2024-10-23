@@ -253,4 +253,35 @@ where
 
         conn2.close()
 
+    def atualizarEPCFaccoes(self):
+        consulta = """
+        SELECT E.codBarrasTag , E.numeroOP , e.codSortimento , p.ID, e.codLote, t.descricao  
+FROM tcr.TagBarrasProduto E
+JOIN Tcr_Rfid.NumeroSerieTagEPC p 
+ON p.codTag = E.codBarrasTag 
+join tcp.Tamanhos t 
+on t.codempresa = 1 and t.sequencia  = e.seqTamanho
+WHERE E.codEmpresa = 1 
+AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 and op.codfaseatual in (429))
+        """
+
+        with ConexaoCSW.Conexao() as conn:
+            with conn.cursor() as cursor_csw:
+                # Executa a primeira consulta e armazena os resultados
+                cursor_csw.execute(consulta)
+                colunas = [desc[0] for desc in cursor_csw.description]
+                rows = cursor_csw.fetchall()
+                consulta = pd.DataFrame(rows, columns=colunas)
+
+        ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['numeroOP'].size, 'opsEmTerceiros', 'replace')
+
+
+
+
+
+
+
+
+
+
 
