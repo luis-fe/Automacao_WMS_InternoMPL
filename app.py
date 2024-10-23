@@ -144,7 +144,7 @@ def automacao():
         verificador.append(True)
 
 
-        SubstitutosSkuOP(60)  # 12
+        SubstitutosSkuOP(40)  # 12
         gc.collect()
         verificador.append(True)
 

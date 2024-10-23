@@ -269,7 +269,7 @@ class OpsSubstitutas():
 
     def atualizarEPCFaccoes(self):
             consulta = """
-            SELECT E.codBarrasTag , E.numeroOP , e.codSortimento , p.ID, e.codLote, t.descricao  
+            SELECT E.codBarrasTag , E.numeroOP , e.codSortimento , p.ID as epc, e.codLote, t.descricao  
     FROM tcr.TagBarrasProduto E
     JOIN Tcr_Rfid.NumeroSerieTagEPC p 
     ON p.codTag = E.codBarrasTag 
@@ -287,4 +287,5 @@ class OpsSubstitutas():
                     rows = cursor_csw.fetchall()
                     consulta = pd.DataFrame(rows, columns=colunas)
 
+            consulta['epc'] = consulta['epc'].str.split('||').str[1]
             ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['numeroOP'].size, 'opsEmTerceiros', 'replace')
