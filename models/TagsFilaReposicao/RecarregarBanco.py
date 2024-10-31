@@ -276,6 +276,70 @@ AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 an
         ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['numeroOP'].size, 'opsEmTerceiros', 'replace')
 
 
+    def atualizaNatureza(self):
+        '''Atualizando as natureza das tags na filial'''
+
+        sql = """
+        select
+	codbarrastag ,
+	natureza
+from
+	"Reposicao"."Reposicao".tagsreposicao t
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta1 = pd.read_sql(sql,conn)
+
+        xemp = '4'
+
+        with ConexaoCSW.Conexao() as conn:
+            with conn.cursor() as cursor_csw:
+
+                sql1 = """select br.codBarrasTag as codbarrastag , codNaturezaAtual as naturezaNova
+                from Tcr.TagBarrasProduto br 
+            WHERE br.codEmpresa in (%s) and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54, 8) """%xemp
+                cursor_csw.execute(sql1)
+                colunas = [desc[0] for desc in cursor_csw.description]
+                # Busca todos os dados
+                rows = cursor_csw.fetchall()
+                # Cria o DataFrame com as colunas
+                sql1 = pd.DataFrame(rows, columns=colunas)
+
+
+        #Merge das consultas
+
+        consulta1 = pd.merge(consulta1,sql1,on='codbarrastag')
+        consulta1['naturezaNova'] = consulta1['naturezaNova'].astype('str')
+
+        consulta1 = consulta1[consulta1['naturezaNova'] == consulta1['natureza'] ].reset_index
+
+        update = """
+        update "Reposicao"."Reposicao"
+        set natureza = %s
+        where codbarrastag = %s
+        """
+
+        with conn.connect() as connection:
+            for index, row in consulta1.iterrows():
+                connection.execute(update, (
+                row["naturezaNova"], row["codbarrastag"]
+            ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -67,7 +67,7 @@ def automacao():
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar AtualizaFilaTagsEstoque - Etapa 5: {round(memoria_apos / 1000000, 3)} GB')
 
-        TagsReposicao.LimpezaTagsSaidaForaWMS(15)  # 6 ok
+        TagsReposicao.LimpezaTagsSaidaForaWMS(15, empresa)  # 6 ok
         gc.collect()
         memoria_apos = memory_usage()
         print(f'Memoria apos Atualizar LimpezaTagsSaidaForaWMS - Etapa 6: {round(memoria_apos / 1000000, 3)} GB')
@@ -120,7 +120,7 @@ def automacao():
 
         gc.collect()
 
-        TagsReposicao.LimpezaTagsSaidaForaWMS(15)
+        TagsReposicao.LimpezaTagsSaidaForaWMS(15, empresa)
         gc.collect()
         verificador.append(True)
 

@@ -42,7 +42,7 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
             gc.collect()
 ## Funcao de Automacao 6 : Limpando Tags que sairam do estoque sem ser via WMS
 
-def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
+def LimpezaTagsSaidaForaWMS(IntervaloAutomacao, empresa = '4'):
         print('\nETAPA 6 - LimpezaTagsSaidaForaWMS ')
 
         # coloque o código que você deseja executar continuamente aqui
@@ -57,6 +57,8 @@ def LimpezaTagsSaidaForaWMS(IntervaloAutomacao):
             print('\nETAPA LimpezaTagsSaidaForaWMS- Inicio')
             automacao = RecarregarBanco.AutomacaoFilaTags()
             automacao.avaliacaoFila(rotina, datainicio)
+            if empresa == '4':
+                automacao.atualizaNatureza()
             controle.salvarStatus(rotina,'automacao',datainicio)
             print('ETAPA LimpezaTagsSaidaForaWMS- Fim')
             gc.collect()

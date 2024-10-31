@@ -290,4 +290,5 @@ class OpsSubstitutas():
             consulta['epc'] = consulta['epc'].str.split('||').str[1]
             consulta['epc'] = consulta['epc'].fillna('')
 
+
             ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['numeroOP'].size, 'opsEmTerceiros', 'replace')
