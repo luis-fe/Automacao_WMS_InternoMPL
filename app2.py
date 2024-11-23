@@ -105,6 +105,10 @@ def automacao():
         ReservaPreFaturamento.AutomacaoReservarPedidosPreFat(45)
         gc.collect()
 
+        TagOff.atualizatagoff(20)  # 3 ok
+        gc.collect()
+
+
 
     else:
         print('sem empresa selecionada')
@@ -124,8 +128,12 @@ if __name__ == '__main__':
 
     # Etapa 1: Comaça a rodar a automacao pelas etapas, de acordo com a empresa ("Algumas empresa possuem regras diferentes de uso dai essa necessidade")
 
-    automacao()
+    try:
+        automacao()
+    except:
+        print('erro')
     os.system('clear')
+
     # Iniciar nova instância do script após N segundos
     new_process = f"{sys.executable} {sys.argv[0]}"
     print(f'gerado o process {new_process}')

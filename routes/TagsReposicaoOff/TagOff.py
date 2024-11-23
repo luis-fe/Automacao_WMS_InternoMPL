@@ -16,7 +16,7 @@ def atualizatagoff(IntervaloAutomacao):
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
             controle.InserindoStatus(rotina, client_ip, datainicio)
-            TagOff.SalvarTagsNoBancoPostgre(rotina, client_ip, datainicio)
+            TagOff.TagsOFF('1', rotina, client_ip, datainicio)
             controle.salvarStatus('atualiza tag off', client_ip, datainicio)
             gc.collect()
 
