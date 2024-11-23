@@ -64,7 +64,7 @@ class TagsOFF():
         return consulta, etapa2
 
     def BuscaResticaoSubstitutos(self):
-        conn = ConexaoPostgreMPL.conexao()
+        conn = ConexaoPostgreMPL.conexaoMatriz()
 
         consulta = pd.read_sql("select numeroop , codproduto||'||'||cor||'||'||numeroop  as resticao,  "
                                 'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
