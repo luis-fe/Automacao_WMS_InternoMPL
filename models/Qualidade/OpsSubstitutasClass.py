@@ -170,6 +170,13 @@ class OpsSubstitutas():
                              'subst']
         consulta = consulta.drop_duplicates()
 
+
+        registro = self.RegistroSubstituto()
+        if not registro.empty:
+            consulta = pd.merge(consulta,registro,on=['numeroop','cor'],how='left')
+            consulta.fillna('-',inplace=True)
+            consulta['considera'] = consulta['consideracao']
+
         # Carregando dados no Wms
         ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['requisicao'].size, 'SubstitutosSkuOP', 'replace')
         etapa5 = controle.salvarStatus_Etapa5(self.rotina, 'automacao', etapa4, 'Carregando dados no Wms')
@@ -292,3 +299,18 @@ class OpsSubstitutas():
 
 
             ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['numeroOP'].size, 'opsEmTerceiros', 'replace')
+
+
+    def consultarRegistroSubs(self):
+        '''Metodo utilizado para consultar o registro de substituto'''
+
+        conn = ConexaoPostgreMPL.conexaoMatriz()
+        sql = '''
+            select numeroop, cor, 'sim' as consideracao where 'Reposicao'."RegistroSubstituto" where empresa = %s
+        '''
+
+        consulta = pd.read_sql(sql, conn, params=(self.empresa,))
+
+        conn.close()
+
+        return consulta
