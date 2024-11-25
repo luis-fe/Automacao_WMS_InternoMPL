@@ -306,7 +306,7 @@ class OpsSubstitutas():
 
         conn = ConexaoPostgreMPL.conexaoMatriz()
         sql = '''
-            select numeroop, cor, 'sim' as consideracao where 'Reposicao'."RegistroSubstituto" where empresa = %s
+            select distinct numeroop, cor, 'sim' as consideracao where 'Reposicao'."RegistroSubstituto" where empresa = %s
         '''
 
         consulta = pd.read_sql(sql, conn, params=(self.empresa,))
