@@ -31,7 +31,7 @@ class OpsSubstitutas():
         etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1,
                                               'etapa CSW: Acrescentando o codigoSortimento aos compontentes variaveis')
 
-        # Acrescentando as cores aos componentes variaveis
+        # etapa 3 Acrescentando as cores aos componentes variaveis
         consultaCor['tipo'] = 'Variavel'
         consultaCor['codSortimento'] = consultaCor['codSortimento'].astype(str)
         consultaSubstitudos = pd.merge(consultaSubstitudos, consultaCor, on=['numeroop', 'codSortimento', 'tipo'],
@@ -49,6 +49,7 @@ class OpsSubstitutas():
                                           how='left')
         etapa4 = controle.salvarStatus_Etapa4(self.rotina, 'automacao', etapa3,
                                               'etapa CSW: Levantamento dos compontentes padroes')
+
 
         # Acrescentando as cores aos componentes padroes
         consultaCor['tipo'] = 'Padrao'
