@@ -172,7 +172,7 @@ class OpsSubstitutas():
         consulta = consulta.drop_duplicates()
 
 
-        registro = self.RegistroSubstituto()
+        registro = self.consultarRegistroSubs()
         if not registro.empty:
             consulta = pd.merge(consulta,registro,on=['numeroop','cor'],how='left')
             consulta.fillna('-',inplace=True)
