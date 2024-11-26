@@ -294,9 +294,11 @@ class OpsSubstitutas():
                     colunas = [desc[0] for desc in cursor_csw.description]
                     rows = cursor_csw.fetchall()
                     consulta = pd.DataFrame(rows, columns=colunas)
-
-            consulta['epc'] = consulta['epc'].str.split('||').str[1]
-            consulta['epc'] = consulta['epc'].fillna('')
+            try:
+                consulta['epc'] = consulta['epc'].str.split('||').str[1]
+                consulta['epc'] = consulta['epc'].fillna('')
+            except:
+                print('erro no epc')
 
 
             ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['numeroOP'].size, 'opsEmTerceiros', 'replace')
