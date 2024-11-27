@@ -66,9 +66,16 @@ class TagsOFF():
     def BuscaResticaoSubstitutos(self):
         conn = ConexaoPostgreMPL.conexaoMatriz()
 
-        consulta = pd.read_sql("select numeroop , codproduto||'||'||cor||'||'||numeroop  as resticao,  "
-                                'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
-                               "sso where sso.considera = 'sim' ",conn)
+        consulta = pd.read_sql("""
+                                select 
+                                    numeroop , 
+                                    codproduto||'||'||cor||'||'||numeroop  as resticao,
+                                    cor, 
+                                    considera  
+                                from 
+                                    "Reposicao"."Reposicao"."SubstitutosSkuOP"  sso 
+                                where sso.considera = 'sim' 
+                               """,conn)
 
         conn.close()
 
