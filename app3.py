@@ -3,6 +3,7 @@ import gc
 from routes.Qualidade.MateriaisSubstitutosPorSku import SubstitutosSkuOP
 import psutil
 
+from routes.TagsFilaReposicao import TagsReposicao
 
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
@@ -19,7 +20,7 @@ def memory_usage():
 
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
-    SubstitutosSkuOP(40)  # 12
+    TagsReposicao.AtualizaFilaTagsEstoque(15,'1')  # 5 ok
     gc.collect()
 
 

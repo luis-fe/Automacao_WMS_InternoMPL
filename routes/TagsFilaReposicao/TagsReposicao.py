@@ -1,13 +1,13 @@
 ## Funcao de Automacao 5 : Atualiza as tags no status em estoque para o WMS
 import gc
-
+from models import AtualizaFilaTag
 import controle
 import empresaConfigurada
 from models.Pedidos.RecarregaPedidos import avaliacaoReposicao
 from models.TagsFilaReposicao import RecarregarBanco, TagsTransferidas
 
 
-def AtualizaFilaTagsEstoque(IntervaloAutomacao):
+def AtualizaFilaTagsEstoque(IntervaloAutomacao, empresa = '4'):
         print('\nETAPA 5 - Atualiza Fila das Tags para Repor na situacao em ESTOQUE ')
 
 
@@ -18,12 +18,11 @@ def AtualizaFilaTagsEstoque(IntervaloAutomacao):
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizarTagsEstoque')
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
-        empresa = empresaConfigurada.EmpresaEscolhida()
         if tempo > limite and empresa == '1':
 
             controle.InserindoStatus(rotina,client_ip,datainicio)
-            automacao = RecarregarBanco.AutomacaoFilaTags('1')
-            automacao.recarregarTags(rotina, datainicio)
+            automacao = AtualizaFilaTag.AtualizaFilaTag('1',tempo,rotina,datainicio)
+            automacao.recarregarFilaTags()
             controle.salvarStatus('AtualizarTagsEstoque','automacao',datainicio)
             del(automacao)
             print('ETAPA fila Tags Reposicao- Fim')
