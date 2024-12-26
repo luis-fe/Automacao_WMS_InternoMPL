@@ -40,7 +40,7 @@ class AutomacaoPedidos():
                 p.codTipoNota, 
                 p.dataemissao, 
                 p.dataPrevFat, 
-                p.situacao as "situacaoPedido"  
+                p.situacao as situacaoPedido  
             FROM 
                 ped.Pedido p
             WHERE 
