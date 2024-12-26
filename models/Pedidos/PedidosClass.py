@@ -35,9 +35,18 @@ class AutomacaoPedidos():
         WHERE p.codEmpresa = 1"""
 
         sqlcswCapPedidos = """
-             SELECT top 300000 p.codPedido , p.codTipoNota, p.dataemissao, p.dataPrevFat, p.situacao as "situacaoPedido"  FROM ped.Pedido p
-        WHERE p.codEmpresa = 1
-        order by p.codPedido desc
+             SELECT top 300000 
+                p.codPedido , 
+                p.codTipoNota, 
+                p.dataemissao, 
+                p.dataPrevFat, 
+                p.situacao as "situacaoPedido"  
+            FROM 
+                ped.Pedido p
+            WHERE 
+                p.codEmpresa = 1
+            order by 
+                p.codPedido desc
             """
 
         with ConexaoCSW.ConexaoInternoMPL() as conn:
