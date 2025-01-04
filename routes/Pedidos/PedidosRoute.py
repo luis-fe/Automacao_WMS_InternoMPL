@@ -28,3 +28,27 @@ def AutomacaoPedidos(IntervaloAutomacao):
         else:
             print(f'JA EXISTE UMA ATUALIZACAO dos Pedidos  EM MENOS DE - {IntervaloAutomacao} MINUTOS')
             gc.collect()
+
+def Componentes(IntervaloAutomacao):
+        print('\n 01- Atualizar Pedidos')
+
+        rotina = 'Componentes'
+        client_ip = 'automacao'
+        datainicio = controle.obterHoraAtual()
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoComponentes')
+        limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+        if tempo > limite:
+                print('\nETAPA Atualizar Pedidos- Inicio')
+                controle.InserindoStatus(rotina, client_ip, datainicio)
+                automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
+                automacaoPedidos.inserirComponentesVariaveis()
+                automacaoPedidos.trasferenciaDeArquivoVariaveis()
+                controle.salvarStatus(rotina, client_ip, datainicio)
+                print('ETAPA  Atualizar Componentes- Fim')
+                gc.collect()
+
+
+
+        else:
+            print(f'JA EXISTE UMA ATUALIZACAO dos Pedidos  EM MENOS DE - {IntervaloAutomacao} MINUTOS')
+            gc.collect()

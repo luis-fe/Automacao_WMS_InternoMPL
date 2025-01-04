@@ -102,6 +102,9 @@ def automacao():
         PedidosRoute.AutomacaoPedidos(15)
         gc.collect()
 
+        PedidosRoute.Componentes(600)
+        gc.collect()
+
         ReservaPreFaturamento.AutomacaoReservarPedidosPreFat(45)
         gc.collect()
 

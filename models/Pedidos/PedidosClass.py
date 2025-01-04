@@ -116,6 +116,22 @@ class AutomacaoPedidos():
         sftp.close()
         transport.close()
 
+    def trasferenciaDeArquivoVariaveis(self):
+        '''Metodo que transferi o arquivo .fast entre servidores concectados '''
+
+        # Conectar ao servidor
+        transport = paramiko.Transport(('192.168.0.183', 22))
+        transport.connect(username='grupompl', password='4u3*qZ8KI@h2')
+
+        sftp = paramiko.SFTPClient.from_transport(transport)
+
+        # Enviar o arquivo
+        with open('./dados/compVar.parquet', 'rb') as fp:
+            sftp.putfo(fp, '/home/grupompl/ModuloPCP/dados/compVar.parquet')
+
+        sftp.close()
+        transport.close()
+
     def trasferenciaDeArquivo2(self):
         '''Metodo que transferi o arquivo .fast entre servidores concectados '''
 
@@ -140,5 +156,59 @@ class AutomacaoPedidos():
 
 
 
+    def inserirComponentesVariaveis(self):
 
+        sql = """
+        SELECT 
+                            v.codProduto as codEngenharia, 
+                            cv.codSortimento, 
+                            cv.seqTamanho as codSeqTamanho,  
+                            v.CodComponente,
+                            (SELECT i.nome FROM cgi.Item i WHERE i.codigo = v.CodComponente) as descricaoComponente,
+                            (SELECT i.unidadeMedida FROM cgi.Item i WHERE i.codigo = v.CodComponente) as unid,
+                            cv.quantidade  
+                        from 
+                            tcp.ComponentesVariaveis v 
+                        join 
+                            tcp.CompVarSorGraTam cv 
+                            on cv.codEmpresa = v.codEmpresa 
+                            and cv.codProduto = v.codProduto 
+                            and cv.sequencia = v.codSequencia 
+                        WHERE 
+                            v.codEmpresa = 1
+                            and v.codClassifComponente <> 12
+                            
+                        UNION 
+                        SELECT 
+                            v.codProduto as codEngenharia,  
+                            l.codSortimento ,
+                            l.codSeqTamanho  as codSeqTamanho, 
+                            v.CodComponente,
+                            (SELECT i.nome FROM cgi.Item i WHERE  i.codigo = v.CodComponente) as descricaoComponente,
+                            (SELECT i.unidadeMedida FROM cgi.Item i WHERE i.codigo = v.CodComponente) as unid,
+                            v.quantidade  
+                        from 
+                            tcp.ComponentesPadroes  v 
+                        join 
+                            cgi.Item2 l
+                            on l.Empresa  = v.codEmpresa
+                            and v.codEmpresa = 1
+                            and l.codCor  > 0
+                            and '0'||l.codItemPai ||'-0' = v.codProduto
+                        where
+                            l.Empresa  = 1
+        """
+        with ConexaoCSW.ConexaoInternoMPL() as conn:
+            with conn.cursor() as cursor_csw:
+                # Executa a primeira consulta e armazena os resultados
+                cursor_csw.execute(sql)
+                colunas = [desc[0] for desc in cursor_csw.description]
+                rows = cursor_csw.fetchall()
+                compVar = pd.DataFrame(rows, columns=colunas)
+                del rows, colunas
+        etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio, 'from componetenstes')
+
+        fp.write('./dados/compVar.parquet', compVar)
+
+        return compVar
 
