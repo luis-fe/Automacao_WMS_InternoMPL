@@ -32,19 +32,19 @@ def AutomacaoPedidos(IntervaloAutomacao):
 def Componentes(IntervaloAutomacao):
         print('\n 01- Atualizar Pedidos')
 
-        rotina = 'Componentes'
+        rotina = 'AutomacaoComponentes'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
         tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoComponentes')
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
-                print('\nETAPA Atualizar Pedidos- Inicio')
+                print('\nETAPA Atualizar AutomacaoComponentes- Inicio')
                 controle.InserindoStatus(rotina, client_ip, datainicio)
                 automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
                 automacaoPedidos.inserirComponentesVariaveis()
                 automacaoPedidos.trasferenciaDeArquivoVariaveis()
                 controle.salvarStatus(rotina, client_ip, datainicio)
-                print('ETAPA  Atualizar Componentes- Fim')
+                print('ETAPA  Atualizar AutomacaoComponentes- Fim')
                 gc.collect()
 
 
