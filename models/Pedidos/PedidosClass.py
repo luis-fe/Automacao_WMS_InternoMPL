@@ -35,12 +35,14 @@ class AutomacaoPedidos():
         WHERE p.codEmpresa = 1"""
 
         sqlcswCapPedidos = """
-             SELECT top 300000 
+             SELECT top 500000 
                 p.codPedido , 
                 p.codTipoNota, 
                 p.dataemissao, 
                 p.dataPrevFat, 
-                p.situacao as situacaoPedido  
+                p.situacao as situacaoPedido ,
+                codCliente,
+                (select c.nome from fat.Cliente c WHERE c.codempresa = 1 and c.codCliente = p.codCliente) as nomeCliente 
             FROM 
                 ped.Pedido p
             WHERE 
