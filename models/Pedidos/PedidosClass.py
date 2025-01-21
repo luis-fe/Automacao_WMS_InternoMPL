@@ -17,22 +17,60 @@ class AutomacaoPedidos():
         self.dataInicio = dataInicio
 
     def incrementarPedidos(self):
-        sqlcswPedidosProdutos = """SELECT top 1500000 codItem as seqCodItem, p.codPedido, p.codProduto , p.qtdePedida ,  p.qtdeFaturada, p.qtdeCancelada  FROM ped.PedidoItemGrade p
-        WHERE p.codEmpresa = 1 and p.codProduto  not like '8601000%' and p.codProduto  not like '83060062%'  and p.codProduto  not like '8306000%' and
-        p.codProduto not like '8302003%' and p.codProduto not like '8306003%' and p.codProduto not like '8306006%' and p.codProduto not like '8306007%'
+        sqlcswPedidosProdutos = """
+        SELECT top 1500000 
+            codItem as seqCodItem, 
+            p.codPedido, 
+            p.codProduto , 
+            p.qtdePedida ,  
+            p.qtdeFaturada, 
+            p.qtdeCancelada  
+        FROM 
+            ped.PedidoItemGrade p
+        WHERE 
+            p.codEmpresa = 1 
+            and p.codProduto  not like '8601000%' 
+            and p.codProduto  not like '83060062%'  
+            and p.codProduto  not like '8306000%' 
+            and p.codProduto not like '8302003%' 
+            and p.codProduto not like '8306003%' 
+            and p.codProduto not like '8306006%' 
+            and p.codProduto not like '8306007%'
         order by codPedido desc"""
 
-        sqlcswValordosProdutos = """select top 450000 item.codPedido, 
+        sqlcswValordosProdutos = """
+        select top 450000 
+            item.codPedido, 
             item.CodItem as seqCodItem, 
             item.precoUnitario, item.tipoDesconto, item.descontoItem, 
             case when tipoDesconto = 1 then ( (item.qtdePedida * item.precoUnitario) - item.descontoItem)/item.qtdePedida when item.tipoDesconto = 0 then (item.precoUnitario * (1-(item.descontoItem/100))) else item.precoUnitario end  PrecoLiquido 
-            from ped.PedidoItem as item WHERE item.codEmpresa = 1 order by item.codPedido desc """
+        from 
+            ped.PedidoItem as item 
+        WHERE 
+            item.codEmpresa = 1 
+        order by 
+            item.codPedido desc """
 
-        sqlcswSugestoesPedidos = """SELECT p.codPedido , p.produto as codProduto , p.qtdeSugerida , p.qtdePecasConf,
-        case when (situacaoSugestao = 2 and dataHoraListagem>0) then 'Sugerido(Em Conferencia)' WHEN situacaoSugestao = 0 then 'Sugerido(Gerado)' WHEN situacaoSugestao = 2 then 'Sugerido(A listar)' else '' end StatusSugestao
-        FROM ped.SugestaoPedItem p
-        inner join ped.SugestaoPed c on c.codEmpresa = p.codEmpresa and c.codPedido = p.codPedido and c.codSequencia = p.codSequencia 
-        WHERE p.codEmpresa = 1"""
+        sqlcswSugestoesPedidos = """
+        SELECT 
+            p.codPedido , 
+            p.produto as codProduto , 
+            p.qtdeSugerida , 
+            p.qtdePecasConf,
+            case when 
+                (situacaoSugestao = 2 and dataHoraListagem>0) then 'Sugerido(Em Conferencia)' 
+                WHEN situacaoSugestao = 0 then 'Sugerido(Gerado)' 
+                WHEN situacaoSugestao = 2 then 'Sugerido(A listar)' 
+                else '' end StatusSugestao
+        FROM 
+            ped.SugestaoPedItem p
+        inner join 
+            ped.SugestaoPed c 
+            on c.codEmpresa = p.codEmpresa 
+            and c.codPedido = p.codPedido 
+            and c.codSequencia = p.codSequencia 
+        WHERE 
+            p.codEmpresa = 1"""
 
         sqlcswCapPedidos = """
              SELECT top 500000 
