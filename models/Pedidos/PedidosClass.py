@@ -79,7 +79,9 @@ class AutomacaoPedidos():
                 p.dataemissao, 
                 p.dataPrevFat, 
                 p.situacao as situacaoPedido ,
-                (select c.nome from fat.Cliente c WHERE c.codempresa = 1 and c.codCliente = p.codCliente) as nomeCliente 
+                (select c.nome from fat.Cliente c WHERE c.codempresa = 1 and c.codCliente = p.codCliente) as nomeCliente,
+                (select c.nomeEstado from fat.Cliente c WHERE c.codempresa = 1 and c.codCliente = p.codCliente) as nomeEstado ,
+                (select r.nome from fat.Representante  r WHERE r.codempresa = 1 and r.codRepresent = p.codRepresentante) as nomeRepresentante 
             FROM 
                 ped.Pedido p
             WHERE 
