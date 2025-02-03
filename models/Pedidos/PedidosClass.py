@@ -154,20 +154,6 @@ class AutomacaoPedidos():
         with open('./dados/pedidos.parquet', 'rb') as fp:
             sftp.putfo(fp, '/home/grupompl/ModuloPCP/dados/pedidos.parquet')
 
-
-        sftp.close()
-        transport.close()
-
-        # Conectar ao servidor
-        transport = paramiko.Transport(('10.162.0.203', 22))
-        transport.connect(username='MPL-BI\PowerBi', password='Mplanogrupo2024')
-
-        sftp = paramiko.SFTPClient.from_transport(transport)
-
-        # Enviar o arquivo
-        with open('./dados/pedidos.parquet', 'rb') as fp:
-            sftp.putfo(fp, '/home/grupompl/ModuloPCP/dados/pedidos.parquet')
-
         sftp.close()
         transport.close()
 
