@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 def conexao():
     db_name = "Reposicao"
     db_user = "postgres"
-    db_password = "Master100"
+    db_password = "postgres"
     db_host = "localhost"
     portbanco = "5432"
 
@@ -24,7 +24,7 @@ def conexaoMatriz():
 def conexaoEngine():
     db_name = "Reposicao"
     db_user = "postgres"
-    db_password = "Master100"
+    db_password = "postgres"
     db_host = "localhost"
     portbanco = "5432"
 
@@ -58,7 +58,7 @@ def conexaoEngineMatrizPCP():
 def conexaoPCP():
     db_name = "PCP"
     db_user = "postgres"
-    db_password = "Master100"
+    db_password = "postgres"
     db_host = "localhost"
     portbanco = "5432"
 
@@ -71,7 +71,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "Reposicao"
     user = "postgres"
-    password = "Master100"
+    password = "postgres"
     host = "localhost"
     port = "5432"
 
@@ -86,7 +86,7 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "Reposicao"
     user = "postgres"
-    password = "Master100"
+    password = "postgres"
     host = "localhost"
     port = "5432"
 
@@ -135,7 +135,7 @@ def Funcao_InserirPCP (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "PCP"
     user = "postgres"
-    password = "Master100"
+    password = "postgres"
     host = "localhost"
     port = "5432"
 
