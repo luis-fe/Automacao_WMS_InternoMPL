@@ -21,7 +21,7 @@ def memory_usage():
 
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
-    PedidosRoute.AutomacaoPedidos(15)
+    PedidosRoute.AutomacaoRealizadoFases(15)
     gc.collect()
 
 
