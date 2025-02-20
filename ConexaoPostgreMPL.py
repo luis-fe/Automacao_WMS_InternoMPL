@@ -127,7 +127,7 @@ def Funcao_InserirPCPMatrizWMS (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "PCP"
     user = "postgres"
-    password = "Master100"
+    password = "postgres"
     host = "10.162.0.190"
     port = "5432"
 
