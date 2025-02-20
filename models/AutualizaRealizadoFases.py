@@ -113,7 +113,8 @@ class ProducaoFases():
         gc.collect()
 
         # Monta a chave
-        sql['chave'] = sql['codEmpresa'] + '||' +sql['numeroop'] + '||' + sql['codfase'].astype(str)
+
+        sql['chave'] = sql['codEmpresa'].astype(str) + '||' +sql['numeroop'] + '||' + sql['codfase'].astype(str)
         etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio, 'buscando o realizado dos ultimos dias')
 
         dadosAnteriores = self.__limpezaDadosRepetidos_ProducaoFasesPostgre()
