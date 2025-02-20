@@ -36,12 +36,12 @@ def AutomacaoRealizadoFases(IntervaloAutomacao):
         rotina = 'AutomacaoRealizadoFases'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoRealizadoFases')
+        tempo = controle.TempoUltimaAtualizacao(datainicio, rotina)
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
                 print('\nETAPA Atualizar AutomacaoRealizadoFases- Inicio')
                 controle.InserindoStatus(rotina, client_ip, datainicio)
-                automacaoRealizado = AutualizaRealizadoFases.ProducaoFases('','','',100,'',5000,60,rotina,datainicio)
+                automacaoRealizado = AutualizaRealizadoFases.ProducaoFases('','','',100,'',5000,100,rotina,datainicio)
                 automacaoRealizado.atualizandoDados_realizados()
                 controle.salvarStatus(rotina, client_ip, datainicio)
                 print('ETAPA  Atualizar AutomacaoRealizadoFases- Fim')

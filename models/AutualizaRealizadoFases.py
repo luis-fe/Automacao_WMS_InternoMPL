@@ -101,7 +101,7 @@ class ProducaoFases():
             WHERE 
                 f.codEmpresa = 1 and f.databaixa >=  DATEADD(DAY, -""" + str(self.utimosDias) + """, GETDATE())"""
 
-        with ConexaoPostgreMPL.conexaoMatriz() as conn:
+        with ConexaoCSW.Conexao() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(sql)
                 colunas = [desc[0] for desc in cursor.description]
