@@ -125,7 +125,7 @@ def Funcao_InserirPCPMatriz (df_tags, tamanho,tabela, metodo):
 
 def Funcao_InserirPCPMatrizWMS (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
-    database = "PCP"
+    database = "Reposicao"
     user = "postgres"
     password = "postgres"
     host = "10.162.0.190"
@@ -141,7 +141,7 @@ def Funcao_InserirPCPMatrizWMS (df_tags, tamanho,tabela, metodo):
 
 def Funcao_InserirPCPBackupMatriz (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
-    database = "Reposicao"
+    database = "PCP"
     user = "postgres"
     password = "Master100"
     host = "192.168.0.183"
