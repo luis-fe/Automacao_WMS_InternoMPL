@@ -41,9 +41,8 @@ def AutomacaoRealizadoFases(IntervaloAutomacao):
         if tempo > limite:
                 print('\nETAPA Atualizar AutomacaoRealizadoFases- Inicio')
                 controle.InserindoStatus(rotina, client_ip, datainicio)
-                automacaoRealizado = AutualizaRealizadoFases.ProducaoFases('','','',60,'',2000,60,rotina,datainicio)
+                automacaoRealizado = AutualizaRealizadoFases.ProducaoFases('','','',100,'',5000,60,rotina,datainicio)
                 automacaoRealizado.atualizandoDados_realizados()
-                #automacaoPedidos.IncrementadoDadosPostgre()
                 controle.salvarStatus(rotina, client_ip, datainicio)
                 print('ETAPA  Atualizar AutomacaoRealizadoFases- Fim')
                 gc.collect()

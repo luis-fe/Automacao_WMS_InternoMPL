@@ -60,11 +60,11 @@ class ProducaoFases():
         '''Metodo que busca e limpa dados repetidos do banco Postgres'''
 
         sqlDelete = """
-        delete from "PCP".pcp.realizado_fase 
+        delete from pcp.realizado_fase 
         where "dataBaixa"::Date >=  CURRENT_DATE - INTERVAL '15 days'; 
         """
 
-        conn1 = ConexaoPostgreMPL.conexaoMatriz()
+        conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
         curr = conn1.cursor()
         curr.execute(sqlDelete, )
         conn1.commit()
@@ -72,11 +72,11 @@ class ProducaoFases():
         conn1.close()
 
         sql = """
-        select distinct CHAVE, 'ok' as status from "PCP".pcp.realizado_fase
+        select distinct CHAVE, 'ok' as status from pcp.realizado_fase
         order by CHAVE desc limit %s
         """
 
-        conn = ConexaoPostgreMPL.conexaoMatriz()
+        conn = ConexaoPostgreMPL.conexaoMatrizWMS()
         consulta = pd.read_sql(sql, conn, params=(self.limitPostgres,))
 
         return consulta
@@ -126,7 +126,7 @@ class ProducaoFases():
 
         if sql['numeroop'].size > 0:
             # Implantando no banco de dados do Pcp
-            ConexaoPostgreMPL.Funcao_InserirPCPMatriz(sql, sql['numeroop'].size, 'realizado_fase', 'append')
+            ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(sql, sql['numeroop'].size, 'realizado_fase', 'append')
             etapa4 = controle.salvarStatus_Etapa3(self.rotina, 'automacao', etapa2, 'inserindo dados no postgree')
 
         else:
