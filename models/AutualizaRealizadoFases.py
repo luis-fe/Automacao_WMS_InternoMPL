@@ -136,32 +136,34 @@ class ProducaoFases():
         sql = sql.drop(columns=['status', 'index'])
         etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores')
 
-        sqlDelete = """
-        			WITH duplicatas AS 
-        				(
-                        SELECT chave, 
-                                ctid,  -- Identificador físico da linha (evita deletar todas)
-                                ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid) AS rn
-                        FROM "pcp".realizado_fase
-                            )
-                    DELETE FROM "pcp".realizado_fase
-                        WHERE ctid IN 
-                            (
-                                SELECT ctid FROM duplicatas WHERE rn > 1
-                            );
-                """
-
-        conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
-        curr = conn1.cursor()
-        curr.execute(sqlDelete, )
-        conn1.commit()
-        curr.close()
-        conn1.close()
 
 
         if sql['numeroop'].size > 0:
             # Implantando no banco de dados do Pcp
             ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(sql, sql['numeroop'].size, 'realizado_fase', 'append')
+
+            sqlDelete = """
+            			WITH duplicatas AS 
+            				(
+                            SELECT chave, 
+                                    ctid,  -- Identificador físico da linha (evita deletar todas)
+                                    ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid) AS rn
+                            FROM "pcp".realizado_fase
+                                )
+                        DELETE FROM "pcp".realizado_fase
+                            WHERE ctid IN 
+                                (
+                                    SELECT ctid FROM duplicatas WHERE rn > 1
+                                );
+                    """
+
+            conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
+            curr = conn1.cursor()
+            curr.execute(sqlDelete, )
+            conn1.commit()
+            curr.close()
+            conn1.close()
+
             etapa4 = controle.salvarStatus_Etapa3(self.rotina, 'automacao', etapa2, 'inserindo dados no postgree')
 
         else:
