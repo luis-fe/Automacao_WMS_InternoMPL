@@ -81,6 +81,15 @@ class ProducaoFases():
         curr.close()
         conn1.close()
 
+        sql = """
+        select distinct CHAVE, 'ok' as status from pcp.realizado_fase
+        order by CHAVE desc limit %s
+        """
+
+        conn = ConexaoPostgreMPL.conexaoMatrizWMS()
+        consulta = pd.read_sql(sql, conn, params=(self.limitPostgres,))
+
+        return consulta
 
     def atualizandoDados_realizados(self):
         sql = """
@@ -118,9 +127,34 @@ class ProducaoFases():
         sql['chave'] = sql['codEmpresa'].astype(str) + '||' +sql['numeroop'] + '||' + sql['codfase'].astype(str)
         etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio, 'buscando o realizado dos ultimos dias')
 
-        self.__limpezaDadosRepetidos_ProducaoFasesPostgre()
-
+        dadosAnteriores = self.__limpezaDadosRepetidos_ProducaoFasesPostgre()
+        sql = pd.merge(sql, dadosAnteriores, on='chave', how='left')
+        sql['status'].fillna('-', inplace=True)
+        sql = sql[sql['status'] == '-'].reset_index()
+        sql = sql.drop(columns=['status', 'index'])
         etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores')
+
+        sqlDelete = """
+        			WITH duplicatas AS 
+        				(
+                        SELECT chave, 
+                                ctid,  -- Identificador físico da linha (evita deletar todas)
+                                ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid) AS rn
+                        FROM "pcp".realizado_fase
+                            )
+                    DELETE FROM "pcp".realizado_fase
+                        WHERE ctid IN 
+                            (
+                                SELECT ctid FROM duplicatas WHERE rn > 1
+                            );
+                """
+
+        conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
+        curr = conn1.cursor()
+        curr.execute(sqlDelete, )
+        conn1.commit()
+        curr.close()
+        conn1.close()
 
 
         if sql['numeroop'].size > 0:
