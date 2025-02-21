@@ -60,8 +60,18 @@ class ProducaoFases():
         '''Metodo que busca e limpa dados repetidos do banco Postgres'''
 
         sqlDelete = """
-        delete from pcp.realizado_fase 
-        where "dataBaixa"::Date >=  CURRENT_DATE - INTERVAL '15 days'; 
+			WITH duplicatas AS 
+				(
+                SELECT chave, 
+                        ctid,  -- Identificador físico da linha (evita deletar todas)
+                        ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid) AS rn
+                FROM "pcp".realizado_fase
+                    )
+            DELETE FROM "pcp".realizado_fase
+                WHERE ctid IN 
+                    (
+                        SELECT ctid FROM duplicatas WHERE rn > 1
+                    );
         """
 
         conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
