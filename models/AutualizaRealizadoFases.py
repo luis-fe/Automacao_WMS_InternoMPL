@@ -81,15 +81,6 @@ class ProducaoFases():
         curr.close()
         conn1.close()
 
-        sql = """
-        select distinct CHAVE, 'ok' as status from pcp.realizado_fase
-        order by CHAVE desc limit %s
-        """
-
-        conn = ConexaoPostgreMPL.conexaoMatrizWMS()
-        consulta = pd.read_sql(sql, conn, params=(self.limitPostgres,))
-
-        return consulta
 
     def atualizandoDados_realizados(self):
         sql = """
@@ -127,11 +118,8 @@ class ProducaoFases():
         sql['chave'] = sql['codEmpresa'].astype(str) + '||' +sql['numeroop'] + '||' + sql['codfase'].astype(str)
         etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio, 'buscando o realizado dos ultimos dias')
 
-        dadosAnteriores = self.__limpezaDadosRepetidos_ProducaoFasesPostgre()
-        sql = pd.merge(sql, dadosAnteriores, on='chave', how='left')
-        sql['status'].fillna('-', inplace=True)
-        sql = sql[sql['status'] == '-'].reset_index()
-        sql = sql.drop(columns=['status', 'index'])
+        self.__limpezaDadosRepetidos_ProducaoFasesPostgre()
+
         etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores')
 
 
