@@ -104,12 +104,14 @@ class ProducaoFases():
                 f.horaMov, 
                 f.totPecasOPBaixadas, 
                 f.descOperMov, 
-                (select op.codProduto  from tco.ordemprod op WHERE op.codempresa = 1 and op.numeroop = f.numeroop) as codEngenharia,
-                (select op.codTipoOP  from tco.ordemprod op WHERE op.codempresa = 1 and op.numeroop = f.numeroop) as codtipoop 
+                (select op.codProduto  from tco.ordemprod op WHERE op.codempresa = f.codempresa and op.numeroop = f.numeroop) as codEngenharia,
+                (select op.codTipoOP  from tco.ordemprod op WHERE op.codempresa = f.codempresa and op.numeroop = f.numeroop) as codtipoop,
+				(select l.descricao from tcl.Lote l WHERE l.codEmpresa = f.codempresa and f.codLote = l.codLote) as descricaolote 
             FROM 
                 tco.MovimentacaoOPFase f
             WHERE 
-                f.codEmpresa = 1 and f.databaixa >=  DATEADD(DAY, -""" + str(self.utimosDias) + """, GETDATE())"""
+                f.codEmpresa in (1, 4) and f.databaixa >=  DATEADD(DAY, -""" + str(self.utimosDias) + """, GETDATE())
+                """
 
         with ConexaoCSW.Conexao() as conn:
             with conn.cursor() as cursor:
