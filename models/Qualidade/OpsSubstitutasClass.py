@@ -307,7 +307,7 @@ class OpsSubstitutas():
     def consultarRegistroSubs(self):
         '''Metodo utilizado para consultar o registro de substituto'''
 
-        conn = ConexaoPostgreMPL.conexaoMatriz()
+        conn = ConexaoPostgreMPL.conexaoMatrizWMS()
         sql = '''
             select distinct numeroop, cor, 'sim' as consideracao from "Reposicao"."RegistroSubstituto" where empresa = %s
         '''
