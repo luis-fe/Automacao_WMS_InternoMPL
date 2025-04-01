@@ -179,7 +179,7 @@ class OpsSubstitutas():
             consulta['considera'] = consulta['consideracao']
 
         # Carregando dados no Wms
-        ConexaoPostgreMPL.Funcao_InserirMatriz(consulta, consulta['requisicao'].size, 'SubstitutosSkuOP', 'replace')
+        ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(consulta, consulta['requisicao'].size, 'SubstitutosSkuOP', 'replace')
         etapa5 = controle.salvarStatus_Etapa5(self.rotina, 'automacao', etapa4, 'Carregando dados no Wms')
 
     def RegistroSubstituto(self):
