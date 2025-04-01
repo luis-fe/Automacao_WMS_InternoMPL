@@ -266,7 +266,7 @@ class OpsSubstitutas():
             return exessao
 
     def ConsultaSubstitutosFlegadoSim(self):
-        conn = ConexaoPostgreMPL.conexaoMatriz()
+        conn = ConexaoPostgreMPL.conexaoMatrizWMS()
 
         consulta = pd.read_sql('select numeroop, componente, considera from "Reposicao"."SubstitutosSkuOP" '
                                'where considera = %s ', conn, params=('sim',))
