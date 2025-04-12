@@ -15,7 +15,7 @@ class ReservaPreFaturamento():
         self.dataInicio = dataInicio
 
     def conexaoAPIreservaFatCsw(self):
-        url = "https://192.168.0.25/api/customci/v10/atualizarSugestaoFaturamento"
+        url = "https://10.162.0.193/api/customci/v10/atualizarSugestaoFaturamento"
         token = "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJsdWlzLmZlcm5hbmRvIiwiY3N3VG9rZW4iOiJsU3NVYXNCTyIsImRiTmFtZVNwYWNlIjoiY29uc2lzdGVtIiwiaXNzIjoiYXBpIiwiYXVkIjoi" \
                 "YXBpIiwiZXhwIjoxODQ3ODg3Nzg3fQ.xRw6vP87ROIFCs5d-6T5T6LNpUf-bNsX1U2hogrsf2sbLKYKEqPTIVyPgu1YBrhEemgOhSxgEGvfFpIthDb7AQ"
 
