@@ -82,12 +82,29 @@ class ProducaoFases():
         conn1.close()
 
         sql = """
+        delete from pcp.realizado_fase
+        order by CHAVE desc limit 5000
+        """
+
+        conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
+        curr = conn1.cursor()
+        curr.execute(sql, )
+        conn1.commit()
+        curr.close()
+        conn1.close()
+
+
+
+        sql = """
         select distinct CHAVE, 'ok' as status from pcp.realizado_fase
         order by CHAVE desc limit %s
         """
 
         conn = ConexaoPostgreMPL.conexaoMatrizWMS()
         consulta = pd.read_sql(sql, conn, params=(self.limitPostgres,))
+
+
+
 
         return consulta
 
