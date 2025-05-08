@@ -87,7 +87,7 @@ class ProducaoFases():
                 SELECT ctid
                 FROM pcp.realizado_fase
                 ORDER BY chave DESC
-                LIMIT 5
+                LIMIT 5000
             );
         """
 
