@@ -134,6 +134,7 @@ class ProducaoFases():
         sql['status'].fillna('-', inplace=True)
         sql = sql[sql['status'] == '-'].reset_index()
         print(sql[sql['chave'] == '1||153378-001||408' ])
+        print(sql['numeroop'].size)
         sql = sql.drop(columns=['status', 'index'])
         etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores')
 
