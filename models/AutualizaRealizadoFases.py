@@ -167,7 +167,7 @@ class ProducaoFases():
             curr.close()
             conn1.close()
 
-            etapa4 = controle.salvarStatus_Etapa3(self.rotina, 'automacao', etapa2, 'inserindo dados no postgree')
+            etapa4 = controle.salvarStatus_Etapa3(self.rotina, 'automacao', etapa2, 'inserindo dados no postgree teste2')
 
         else:
             print('segue o baile')
