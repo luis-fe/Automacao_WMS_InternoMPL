@@ -87,7 +87,7 @@ class ProducaoFases():
                 SELECT ctid
                 FROM pcp.realizado_fase
                 ORDER BY chave DESC
-                LIMIT 5000
+                LIMIT 30000
             );
         """
 
@@ -157,7 +157,7 @@ class ProducaoFases():
         sql = sql[sql['status'] == '-'].reset_index()
 
         sql = sql.drop(columns=['status', 'index'])
-        etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores t4')
+        etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores t4 30000 linhas')
 
 
 
