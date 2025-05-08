@@ -81,14 +81,19 @@ class ProducaoFases():
         curr.close()
         conn1.close()
 
-        sql = """
-        delete from pcp.realizado_fase
-        order by CHAVE desc limit 5000
+        sql2 = """
+            DELETE FROM pcp.realizado_fase
+            WHERE ctid IN (
+                SELECT ctid
+                FROM pcp.realizado_fase
+                ORDER BY chave DESC
+                LIMIT 5
+            );
         """
 
         conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
         curr = conn1.cursor()
-        curr.execute(sql, )
+        curr.execute(sql2, )
         conn1.commit()
         curr.close()
         conn1.close()
@@ -152,7 +157,7 @@ class ProducaoFases():
         sql = sql[sql['status'] == '-'].reset_index()
 
         sql = sql.drop(columns=['status', 'index'])
-        etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores t3')
+        etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores t4')
 
 
 
