@@ -144,19 +144,22 @@ class ProducaoFases():
             ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(sql, sql['numeroop'].size, 'realizado_fase', 'append')
 
             sqlDelete = """
-            			WITH duplicatas AS 
-            				(
-                            SELECT chave, 
-                                    ctid,  -- Identificador físico da linha (evita deletar todas)
-                                    ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid desc) AS rn
-                            FROM "pcp".realizado_fase
-                            order by chave asc , ctid desc 
-                                )
-                        DELETE FROM "pcp".realizado_fase
-                            WHERE ctid IN 
-                                (
-                                    SELECT ctid FROM duplicatas WHERE rn > 1
-                                );
+                WITH duplicatas AS (
+                    SELECT 
+                        chave, 
+                        ctid,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY chave 
+                            ORDER BY ctid ASC  -- ASC: menor ctid = mais antigo = será excluído
+                        ) AS rn
+                    FROM "pcp".realizado_fase
+                )
+                DELETE FROM "pcp".realizado_fase
+                WHERE ctid IN (
+                    SELECT ctid 
+                    FROM duplicatas 
+                    WHERE rn > 1  -- mantém apenas o mais recente (ctid mais alto)
+                );
                     """
 
             conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
