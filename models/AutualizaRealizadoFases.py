@@ -159,12 +159,12 @@ class ProducaoFases():
                                 );
                     """
 
-            """conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
+            conn1 = ConexaoPostgreMPL.conexaoMatrizWMS()
             curr = conn1.cursor()
             curr.execute(sqlDelete, )
             conn1.commit()
             curr.close()
-            conn1.close()"""
+            conn1.close()
 
             etapa4 = controle.salvarStatus_Etapa3(self.rotina, 'automacao', etapa2, 'inserindo dados no postgree')
 
