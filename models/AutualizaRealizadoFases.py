@@ -132,8 +132,8 @@ class ProducaoFases():
         dadosAnteriores = self.__limpezaDadosRepetidos_ProducaoFasesPostgre()
         sql = pd.merge(sql, dadosAnteriores, on='chave', how='left')
         sql['status'].fillna('-', inplace=True)
-        print(sql[sql['chave'] == '1||153378-001||408' ])
         sql = sql[sql['status'] == '-'].reset_index()
+        print(sql[sql['chave'] == '1||153378-001||408' ])
         sql = sql.drop(columns=['status', 'index'])
         etapa2 = controle.salvarStatus_Etapa2(self.rotina, 'automacao', etapa1, 'limpando os dados anteriores')
 
