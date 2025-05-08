@@ -149,7 +149,7 @@ class ProducaoFases():
             				(
                             SELECT chave, 
                                     ctid,  -- Identificador físico da linha (evita deletar todas)
-                                    ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid) AS rn
+                                    ROW_NUMBER() OVER (PARTITION BY chave ORDER BY ctid desc) AS rn
                             FROM "pcp".realizado_fase
                             order by chave asc , ctid desc 
                                 )
