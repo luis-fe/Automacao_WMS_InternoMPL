@@ -229,13 +229,13 @@ class Ops_Itens_Substituidos():
         '''Método que consulta no banco Postgres WMS se  o componente está sendo considerado como especial: Prateleira de Controle Substituto '''
         conn = ConexaoPostgreMPL.conexaoMatrizWMS()
 
-        consulta = pd.read_sql('''
+        consulta = pd.read_sql(f'''
                                 select 
                                     numeroop, 
                                     componente, 
                                     considera 
                                 from 
-                                    "Reposicao"."SubstitutosSkuOP" '
+                                    "Reposicao"."SubstitutosSkuOP"
                                where 
                                     considera = %s ''',
                                conn, params=('sim',)
