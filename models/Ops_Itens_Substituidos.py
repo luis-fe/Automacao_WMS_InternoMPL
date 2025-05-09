@@ -205,6 +205,7 @@ class Ops_Itens_Substituidos():
             print(f'meu dataFrame\n {consulta[consulta["numeroop"] == "151198-001"]}')
 
         # Carregando dados no Wms
+        print(consulta)
         ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(consulta, consulta['requisicao'].size, 'SubstitutosSkuOP',
                                                      'replace')
         etapa5 = controle.salvarStatus_Etapa5(self.rotina, 'automacao', etapa4, 'Carregando dados no Wms')
