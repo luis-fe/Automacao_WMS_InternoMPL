@@ -197,12 +197,12 @@ class Ops_Itens_Substituidos():
 
         # Verificando os registro de substituicao Ja Informados e marcando "sim" em considera
         registro = self.__consultarRegistroSubs()
-        print(f'meu dataFrame\n {consulta[consulta["numeroop"]=="151198-001"]}')
 
         if not registro.empty:
             consulta = pd.merge(consulta, registro, on=['numeroop', 'cor'], how='left')
             consulta.fillna('-', inplace=True)
             consulta['considera'] = consulta['consideracao']
+            print(f'meu dataFrame\n {consulta[consulta["numeroop"] == "151198-001"]}')
 
         # Carregando dados no Wms
         ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(consulta, consulta['requisicao'].size, 'SubstitutosSkuOP',
