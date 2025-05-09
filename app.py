@@ -12,7 +12,7 @@ from routes.Ops.InformacoesSilkFaccionista import AtualizarOPSilks
 from routes.Ops.OP_emAberto import OrdemProducao
 from routes.Pedidos import Pedidos, ReservaPreFaturamento
 from routes.Pedidos.Pedidos import EliminaPedidosFaturados, EliminaPedidosFaturadosNivelSKU
-from routes.Qualidade.MateriaisSubstitutosPorSku import SubstitutosSkuOP
+from routes import Ops_Itens_Substituidos
 from routes.Qualidade.TecidosDefeitosOP import AtualizarOPSDefeitoTecidos
 from routes.TagsFilaReposicao.TagsReposicao import LimpandoTagSaidaReposicao
 from routes.TagsReposicaoOff import TagOff
@@ -144,7 +144,7 @@ def automacao():
         verificador.append(True)
 
 
-        SubstitutosSkuOP(40)  # 12
+        Ops_Itens_Substituidos.SubstitutosSkuOP(40)  # 12
         gc.collect()
         verificador.append(True)
 
