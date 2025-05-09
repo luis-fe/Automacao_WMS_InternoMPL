@@ -20,7 +20,7 @@ class Ops_Itens_Substituidos():
 
         # 1 - Instanciando objetos das classes  Ops_CSW, Produto_CSW
         ops_Csw = Ops_CSW.Ops_CSW(self.dataInicio, self.rotina, self.empresa, 100)
-        produto_CSW = Produto_CSW.Produto_CSW()
+        produto_CSW = Produto_CSW.Produto_CSW(self.dataInicio, self.rotina)
 
         # 2 - Consultando Sql Obter os itens substitutos dos ultimos 100 dias
         consultaSubstitudos = ops_Csw.registroSubstituto_porReq()  # 2.1 Filtra os registros de substitutos de OP no Csw , "return DataFrame": numeroop, requisicao, codproduto, componente ...
