@@ -31,13 +31,14 @@ def ConexaoCianorte():
 # Função de conectar com o CSW, com 2 opções de conexao:
 @contextmanager
 def ConexaoInternoMPL():
-    conn = None
+    """ Gerencia a conexão com o banco de dados usando JayDeBeApi """
+
     try:
         conn = jaydebeapi.connect(
             'com.intersys.jdbc.CacheDriver',
             'jdbc:Cache://10.162.0.193:1972/CONSISTEM',
             {'user': '_system', 'password': 'ccscache'},
-            'CacheDB.jar'
+            f'./connection/CacheDB.jar'
         )
         yield conn
     finally:
