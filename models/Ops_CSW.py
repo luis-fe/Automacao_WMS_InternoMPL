@@ -1,8 +1,6 @@
 import gc
 import pandas as pd
-import ConexaoCSW
-import controle
-
+from connection import ConexaoERPCSW
 
 class Ops_CSW():
     '''Classe que busca os dados, via sql,  referente às Ordem Producao no ERP CSW '''
@@ -44,7 +42,7 @@ class Ops_CSW():
             R.codEmpresa = {self.empresa} 
             and r.dtBaixa  > DATEADD('day', -{self.diasPesquisa}, CURRENT_TIMESTAMP)"""
 
-        with ConexaoCSW.ConexaoInternoMPL() as conn:
+        with ConexaoERPCSW.ConexaoInternoMPL() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(sql)
                 colunas = [desc[0] for desc in cursor.description]
@@ -81,7 +79,7 @@ class Ops_CSW():
                         numeroOP desc"""
 
 
-        with ConexaoCSW.ConexaoInternoMPL() as conn:
+        with ConexaoERPCSW.ConexaoInternoMPL() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(sql)
                 colunas = [desc[0] for desc in cursor.description]
