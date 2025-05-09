@@ -56,28 +56,27 @@ class Ops_CSW():
 
         return registro
 
-
     def consulta_OP_porCorSortimentoCSW(self):
-        '''Método que busca no ERP CSW numeroOP x CorSortimento, nas primeira 80000 registros de op's '''
+        '''Método que busca no ERP CSW numeroOP x CorSortimento, nas primeira 80000 registros de op's'''
 
         sql = f"""
-                    SELECT top 80000
-                        op.numeroOP as numeroop , 
-                        op.codSortimento, 
-                        s.corbase||'-'||s.nomeCorBase as cor  
-                    FROM 
-                        tco.OrdemProdGrades op
-                   inner join 
-                        tcp.SortimentosProduto s 
-                        on s.codEmpresa = {self.empresa} 
-                        and s.codProduto = op.codProduto 
-                        and s.codSortimento = op.codSortimento
-                   WHERE 
-                        op.codEmpresa = {self.empresa}  
-                        and op.codproduto like '%-0'"
-                   order by 
-                        numeroOP desc"""
-
+            SELECT TOP 80000
+                op.numeroOP AS numeroop, 
+                op.codSortimento, 
+                s.corbase || '-' || s.nomeCorBase AS cor  
+            FROM 
+                tco.OrdemProdGrades op
+            INNER JOIN 
+                tcp.SortimentosProduto s 
+                ON s.codEmpresa = {self.empresa} 
+                AND s.codProduto = op.codProduto 
+                AND s.codSortimento = op.codSortimento
+            WHERE 
+                op.codEmpresa = {self.empresa}  
+                AND CAST(op.codproduto AS VARCHAR) LIKE '%-0'
+            ORDER BY 
+                numeroOP DESC
+        """
 
         with ConexaoERPCSW.ConexaoInternoMPL() as conn:
             with conn.cursor() as cursor:
@@ -91,4 +90,5 @@ class Ops_CSW():
         gc.collect()
 
         return consulta
+
 
