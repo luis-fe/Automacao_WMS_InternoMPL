@@ -1,6 +1,6 @@
 import os
 import gc
-from routes.Qualidade.MateriaisSubstitutosPorSku import SubstitutosSkuOP
+from routes import Ops_Itens_Substituidos
 import psutil
 
 from routes.TagsFilaReposicao import TagsReposicao
@@ -21,7 +21,7 @@ def memory_usage():
 
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
-    PedidosRoute.AutomacaoRealizadoFases(1)
+    Ops_Itens_Substituidos.SubstitutosSkuOP(1)
     gc.collect()
 
 
