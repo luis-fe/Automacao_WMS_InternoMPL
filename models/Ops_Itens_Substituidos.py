@@ -202,12 +202,10 @@ class Ops_Itens_Substituidos():
             consulta = pd.merge(consulta, registro, on=['numeroop', 'cor'], how='left')
             consulta.fillna('-', inplace=True)
             consulta['considera'] = consulta['consideracao']
-            print(f'meu dataFrame\n {consulta[consulta["numeroop"] == "151198-001"]}')
 
         # Carregando dados no Wms
-        print(consulta)
         ConexaoPostgreMPL.Funcao_InserirPCPMatrizWMS(consulta, consulta['requisicao'].size, 'SubstitutosSkuOP',
-                                                     'replace')
+                                                     'replace','Reposicao')
         etapa5 = controle.salvarStatus_Etapa5(self.rotina, 'automacao', etapa4, 'Carregando dados no Wms')
 
     def __categoria(self, contem, valorReferencia, valorNovo, categoria):
