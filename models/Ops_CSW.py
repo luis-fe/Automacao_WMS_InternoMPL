@@ -11,7 +11,7 @@ class Ops_CSW():
 
         self.dataInicio = dataInicio
         self.rotina = rotina
-        self.empresa = empresa
+        self.empresa = str(empresa)
         self.diasPesquisa = diasPesquisa
 
     def registroSubstituto_porReq(self):

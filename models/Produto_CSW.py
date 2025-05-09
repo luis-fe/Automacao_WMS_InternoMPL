@@ -108,9 +108,6 @@ class Produto_CSW():
                                             s.codempresa = {self.empresa}
                                         ) """
 
-
-
-
         with ConexaoCSW.ConexaoInternoMPL() as conn:
             with conn.cursor() as cursor:
                 cursor.execute(sql)
