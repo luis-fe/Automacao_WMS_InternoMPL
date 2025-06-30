@@ -321,10 +321,12 @@ AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 an
         """
 
         with ConexaoPostgreMPL.conexao() as connection:
-            for index, row in consulta1.iterrows():
-                connection.execute(update, (
-                    row["naturezaNova"], row["codbarrastag"]
-                ))
+            with connection.cursor() as cursor:
+                for index, row in consulta1().iterrows():
+                    cursor.execute(update, (
+                        row["naturezaNova"], row["codbarrastag"]
+                    ))
+            connection.commit()  # importante: aplicar as mudanças no banco
 
 
 
