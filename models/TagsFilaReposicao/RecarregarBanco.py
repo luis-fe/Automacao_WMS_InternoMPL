@@ -320,7 +320,6 @@ AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 an
                 codbarrastag = %s
         """
 
-        consulta1 = ...  # <- seu DataFrame já criado aqui
 
         with ConexaoPostgreMPL.conexao() as connection:
             with connection.cursor() as cursor:
