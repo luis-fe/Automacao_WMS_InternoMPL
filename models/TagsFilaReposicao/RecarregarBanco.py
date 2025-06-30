@@ -237,11 +237,11 @@ class AutomacaoFilaTags():
     def atualizarEmpresa(self):
         update = """
         update
-	"Reposicao"."Reposicao".tagsreposicao
-set
-	codempresa = '4'
-where
-	codempresa is null
+            "Reposicao"."Reposicao".tagsreposicao
+        set
+            codempresa = '4'
+        where
+            codempresa is null
         """
         conn2 = ConexaoPostgreMPL.conexao()
 
@@ -281,11 +281,11 @@ AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 an
 
         sql = """
         select
-	codbarrastag ,
-	natureza
-from
-	"Reposicao"."Reposicao".tagsreposicao t
-        """
+            codbarrastag ,
+            natureza
+        from
+            "Reposicao"."Reposicao".tagsreposicao t
+                """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta1 = pd.read_sql(sql,conn)
@@ -311,12 +311,13 @@ from
         consulta1 = pd.merge(consulta1,sql1,on='codbarrastag')
         consulta1['naturezaNova'] = consulta1['naturezaNova'].astype('str')
 
-        consulta1 = consulta1[consulta1['naturezaNova'] == consulta1['natureza'] ].reset_index
+        consulta1 = consulta1[consulta1['naturezaNova'] != consulta1['natureza'] ].reset_index
 
         update = """
-        update "Reposicao"."Reposicao"
-        set natureza = %s
-        where codbarrastag = %s
+            update "Reposicao"."Reposicao"
+                set natureza = %s
+            where 
+                codbarrastag = %s
         """
 
         with conn.connect() as connection:
