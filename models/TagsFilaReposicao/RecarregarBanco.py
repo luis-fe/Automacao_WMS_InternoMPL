@@ -320,11 +320,11 @@ AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 an
                 codbarrastag = %s
         """
 
-        with conn.connect() as connection:
+        with ConexaoPostgreMPL.conexao() as connection:
             for index, row in consulta1.iterrows():
                 connection.execute(update, (
-                row["naturezaNova"], row["codbarrastag"]
-            ))
+                    row["naturezaNova"], row["codbarrastag"]
+                ))
 
 
 
