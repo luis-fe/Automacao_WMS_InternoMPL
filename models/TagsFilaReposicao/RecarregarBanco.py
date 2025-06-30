@@ -311,7 +311,7 @@ AND E.numeroOP in (SELECT numeroop FROM tco.OrdemProd op WHERE op.situacao =3 an
         consulta1 = pd.merge(consulta1,sql1,on='codbarrastag')
         consulta1['naturezaNova'] = consulta1['naturezaNova'].astype('str')
 
-        consulta1 = consulta1[consulta1['naturezaNova'] != consulta1['natureza'] ].reset_index
+        consulta1 = consulta1[consulta1['naturezaNova'] != consulta1['natureza'] ].reset_index()
         print(consulta1)
         update = """
             update "Reposicao"."Reposicao"
