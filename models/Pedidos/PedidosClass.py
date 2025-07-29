@@ -152,7 +152,7 @@ class AutomacaoPedidos():
 
         # Enviar o arquivo
         with open('./dados/pedidos.parquet', 'rb') as fp:
-            sftp.putfo(fp, '/home/grupompl/ModuloPCP/dados/pedidos.parquet')
+            sftp.putfo(fp, '/home/grupompl/ModuloPCP_confeccaoMPL/dados/pedidos.parquet')
 
         sftp.close()
         transport.close()
@@ -168,7 +168,7 @@ class AutomacaoPedidos():
 
         # Enviar o arquivo
         with open('./dados/compVar.parquet', 'rb') as fp:
-            sftp.putfo(fp, '/home/grupompl/ModuloPCP/dados/compVar.parquet')
+            sftp.putfo(fp, '/home/grupompl/ModuloPCP_confeccaoMPL/dados/compVar.parquet')
 
         sftp.close()
         transport.close()
