@@ -145,8 +145,8 @@ class AutomacaoPedidos():
         '''Metodo que transferi o arquivo .fast entre servidores concectados '''
 
         # Conectar ao servidor
-        transport = paramiko.Transport(('192.168.0.183', 22))
-        transport.connect(username='grupompl', password='4u3*qZ8KI@h2')
+        transport = paramiko.Transport(('10.162.0.53', 22))
+        transport.connect(username='mplti', password='wms1990@_')
 
         sftp = paramiko.SFTPClient.from_transport(transport)
 
@@ -161,8 +161,8 @@ class AutomacaoPedidos():
         '''Metodo que transferi o arquivo .fast entre servidores concectados '''
 
         # Conectar ao servidor
-        transport = paramiko.Transport(('192.168.0.183', 22))
-        transport.connect(username='grupompl', password='4u3*qZ8KI@h2')
+        transport = paramiko.Transport(('10.162.0.53', 22))
+        transport.connect(username='mplti', password='wms1990@_')
 
         sftp = paramiko.SFTPClient.from_transport(transport)
 
