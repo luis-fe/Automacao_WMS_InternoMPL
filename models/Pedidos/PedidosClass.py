@@ -178,7 +178,7 @@ class AutomacaoPedidos():
 
         # Conectar ao servidor
         transport = paramiko.Transport(('10.162.0.190', 22))
-        transport.connect(username='mplti', password='*yvnMP')
+        transport.connect(username='mplti', password='wms1990@_')
 
         sftp = paramiko.SFTPClient.from_transport(transport)
 
