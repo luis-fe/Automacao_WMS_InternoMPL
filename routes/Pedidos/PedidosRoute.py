@@ -30,6 +30,12 @@ def AutomacaoPedidos(IntervaloAutomacao):
             print(f'JA EXISTE UMA ATUALIZACAO dos Pedidos  EM MENOS DE - {IntervaloAutomacao} MINUTOS')
             gc.collect()
 
+def trasferenciaDeArquivo():
+        automacaoPedidos = PedidosClass.AutomacaoPedidos('1', 'rotina', 'datainicio')
+
+        automacaoPedidos.trasferenciaDeArquivo()
+
+
 def AutomacaoRealizadoFases(IntervaloAutomacao):
         print('\n 02- Automacao RealizadoFases')
 

@@ -22,7 +22,7 @@ def memory_usage():
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
     #Ops_Itens_Substituidos.SubstitutosSkuOP(1)
-    PedidosRoute.AutomacaoPedidos(1)
+    PedidosRoute.trasferenciaDeArquivo()
     gc.collect()
 
 
