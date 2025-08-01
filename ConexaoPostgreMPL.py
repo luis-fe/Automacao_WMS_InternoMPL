@@ -111,8 +111,8 @@ def Funcao_InserirPCPMatriz (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "PCP"
     user = "postgres"
-    password = "Master100"
-    host = "192.168.0.183"
+    password = "postgres"
+    host = "10.162.0.53"
     port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy
