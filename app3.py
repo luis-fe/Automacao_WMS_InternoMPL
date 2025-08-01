@@ -5,6 +5,7 @@ import psutil
 
 from routes.TagsFilaReposicao import TagsReposicao
 from routes.Pedidos import Pedidos,PedidosRoute
+from routes.Ops import OP_emAberto
 
 """
 NESSE DOCUMENTO .mani é realizado o processo de automacao via python da transferencia PLANEJADA de dados do banco de dados Origem "CACHÉ" do ERP CSW , 
@@ -22,7 +23,7 @@ def memory_usage():
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
     #Ops_Itens_Substituidos.SubstitutosSkuOP(1)
-    PedidosRoute.trasferenciaDeArquivo()
+    OP_emAberto.OrdemProducao(1)
     gc.collect()
 
 
