@@ -141,7 +141,7 @@ class Op_AbertoClass():
         consulta = pd.read_sql(consulta, conn)
 
         consulta['codProduto'] = consulta['codProduto'] + "-0"
-        consulta['codProduto'] = consulta['codProduto'].apply(lambda x: '0' + x if x.startswith(('1', '2')) else x)
+        consulta['codProduto'] = consulta['codProduto'].apply(lambda x: '0' + x if x.startswith(('1', '2','3')) else x)
         consulta['codSortimento'] = consulta['codSortimento'].astype(str)
         consulta['codSortimento'] = consulta['codSortimento'].replace('.0', '')
 
