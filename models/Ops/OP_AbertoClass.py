@@ -15,14 +15,53 @@ class Op_AbertoClass():
     def buscandoOPCSW(self):
         '''Funcao que busca as ops no CSW'''
 
-        sqlCswOpsnivelSku = """
-                SELECT op.codfaseatual ,ot.codProduto ,ot.numeroop as numeroop , ot.codSortimento , seqTamanho, 
-                case WHEN ot.qtdePecas1Qualidade is null then ot.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs 
-                FROM tco.OrdemProdTamanhos ot
-                inner join tco.ordemprod op on op.codempresa = ot.codempresa and op.numeroop = ot.numeroop
-                having ot.codEmpresa = """ + self.empresa + """ and ot.numeroOP IN """ + ' (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = ' + self.empresa + ')'
+        sqlCswOpsnivelSku = f"""
+                SELECT 
+                    op.codfaseatual ,
+                    ot.codProduto ,
+                    ot.numeroop as numeroop , 
+                    ot.codSortimento , 
+                    ot.codEmpresa,
+                    seqTamanho, 
+                    case WHEN ot.qtdePecas1Qualidade is null then ot.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs 
+                FROM 
+                    tco.OrdemProdTamanhos ot
+                inner join 
+                    tco.ordemprod op 
+                    on op.codempresa = ot.codempresa 
+                    and op.numeroop = ot.numeroop
+                having ot.codEmpresa in (1) and ot.numeroOP IN (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = 1)
+            UNIOIN
+             SELECT 
+                    op.codfaseatual ,
+                    ot.codProduto ,
+                    ot.numeroop as numeroop , 
+                    ot.codSortimento , 
+                    ot.codEmpresa,
+                    seqTamanho, 
+                    case WHEN ot.qtdePecas1Qualidade is null then ot.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs 
+                FROM 
+                    tco.OrdemProdTamanhos ot
+                inner join 
+                    tco.ordemprod op 
+                    on op.codempresa = ot.codempresa 
+                    and op.numeroop = ot.numeroop
+                having ot.codEmpresa in (4) and ot.numeroOP IN (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = 4)
+"""
 
-        sqlCsw_em_aberto2 = ' select o.numeroOP as numeroop,  o.codTipoOP, codSeqRoteiroAtual as seqAtual  from tco.ordemprod o where o.situacao = 3 and codTipoOP <> 13 and o.codempresa = ' + self.empresa
+
+        sqlCsw_em_aberto2 = """
+                                select 
+                                    o.numeroOP as numeroop, 
+                                    o.codTipoOP, 
+                                    codSeqRoteiroAtual as seqAtual  
+                                    o.codEmpresa
+                                from 
+                                    tco.ordemprod o 
+                                where 
+                                    o.situacao = 3 
+                                    and codTipoOP <> 13 
+                                    and o.codempresa in (1, 4) """
 
         with ConexaoCSW.Conexao() as conn:  ##Abrindo Conexao Com o CSW
             with conn.cursor() as cursor_csw:
@@ -39,7 +78,7 @@ class Op_AbertoClass():
                 em_aberto2 = pd.DataFrame(rows, columns=colunas)
                 del rows
 
-                get = pd.merge(get, em_aberto2, on='numeroop')
+                get = pd.merge(get, em_aberto2, on=['numeroop', 'codEmpresa'])
         print('resultado')
         print(get)
         etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio,
