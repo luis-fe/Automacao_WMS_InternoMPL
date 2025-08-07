@@ -31,7 +31,7 @@ class Op_AbertoClass():
                     on op.codempresa = ot.codempresa 
                     and op.numeroop = ot.numeroop
                 having ot.codEmpresa in (1) and ot.numeroOP IN (select o.numeroOP  from tco.ordemprod o where o.situacao = 3 and o.codempresa = 1)
-            UNIOIN
+            UNION
              SELECT 
                     op.codfaseatual ,
                     ot.codProduto ,
