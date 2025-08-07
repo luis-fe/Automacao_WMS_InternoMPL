@@ -54,7 +54,7 @@ class Op_AbertoClass():
                                 select 
                                     o.numeroOP as numeroop, 
                                     o.codTipoOP, 
-                                    codSeqRoteiroAtual as seqAtual  
+                                    codSeqRoteiroAtual as seqAtual,  
                                     o.codEmpresa
                                 from 
                                     tco.ordemprod o 
