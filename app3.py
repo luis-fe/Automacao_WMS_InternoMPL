@@ -3,6 +3,7 @@ import gc
 from routes import Ops_Itens_Substituidos
 import psutil
 
+from routes.Ops.OP_emAberto import OrdemProducao
 from routes.TagsFilaReposicao import TagsReposicao
 from routes.Pedidos import Pedidos,PedidosRoute
 from routes.Pedidos import PedidosRoute
@@ -25,9 +26,7 @@ def memory_usage():
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
     #Ops_Itens_Substituidos.SubstitutosSkuOP(1)
-    automacaoPedidos = PedidosClass.AutomacaoPedidos('1', 'rotina', 'datainicio')
-    automacaoPedidos.trasferenciaDeArquivoVariaveis()
-    gc.collect()
+    OrdemProducao(1)
 
 
 
