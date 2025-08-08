@@ -38,6 +38,31 @@ class AutomacaoPedidos():
             and p.codProduto not like '8306007%'
         order by codPedido desc"""
 
+
+        sqlcswPedidosProdutos4 = """
+        SELECT top 1000000 
+            codItem as seqCodItem, 
+            p.codPedido, 
+            p.codProduto , 
+            p.qtdePedida ,  
+            p.qtdeFaturada, 
+            p.qtdeCancelada  
+        FROM 
+            ped.PedidoItemGrade p
+        WHERE 
+            p.codEmpresa = 4
+            and p.codProduto  not like '8601000%' 
+            and p.codProduto  not like '83060062%'  
+            and p.codProduto  not like '8306000%' 
+            and p.codProduto not like '8302003%' 
+            and p.codProduto not like '8306003%' 
+            and p.codProduto not like '8306006%' 
+            and p.codProduto not like '8306007%'
+        order by codPedido desc"""
+
+
+
+
         sqlcswValordosProdutos = """
         select top 450000 
             item.codPedido, 
@@ -50,6 +75,22 @@ class AutomacaoPedidos():
             item.codEmpresa = 1 
         order by 
             item.codPedido desc """
+
+
+        sqlcswValordosProdutos4 = """
+        select top 450000 
+            item.codPedido, 
+            item.CodItem as seqCodItem, 
+            item.precoUnitario, item.tipoDesconto, item.descontoItem, 
+            case when tipoDesconto = 1 then ( (item.qtdePedida * item.precoUnitario) - item.descontoItem)/item.qtdePedida when item.tipoDesconto = 0 then (item.precoUnitario * (1-(item.descontoItem/100))) else item.precoUnitario end  PrecoLiquido 
+        from 
+            ped.PedidoItem as item 
+        WHERE 
+            item.codEmpresa = 4 
+        order by 
+            item.codPedido desc """
+
+
 
         sqlcswSugestoesPedidos = """
         SELECT 
@@ -70,7 +111,7 @@ class AutomacaoPedidos():
             and c.codPedido = p.codPedido 
             and c.codSequencia = p.codSequencia 
         WHERE 
-            p.codEmpresa = 1"""
+            p.codEmpresa in (1, 4) """
 
         sqlcswCapPedidos = """
              SELECT top 500000 
@@ -90,6 +131,25 @@ class AutomacaoPedidos():
                 p.codPedido desc
             """
 
+
+        sqlcswCapPedidos4 = """
+             SELECT top 500000 
+                p.codPedido , 
+                p.codTipoNota, 
+                p.dataemissao, 
+                p.dataPrevFat, 
+                p.situacao as situacaoPedido ,
+                (select c.nome from fat.Cliente c WHERE c.codempresa = 1 and c.codCliente = p.codCliente) as nomeCliente,
+                (select c.nomeEstado from fat.Cliente c WHERE c.codempresa = 1 and c.codCliente = p.codCliente) as nomeEstado ,
+                (select r.nome from fat.Representante  r WHERE r.codempresa = 1 and r.codRepresent = p.codRepresentante) as nomeRepresentante 
+            FROM 
+                ped.Pedido p
+            WHERE 
+                p.codEmpresa = 4
+            order by 
+                p.codPedido desc
+            """
+
         with ConexaoCSW.ConexaoInternoMPL() as conn:
             with conn.cursor() as cursor_csw:
                 # Executa a primeira consulta e armazena os resultados
@@ -99,11 +159,30 @@ class AutomacaoPedidos():
                 pedidos = pd.DataFrame(rows, columns=colunas)
                 del rows, colunas
 
+                # Executa a primeira consulta e armazena os resultados
+                cursor_csw.execute(sqlcswPedidosProdutos4)
+                colunas = [desc[0] for desc in cursor_csw.description]
+                rows = cursor_csw.fetchall()
+                pedidos4 = pd.DataFrame(rows, columns=colunas)
+                del rows, colunas
+
+                pedidos = pd.concat([pedidos, pedidos4])
+
                 # Executa a segunda consulta e armazena os resultados
                 cursor_csw.execute(sqlcswValordosProdutos)
                 colunas2 = [desc[0] for desc in cursor_csw.description]
                 rows2 = cursor_csw.fetchall()
                 pedidosValores = pd.DataFrame(rows2, columns=colunas2)
+
+
+                # Executa a segunda consulta e armazena os resultados
+                cursor_csw.execute(sqlcswValordosProdutos4)
+                colunas2 = [desc[0] for desc in cursor_csw.description]
+                rows2 = cursor_csw.fetchall()
+                pedidosValores4 = pd.DataFrame(rows2, columns=colunas2)
+
+                pedidosValores = pd.concat([pedidosValores, pedidosValores4])
+
 
                 pedidos = pd.merge(pedidos, pedidosValores, on=['codPedido', 'seqCodItem'], how='left')
                 del pedidosValores, rows2
@@ -121,6 +200,16 @@ class AutomacaoPedidos():
                 colunas4 = [desc[0] for desc in cursor_csw.description]
                 rows4 = cursor_csw.fetchall()
                 capaPedido = pd.DataFrame(rows4, columns=colunas4)
+
+                cursor_csw.execute(sqlcswCapPedidos4)  # Verifique se a consulta é correta
+                colunas4 = [desc[0] for desc in cursor_csw.description]
+                rows4 = cursor_csw.fetchall()
+                capaPedido4 = pd.DataFrame(rows4, columns=colunas4)
+
+                capaPedido = pd.concat([capaPedido, capaPedido4])
+
+
+
                 pedidos = pd.merge(pedidos, capaPedido, on='codPedido', how='left')
                 # Limpeza de memória
                 del rows4, capaPedido
