@@ -135,7 +135,7 @@ class AutomacaoPedidos():
 
 
         sqlcswCapPedidos4 = """
-             SELECT top 500000 
+             SELECT top 30000 
                 p.codPedido , 
                 p.codTipoNota, 
                 p.dataemissao, 
