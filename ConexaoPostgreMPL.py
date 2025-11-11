@@ -56,7 +56,7 @@ def conexaoEngineMatrizPCP():
     db_name = "PCP"
     db_user = "postgres"
     db_password = "Master100"
-    db_host = "192.168.0.183"
+    db_host = "10.162.0.53"
     portbanco = "5432"
 
     connection_string = f"postgresql://{db_user}:{db_password}@{db_host}:{portbanco}/{db_name}"

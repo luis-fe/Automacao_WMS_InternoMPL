@@ -88,9 +88,9 @@ class Op_AbertoClass():
         get['codProduto'] = get['codProduto'].astype(str)
         get['codSortimento'] = get['codSortimento'].astype(str)
         get['seqTamanho'] = get['seqTamanho'].astype(str)
-        print(sku[sku["codProduto"] == '010220012-0'])
+
+
         get = pd.merge(get, sku, on=["codProduto", "codSortimento", "seqTamanho"], how='left')
-        print(get.dtypes)
 
         # Atribui valores iniciais à coluna 'id' com base na coluna 'codTipoOP'
         get['id'] = np.where(get['codTipoOP'].isin([1, 3]), 9000, 2000)
