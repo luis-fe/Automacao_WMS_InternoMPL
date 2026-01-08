@@ -28,7 +28,6 @@ if __name__ == '__main__':
     #Ops_Itens_Substituidos.SubstitutosSkuOP(1)
     OrdemProducao(10)  # 13
     gc.collect()
-    verificador.append(True)
 
 
 
