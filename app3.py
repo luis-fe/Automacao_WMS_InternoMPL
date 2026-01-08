@@ -26,7 +26,9 @@ def memory_usage():
 # INICIANDO O PROCESSO DE AUTOMACAO
 if __name__ == '__main__':
     #Ops_Itens_Substituidos.SubstitutosSkuOP(1)
-    PedidosRoute.AutomacaoPedidos(1)
+    OrdemProducao(10)  # 13
+    gc.collect()
+    verificador.append(True)
 
 
 
