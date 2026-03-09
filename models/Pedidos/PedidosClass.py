@@ -236,9 +236,9 @@ class AutomacaoPedidos():
 
             etapa1 = controle.salvarStatus_Etapa1(self.rotina, 'automacao', self.dataInicio, 'from ped.pedidositemgrade')
 
-            pedidos['codTipoNota'] = pedidos['codTipoNota'].astype(str)
-            pedidos = pedidos[(pedidos['codTipoNota'] != '38') & (pedidos['codTipoNota'] != '239') & (
-                        pedidos['codTipoNota'] != '223')]
+            # Usando ~ para negar a condição do isin. Evita múltiplas avaliações booleanas.
+            notas_para_excluir = ['38', '239', '223']  # Deixe como int ou float, dependendo de como vem do banco
+            pedidos = pedidos[~pedidos['codTipoNota'].isin(notas_para_excluir)]
 
             fp.write('./dados/pedidos.parquet', pedidos)
 
