@@ -10,7 +10,8 @@ def AutomacaoPedidos(IntervaloAutomacao):
         rotina = 'AutomacaoPedidos'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoPedidos')
+       # tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoPedidos')
+        tempo = '2025-01-01 12:00:00'
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
                 print('\nETAPA Atualizar Pedidos- Inicio')
