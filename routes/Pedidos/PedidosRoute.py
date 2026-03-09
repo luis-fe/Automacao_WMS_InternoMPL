@@ -13,23 +13,17 @@ def AutomacaoPedidos(IntervaloAutomacao):
        # tempo = controle.TempoUltimaAtualizacao(datainicio, 'AutomacaoPedidos')
         tempo = '2025-01-01 12:00:00'
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
-        if tempo > limite:
-                print('\nETAPA Atualizar Pedidos- Inicio')
-                controle.InserindoStatus(rotina, client_ip, datainicio)
-                automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
-                automacaoPedidos.incrementarPedidos()
-                automacaoPedidos.trasferenciaDeArquivo()
-                automacaoPedidos.trasferenciaDeArquivo2()
-                #automacaoPedidos.IncrementadoDadosPostgre()
-                controle.salvarStatus(rotina, client_ip, datainicio)
-                print('ETAPA  Atualizar Pedidos- Fim')
-                gc.collect()
+        print('\nETAPA Atualizar Pedidos- Inicio')
+        controle.InserindoStatus(rotina, client_ip, datainicio)
+        automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
+        automacaoPedidos.incrementarPedidos()
+        automacaoPedidos.trasferenciaDeArquivo()
+        automacaoPedidos.trasferenciaDeArquivo2()
+        #automacaoPedidos.IncrementadoDadosPostgre()
+        controle.salvarStatus(rotina, client_ip, datainicio)
+        print('ETAPA  Atualizar Pedidos- Fim')
+        gc.collect()
 
-
-
-        else:
-            print(f'JA EXISTE UMA ATUALIZACAO dos Pedidos  EM MENOS DE - {IntervaloAutomacao} MINUTOS')
-            gc.collect()
 
 def trasferenciaDeArquivo():
         automacaoPedidos = PedidosClass.AutomacaoPedidos('1', 'rotina', 'datainicio')
