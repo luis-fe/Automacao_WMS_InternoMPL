@@ -28,6 +28,6 @@ if __name__ == '__main__':
     #Ops_Itens_Substituidos.SubstitutosSkuOP(1)
     PedidosRoute.AutomacaoPedidos(15)
     gc.collect()
-tes
+
 
 
