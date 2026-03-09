@@ -14,7 +14,7 @@ def AutomacaoPedidos(IntervaloAutomacao):
         tempo = '2025-01-01 12:00:00'
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         print('\nETAPA Atualizar Pedidos- Inicio')
-        controle.InserindoStatus(rotina, client_ip, datainicio)
+        #controle.InserindoStatus(rotina, client_ip, datainicio)
         automacaoPedidos = PedidosClass.AutomacaoPedidos('1',rotina, datainicio)
         automacaoPedidos.incrementarPedidos()
         automacaoPedidos.trasferenciaDeArquivo()
