@@ -20,7 +20,7 @@ def AutomacaoPedidos(IntervaloAutomacao):
         automacaoPedidos.trasferenciaDeArquivo()
         automacaoPedidos.trasferenciaDeArquivo2()
         #automacaoPedidos.IncrementadoDadosPostgre()
-        controle.salvarStatus(rotina, client_ip, datainicio)
+        #controle.salvarStatus(rotina, client_ip, datainicio)
         print('ETAPA  Atualizar Pedidos- Fim')
         gc.collect()
 
